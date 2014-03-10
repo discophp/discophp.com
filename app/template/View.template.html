@@ -1,0 +1,220 @@
+<h1><a target='_blank' href='https://github.com/jbhamilton/disco-core/blob/v1.0/core/BaseView.core.php'>View</a></h1>
+
+<p>Requests to web applications typically result in one of two types of responses:</p>
+<ul class='list'>
+    <li><span>A Full HTML Page</span></li>
+    <li><span>A Data Structure or HTML snippet</span></li>
+</ul>
+
+
+<p>The View Facade can be thought of as the orchestrater of the eventual output that will be your webpage for a specific route.
+ This includes handling the production of both types of outputs listed above ^. 
+It's in charge of holding all the html/javascript/css pieces that will go into creating the page as well as providing the functionality 
+to accomplish the task of organizing and outputting the page. 
+</p>
+
+
+<p class='heading'>The way the Disco BaseView class sees a webpage</p>
+
+<pre class='prettyprint'>
+&lt;!doctype html&gt;
+&lt;html lang='en'&gt;
+
+    &lt;head&gt;
+         &lt;meta charset='utf-8' /&gt;
+         &lt;meta content='%6\$s' name='robots'&gt;
+         &lt;meta name='viewport' content='width=device-width, initial-scale=1.0' /&gt;
+         &lt;title&gt; %1\$s &lt;/title&gt;
+         &lt;meta name='description' content='%2\$s'&gt;
+         &lt;link type='image/x-icon' href='/favicon.png' rel='shortcut icon'&gt;
+
+        &lt;!-- all your style srcs will be printed here --&gt;
+        &lt;!-- all your additional styles will be printed here --&gt;
+
+    &lt;/head&gt;
+
+    &lt;body class='row &lt;!--Your additional body classes will be added here--&gt;'&gt;
+
+        &lt;div id='body'&gt;
+            &lt;!-- your html will be printed in here --&gt;
+        &lt;/div&gt;
+
+        &lt;div id='header'&gt;
+            &lt;!-- your header will be printed in here --&gt;
+        &lt;/div&gt;
+
+        &lt;div id='footer'&gt;
+            &lt;!-- your footer will be printed in here --&gt;
+        &lt;/div&gt;
+
+
+        &lt;!-- all your script srcs will be printed here --&gt;
+
+        &lt;!-- all your scripts will be printed here --&gt;
+
+
+    &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+
+<a name='view-basics'></a>
+<h2 data-magellan-destination='view-basics'>View Basics</h2>
+
+<p class='heading'>Putting HTML into the View</p>
+
+<pre class='prettyprint'>
+    View::html('some html');
+</pre>
+
+<p>The contents of your eventual page are treated as a Stack and you can keep pushing onto that stack untill the request is finished. 
+All html you push through this method will end up in the #body element.</p>
+
+
+<p class='heading'>Setting the title of the page</p>
+
+<pre class='prettyprint'>
+    View::title('Welcome to our site!');
+</pre>
+
+
+<p class='heading'>Setting the description of the page</p>
+
+<pre class='prettyprint'>
+    View::desc('
+        We do full service dog care across 3 counties in Florida 
+        and are open from 9am - 5pm Monday - Saturday
+    ');
+</pre>
+
+
+<p class='heading'>Including an External CSS stylesheet</p>
+
+<pre class='prettyprint'>
+    View::styleSrc('/css/styles.css');
+</pre>
+
+<p>Your stylesheets will be included in the head of the page.</p>
+
+
+<p class='heading'>Putting JavaScript into the View</p>
+
+<pre class='prettyprint'>
+    View::script('alert("hi!");');
+</pre>
+
+<p>Scripts you add to the page will always be printed last, after the footer is printed.</p>
+
+
+<p class='heading'>Including an External Javascript File</p>
+
+<pre class='prettyprint'>
+    View::scriptSrc('/js/myjs.js');
+    View::scriptSrc('http://www.somesite.com/path/to/script/file.js');
+</pre>
+
+<p>Scripts Sources you add to the page will always be printed last, after the footer is printed.</p>
+
+
+<p class='heading'>Adding a css class to the body element</p>
+
+<pre class='prettyprint'>
+    View::bodyStyle('someBodyClass');
+</pre>
+
+
+<hr>
+
+<a name='view-extend'></a>
+<h3 data-magellan-destination='view-extend'>Extending the BaseView class</h3>
+
+<p>So how do we get our view to represent differing pages? We extend the BaseView class!</p>
+
+
+<p class='heading'>This is the extended BaseView class being used to generate the Docs pages of this site</p>
+
+<pre class='prettyprint'>
+
+Class StandardView extends BaseView {
+
+    public function header(){
+        return Template::build('header');
+    }//header
+
+    public function __construct(){
+
+        $this->scriptSrc('http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js');
+        $this->scriptSrc('/scripts/js.js');
+        $this->scriptSrc('/scripts/modernizr.js');
+        $this->scriptSrc('/scripts/foundation.min.js');
+        $this->scriptSrc('https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js');
+
+        $this->styleSrc('/css/foundation.min.css');
+        $this->styleSrc('/css/css.css');
+
+        $this->script('$(document).foundation();');
+
+    }//construct
+
+    public function footer(){
+        return Template::build('footer');
+    }//footer
+
+}//Standard
+
+</pre>
+
+<p>A couple key things are happening in this extended BaseView class</p>
+
+<p>First we are overriding the three methods <span class='path'>header()</span>,<span class='path'>__construct()</span> and <span class='path'>footer()</span></p>
+
+<ul class='list'>
+    <li>header() <span>- return html markup to be used in the #header element of the page</li>
+    <li>__construct() <span>- tell the view what scripts and style sheets we depend on (you could take numerous actions from here, such as calling an <a href='/docs/Event'>Event</a>)</li>
+    <li>footer() <span>- return html markup to be used in the #footer element of the page</li>
+</ul>
+
+<p class='heading'>How to set which View your application is using</p>
+
+<pre class='prettyprint'>
+
+    Disco::make('View',function(){
+        return new StandardView();
+    });
+
+    View::html('Were now using the Standard View class which extends the BaseView class!');
+
+</pre>
+
+<p>You can set the View class from anywhere in your application</p>
+<div class='panel notice'>
+    When you shift which view you are using any previously added HTML/Scripts/Styles will be destoryed
+</div>
+
+<hr>
+
+<p class='heading'>What if we have an AjaxRequest and don't need a full page returned and just some data structure or a snippet?</p>
+
+<p>It's easy just use the isAjax() method</p>
+
+<pre class='prettyprint'>
+    View::isAjax();
+</pre>
+
+<p>This will just echo out the contents of the html stack</p>
+
+<hr>
+
+<p class='heading'>What if we want to set the header or footer of a view manually?</p>
+
+<pre class='prettyprint'>
+    View::setHeader(Template::build('pageHeader'));
+    //OR 
+    View::setHeader('Here is some header text and markup');
+
+    //now the footer
+    View::setFooter(Template::build('pageFooter'));
+</pre>
+
+
+

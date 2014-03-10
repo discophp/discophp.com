@@ -1,0 +1,28 @@
+<h1>Request LifeCycle</h1>
+
+<p>A crucial aspect of application development is understanding how things are working under the hood.</p>
+
+<p>Here we will detail each piece of the applications components in a step-wise process.</p>
+
+<p>First off, all requests in Disco are routed through <span class='path'>index.php</span>, unless there is a filename given with a matching file on the system to execute the request</p>
+<div class='notice panel'>
+    <p>If your using Apache2 as a Web Server you must enable modrewrite.</p>
+    <p class='command'>sudo a2enmod rewrite</p>
+</div>
+
+<p>The first line in <span class='path'>index.php</span> is going to require the core Disco file <span class='path'>core/Disco.core.php</span></p>
+
+<p>The core Disco file will then take care of setting up the environment configuration using the file <span class='path'>core/Prep.core.php</span></p>
+
+<p>It will then register the default <a href='/docs/IoC-facades'>Facades</a> with Disco</p>
+
+<p>Now our flow of control is back to index.php</p>
+
+<p>Now any user set required files are included</p>
+
+<p><a href='/docs/Event'>Event</a> listeners are registered</p>
+
+<p><a href='/docs/Router'>Routers</a> begin being processed to resolve a path with an action</p>
+
+<p>Finally <span class='code'>View::printPage();</span> is called and the View is printed</p>
+

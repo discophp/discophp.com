@@ -1,0 +1,171 @@
+<h1>Views & Templating</h1>
+
+<div data-magellan-expedition="fixed" class='magellan-container'> 
+    <dl class="sub-nav"> 
+        <dd data-magellan-arrival="view-basics">
+            <a href="#view-basics">View Basics</a>
+        </dd> 
+        <dd data-magellan-arrival="view-extend">
+            <a href="#view-extend">Extending the BaseView</a>
+        </dd> 
+        <dd data-magellan-arrival="template-basics">
+            <a href="#template-basics">Template Basics</a>
+        </dd> 
+    </dl> 
+</div>
+
+<p>Requests to web applications typically result in one of two types of responses:</p>
+<ul class='list'>
+    <li><span>A Full HTML Page</span></li>
+    <li><span>A Data Structure or HTML snippet</span></li>
+</ul>
+
+<p>Our View Facade represents the former, and embodies a full web page ready to be loaded up with data.
+Its eventual output produces a webpage skelton including a header and body, and within that body a #header,#body, and #footer for your markup.
+</p>
+
+<a name='view-basics'></a>
+<h2 data-magellan-destination='view-basics'>View Basics</h2>
+
+<p class='heading'>Putting HTML into the View</p>
+
+<pre class='prettyprint'>
+    View::html('some html');
+</pre>
+
+<p>The contents of your eventual page are treated as a Stack and you can keep pushing onto that stack untill the request is finished</p>
+
+<p class='heading'>Putting JavaScript into the View</p>
+
+<pre class='prettyprint'>
+    View::script('alert("hi!");');
+</pre>
+
+<p>Scripts you add to the page will always be printed last, after the footer is printed</p>
+
+<hr>
+
+<a name='view-extend'></a>
+<h3 data-magellan-destination='view-extend'>Extending the BaseView class</h3>
+
+<p>So how do we get our view to represent differing pages? We extend the BaseView class!</p>
+
+
+<p class='heading'>This is the extended BaseView class being used to generate the Docs pages of this site</p>
+
+<pre class='prettyprint'>
+
+Class StandardView extends BaseView {
+
+    public function header(){
+        return Template::build('header');
+    }//header
+
+    public function __construct(){
+
+        $this->scriptSrc('http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js');
+        $this->scriptSrc('/scripts/js.js');
+        $this->scriptSrc('/scripts/modernizr.js');
+        $this->scriptSrc('/scripts/foundation.min.js');
+        $this->scriptSrc('https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js');
+
+        $this->styleSrc('/css/foundation.min.css');
+        $this->styleSrc('/css/css.css');
+
+        $this->script('$(document).foundation();');
+
+    }//construct
+
+    public function footer(){
+        return Template::build('footer');
+    }//footer
+
+}//Standard
+
+</pre>
+
+<p>A couple key things are happening in this extended BaseView class</p>
+
+<p>First we are overriding the three methods <span class='path'>header()</span>,<span class='path'>__construct()</span> and <span class='path'>footer()</span></p>
+
+<ul class='list'>
+    <li>header() <span>- return html markup to be used in the #header element of the page</li>
+    <li>__construct() <span>- tell the view what scripts and style sheets we depend on (you could take numerous actions from here, such as calling an <a href='/docs/Event'>Event</a>)</li>
+    <li>footer() <span>- return html markup to be used in the #footer element of the page</li>
+</ul>
+
+<p class='heading'>How to set which View your application is using</p>
+
+<pre class='prettyprint'>
+
+    Disco::make('View',function(){
+        return new StandardView();
+    });
+
+    View::html('Were now using the Standard View class which extends the BaseView class!');
+
+</pre>
+
+<p>You can set the View class from anywhere in your application</p>
+<div class='panel notice'>
+    When you shift which view you are using any previously added HTML/Scripts/Styles will be destoryed
+</div>
+
+<hr>
+
+<p class='heading'>What if we have an AjaxRequest and don't need a full page returned and just some data structure or a snippet?</p>
+
+<p>It's easy just use the isAjax() method</p>
+
+<pre class='prettyprint'>
+    View::isAjax();
+</pre>
+
+
+<hr>
+
+<a name='template-basics'></a>
+<h2 data-magellan-destination='template-basics'>Templating Basics</h2>
+
+<p>Disco comes with its own powerful Templating engine (we call it tDisco)</p>
+
+<p class='heading'>Using your first Tempalte</p>
+
+<p>Templates are stored in <span class='path'>app/template/</span> and should adhere to the naming convention like <span class='path'>*.template.html</span></p>
+
+<p>Lets create a simple template named <span class='path'>index.template.html</span></p>
+
+<pre class='prettyprint'>
+
+    {{$empty}}
+
+    &lt;h1&gt;{{$heading}}&lt;/h1&gt;
+
+    &lt;p&gt;{{$text}}&lt;/p&gt;
+
+</pre>
+
+<p>You will notice that we define a variable with double brackets and a $ like <span class='path'>{{$heading}}</span>
+
+<p class='heading'>Lets use the template</p>
+
+<pre class='prettyprint'>
+
+    $data = Array('heading'=>'Welcome to the Site!','text'=>'Some body paragraph');
+    
+    Template::with('index',$data);
+
+</pre>
+
+<p>There are two main methods of the Template Facade that you really need to understand:</p>
+
+<ul class='list'>
+    <li>Template::with() <span>- This method will build a template and automatically push it onto the Current Views HTML stack</span></li>
+    <li>Template::build() <span>- This method will build a template and return the HTML</span></li>
+</ul>
+
+<p>To learn more about the Templating System tDisco head over the the <a href='/docs/Template'>Template Docs page</a> for full a breakdown (you will want to do this!)</p>
+
+
+
+

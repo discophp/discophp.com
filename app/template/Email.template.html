@@ -1,0 +1,104 @@
+<h1><a target='_blank' href='https://github.com/jbhamilton/disco-core/blob/v1.0/core/BaseEmail.core.php'>Email</a></h1>
+
+<p>Disco uses the <a href='http://swiftmailer.org'>swiftmailer</a> library to handle email related tasks.
+The library will be installed when you install Disco using composer.
+</p>
+
+<p class='panel notice'>
+You must configure your email settings in <span class='path'>.mail.settings.json</span> to send emails
+</p>
+
+<p class='heading'>Sample <span class='path'>.mail.settings.json</span></p>
+
+<pre class='prettyprint'>
+    {
+        "DEFAULT":"SMTP",
+
+        "johnny@messingengine.com":{
+            "NAME":"johnny@messingengine.com",
+            "PASSWORD":"johnnyspassword"
+        },
+        
+        "bobby@messingengine.com":{
+            "NAME":"bobby@messingengine.com",
+            "PASSWORD":"bobbyspassword"
+        },
+
+        "SMTP":{
+            "HOST":"mail.messingengine.com",
+            "PORT":"25"
+        },
+        "SSL":{
+            "HOST":"mail.messingengine.com",
+            "PORT":"465"
+        },
+        "TLS":{
+            "HOST":"mail.messingengine.com",
+            "PORT":"465"
+        }
+</pre>
+
+
+<p>You can set which email server you wish to send through with the DEFAULT setting field but you may also switch in real time in the application using:</p>
+
+<ul class='list'>
+    <li>Email::useSSL();</li>
+    <li>Email::useTLS();</li>
+    <li>Email::useSMTP();</li>
+</ul>
+
+<p class='heading'>With these settings lets jump right into an example</p>
+
+<pre class='prettyprint'>
+
+    $toEmails = Array('someone@gmail.com','someoneelse@gmail.com');
+
+    $subject ='Hi!';
+
+    $body = 'Hey there blah blah';
+
+    Email::send('johnny@messingengine.com',$toEmails,$subject,$body);
+
+</pre>
+
+<p>The first parameter is the account you wish to use to send through</p>
+<p>Then you may either pass an Array of accounts or a single string email address to send to</p>
+<p>Then comes your subject line and your body</p>
+
+<h2>Including Attachments</h2>
+
+<p>You may need to attach a file or files to an email</p>
+
+<pre class='prettyprint'>
+
+    $toEmails = Array('someone@gmail.com','someoneelse@gmail.com');
+
+    $subject ='The last meetings file!';
+
+    $body = 'Let me know if all looks good';
+
+    $attach = Array('/tmp/meeting.docx','/tmp/meeting.wav');
+
+    Email::send('bobby@messingengine.com',$toEmails,$subject,$body,$attach);
+
+</pre>
+
+
+<h2>Using a template with your Email</h2>
+
+<p>You want to leverage the ability to send beautiful HTML based emails so use a Template!</p>
+
+<p class='panel notice'>By default we send a plaintext email and an HTML based email</p>
+
+<pre class='prettyprint'>
+
+    $toEmail = 'someone@gmail.com';
+
+    $subject ='This months Deals!';
+
+    $body = Template::build('emails/monthlyDeals',Array('to'=>$toEmail));
+
+    Email::send('johnny@messingengine.com',$toEmail,$subject,$body);
+
+</pre>
+

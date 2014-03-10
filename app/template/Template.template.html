@@ -1,0 +1,218 @@
+<h1><a target='_blank' href='https://github.com/jbhamilton/disco-core/blob/v1.0/core/BaseTemplate.core.php'>Template</a></h1>
+
+<p>Disco ships with its own templating engine that we like to call tDisco.</p>
+
+<p>We strove to create the <b>cleanest</b> and most <b>minimilistic</b> templating engine we could, while still being <b>powerful</b> and <b>intuitive</b>, and we ended with <u>tDisco</u></p>
+
+<hr>
+
+<p class='heading'>Where do we store templates?</p>
+<p>Templates are stored in <span class='path'>app/template/</span> and should adhere to the naming convention like <span class='path'>*.template.html</span></p>
+
+
+<p class='heading'>There are two main methods of the Template Facade that you really need to understand:</p>
+
+<ul class='list'>
+    <li>Template::with() <span>- This method will build a template and automatically push it onto the Current Views HTML stack</span></li>
+    <li>Template::build() <span>- This method will build a template and return the HTML</span></li>
+</ul>
+
+
+<p class='heading'>Templating Syntax</p>
+
+{{$empty}}
+
+<div class='row collapse'>
+    <div class='small-4 columns'>
+        <b><u>Syntax</u></b>
+    </div>
+    <div class='small-8 columns'>
+        <b><u>Meaning</u></b>
+    </div>
+
+    <hr>
+
+    <div class='small-4 columns'>
+        {{$variable}}
+    </div>
+    <div class='small-8 columns'>
+        A standard Variable
+    </div>
+
+    <hr>
+
+    <div class='small-4 columns'>
+        {{&$variable}}
+    </div>
+    <div class='small-8 columns'>
+        A copy/duplicate of a variable
+    </div>
+
+    <hr>
+
+    <div class='small-4 columns'>
+        {{$variable else 'no value'}}
+    </div>
+    <div class='small-8 columns'>
+        A default value if a variable doesn't exist
+    </div>
+
+    <hr>
+
+    <div class='small-4 columns'>
+        {{&#64;anotherTemplate}}
+    </div>
+    <div class='small-8 columns'>
+        Another Template to include and nest within the current template
+    </div>
+
+    <hr>
+
+    <div class='small-4 columns'>
+        {{$data with &#64;template}}
+    </div>
+    <div class='small-8 columns'>
+        Include and nest the specified template within the current template and pass the specified data
+    </div>
+
+</div>
+
+<hr>
+
+<h2>Lets jump into some examples</h2>
+
+<p class='heading'>Loading a template that has no variables into the View</p>
+<pre class='prettyprint'>
+    Template::with('index');
+</pre>
+
+<hr>
+
+<p class='heading'>Loading a template that has variables into the View</p>
+<pre class='prettyprint'>
+// app/template/welcomePage.template.html
+
+    &lt;h1&gt; {{$message}} &lt;/h1&gt;
+
+</pre>
+<pre class='prettyprint'>
+    $data = Array('message'=>'Hello World!');
+
+    Template::with('welcomePage',$data);
+</pre>
+
+<hr>
+
+<p class='heading'>Assign a Template to a variable</p>
+
+<pre class='prettyprint'>
+    $data = Array('message'=>'Hello World!');
+
+    $template = Template::build('welcomePage',$data);
+</pre>
+
+<hr>
+
+<p class='heading'>Nesting a template</p>
+
+<pre class='prettyprint'>
+// app/template/outer.template.html
+
+    &lt;p&gt; This is a paragraph &lt;/p&gt;
+
+    {{&#64;inner}}
+
+</pre>
+<pre class='prettyprint'>
+// app/template/inner.template.html
+
+    &lt;p&gt; Hi from nested template &lt;/p&gt;
+
+</pre>
+
+<pre class='prettyprint'>
+    Template::with('outer');
+</pre>
+
+<hr>
+
+<p class='heading'>Nesting n Templates with data</p>
+<p>When using the syntax <span class='path'>{{$data with &#64;template}}</span> if <span class='variable'>$data</span> 
+is an array then the template will be repeated and injected with the data for how ever many elements there are in the passed array</p>
+
+<p><u>example:</u></p>
+
+<pre class='prettyprint'>
+// app/template/table.template.html
+
+    &lt;h1&gt; {{$tableTitle}} &lt;/h1&gt;
+
+    &lt;table&gt;
+        &lt;thead&gt;
+            &lt;tr&gt;
+                &lt;td&gt; A &lt;/td&gt;
+                &lt;td&gt; B &lt;/td&gt;
+                &lt;td&gt; C &lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/thead&gt;
+
+        &lt;tbody&gt;
+
+            {{$tRows with &#64;tableRowTemplate}} 
+            
+        &lt;/tbody&gt;
+
+    &lt;/table&gt;
+</pre>
+
+<pre class='prettyprint'>
+// app/template/tableRowTemplate.template.html
+
+    &lt;tr&gt;
+
+        &lt;td&gt; {{$A}} &lt;/td&gt;
+        &lt;td&gt; {{$B}} &lt;/td&gt;
+        &lt;td&gt; {{$C}} &lt;/td&gt;
+
+    &lt;/tr&gt;
+
+</pre>
+
+<p>Now that we have our base templates lets put it togethor</p>
+
+<pre class='prettyprint'>
+
+    $data = Array(
+        'tableTitle'=>'A table to display',
+        'tRows'= Array(
+            0=>Array(
+                'A'=>'A value',
+                'B'=>'B value',
+                'C'=>'C value'
+            ),
+            1=>Array(
+                'A'=>'A value',
+                'B'=>'B value',
+                'C'=>'C value'
+            ),
+            2=>Array(
+                'A'=>'A value',
+                'B'=>'B value',
+                'C'=>'C value'
+            )
+        )
+    );
+
+
+    Template::with('table',$data);
+
+
+</pre>
+
+<p>Like magic we now have a table that has 3 rows</p>
+
+
+
+
+
+

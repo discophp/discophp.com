@@ -1,0 +1,56 @@
+<h1>Configuration</h1>
+
+<p>There are 3 primary configuration files for Disco</p>
+<ul class='list'>
+    <li>
+        <a href='https://github.com/jbhamilton/disco/blob/master/.env.local.json'>.env.[Your Machine Name].json </a>
+        <span>- Your local environments settings</span>
+    </li>
+    <li>
+        <a href='https://github.com/jbhamilton/disco/blob/master/.env.json'>.env.json</a> 
+        <span>- Your production environments settings</span>
+    </li>
+    <li>
+        <a href='https://github.com/jbhamilton/disco/blob/master/.mail.settings.json'>.mail.settings.json </a> 
+        <span>- Your Email settings</span>
+    </li>
+</ul>
+
+
+<hr>
+
+<h4>.env.[Your Machine Name].json</h4>
+<p>Rename the file <span class='path'>.env.local.json</span> that comes in the standard distribution to
+<span class='path'>.env.[Your Machine Hostname].json</span></p>
+<p>If you don't know your machines hostname run the command</p>
+<p class='command'>hostname</p>
+<img src='/images/config.png'>
+<p>Most of these should be pretty self-explanatory.</p>
+<ul class='list'>
+    <li>"URL" <span>- The URL of your project</span></li>
+    <li>"COMPOSER_PATH" <span>- Installation directory of Composer</span></li>
+    <li>"DB_*" <span>- Set up your DB config options for MySQL.</span></li>
+    <li>"MEMCACHE_*" <span>- Set up your Memcache Host and Port</span></li>
+    <li>"AES_KEY256" <span>- Set to a random 32 length string</span></li>
+    <li>"SHA512_SALT_*" <span>- Salt your hash values</span></li>
+</ul>
+
+<hr>
+
+<h4>.env.json</h4>
+<p>This file is the same as <span class='path'>.env.local.json</span> but for your production environment</p>
+<p>It will be used when the machine name doesn't match a settings file</p>
+<p>So to use your production settings just make sure your local environment machines hostname doesn't match your production servers</p>
+
+<hr>
+
+<h4>.mail.settings.json</h4>
+
+<img src='/images/mail-config.png'>
+<p>Set up your SMTP, TLS, and/or SSL email servers settings</p>
+<p>Replace email@site.com (and the password obviously) with an active email address associated with one of your servers</p>
+<p>You can add as many email addresses as you want to the json file</p>
+<p>Learn how to use the Email Fadade <a href='/docs/Email'>here</a></p>
+
+
+

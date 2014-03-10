@@ -1,0 +1,122 @@
+<h1><a target='_blank' href='https://github.com/jbhamilton/disco-core/blob/v1.0/core/BaseRouter.core.php'>Router</a></h1>
+
+<p>The Router Facade is used to resolve a RESTful style endpoint to an action</p>
+
+<p class='heading'>GET Requests</p>
+
+<pre class='prettyprint'>
+
+    Router::get('/contact',function(){
+
+        Template::with('contact');
+
+    });
+
+</pre>
+
+
+<p class='heading'>POST Requests</p>
+
+<pre class='prettyprint'>
+
+    Router::post('/contact',function(){
+
+        var_dump($_POST);
+
+    });
+
+</pre>
+
+
+<p class='heading'>Any combination of Requests</p>
+
+<pre class='prettyprint'>
+
+    Router::any('/contact',function(){
+
+    });
+
+</pre>
+
+<hr>
+
+<h2>Variables</h2>
+
+<p>We can extract variables from our endpoints easily</p>
+
+<pre class='prettyprint'>
+
+    Router::get('/profile/{id}',function($id){
+        View::html("you requested profile $id");
+    });
+
+</pre>
+
+<hr>
+
+<h3>Restricting matches</h3>
+
+<p>We can instruct the router to restrict matches to regex criteria using the <span class='path'>->where()</span> method</p>
+
+<pre class='prettyprint'>
+
+    Router::get('/profile/{id}',function($id){
+
+    	View::html("this id: $id - is numeric");
+
+    })->where('id','[0-9]+');
+
+</pre>
+
+<p class='heading'>Restricting multiple variables</p>
+
+<pre class='prettyprint'>
+
+    Router::get('/profile/{id}/{area}',function($id,$area){
+
+        View::html("a profile with id: $id and area: $area requested");
+
+    })->where(Array('id'=>'[0-9]+','area'=>'photo|video|likes'));
+
+</pre>
+
+<hr>
+
+<h4>Calling a Controller instead of a Closure</h4>
+
+<p>You can instruct the Router to execute a <a href='/docs/routing-guide#controller'>Controller</a> instead of a Closure</p>
+
+
+<p>Controllers are really just a class. Store them in <span class='path'>app/controllers/</span> with a naming convention like </br><span class='path'>[Your Controller Name].controller.php</span></p>
+
+<p class='heading'>A sample Controller</p>
+
+<pre class='prettyprint'>
+Class Profile {
+
+    public function printProfile($id){
+
+        DB::query("SELECT name,profile_photo FROM profile WHERE user_id=?",$id);
+
+        $profileData = DB::last()->fetch_assoc();
+
+
+        Template::with('profileHome.template.html',$profileData);
+
+    }//printProfile
+
+}//Profile
+</pre>
+
+
+<pre class='prettyprint'>
+
+    Router::get('/profile/{id}','Profile@printProfile')->where('id','[0-9]+');
+
+</pre>
+
+<p>The <span class='variable'>$id</span> variable will automatically be passed into the requested method <span class='path'>printProfile</span> as a parameter</p>
+
+
+
+

@@ -1,0 +1,92 @@
+<h1><a target='_blank' href='https://github.com/jbhamilton/disco-core/blob/v1.0/core/BaseMySQLiDatabase.core.php'>Database</a></h1>
+
+<p>The DB Facade extends the <a target='_blank' href='http://php.net/manual/en/class.mysqli.php'>mysqli class</a></p>
+
+<div class='panel notice'>
+    <p>You must configure your Database settings in <span class='path'>.env.*.json</span> to work with the DB Facade</p>
+    <br>
+    You must also have mysql installed and running on your server
+</div>
+
+
+<p class='heading'>Lets execute a Query</p>
+
+<pre class='prettyprint'>
+
+    $id = 500;
+    
+    DB::query('SELECT profile_photo FROM user WHERE user_id=?',$id);
+
+
+
+    //When you execute a query you can retrieve the result set in two ways:
+
+    $result = DB::query('SELECT profile_photo FROM user WHERE user_id=?',$id);
+
+    $row = $result->fetch_assoc();
+
+    //OR
+
+    $row = DB::last()->fetch_assoc();
+
+
+</pre>
+
+<p class='heading'>Iterate through results</p>
+
+<pre class='prettyprint'>
+
+    $id = 100;
+
+    DB::query('SELECT profile_photo FROM user WHERE user_id&lt;?',$id);
+
+    while($row = DB::last()->fetch_assoc()){
+        var_dump($row);
+    }//while
+
+</pre>
+
+<hr>
+
+<h2>Variable Binding</h2>
+
+<p>As your probably noticed in the above examples we passed our variable in as a second paramater and put a "?" placeholder in the query for where its value should go.
+This should be familiar as this is like a prepared statment.</p>
+
+<p>You can either pass a single variable or an array of variables</p>
+
+<p>You don't need to worry about wrapping strings in quotes or escaping your input, the DB Facade handles that when it binds the variables to the query</p>
+
+<p class='heading'>Passing multiple variables</p>
+
+<pre class='prettyprint'>
+    
+    $params = Array('bobby@gmail.com',1);
+
+    DB::query('SELECT * FROM user WHERE email=? AND verified=?',$params);
+
+</pre>
+
+<hr>
+
+<h2>Stored Procedures</h2>
+
+<p>We treat stored procedures a little bit differntly than a typical query in that a stored procedure returns an array of associative keyed results rather than an actual ResultSet object</p>
+
+<p class='heading'>Example</p>
+
+<pre class='prettyprint'>
+
+    $results = DB::sp('CALL last_ten_visitors_sp()');
+
+
+    //iterate through the results like a normal array
+    foreach($results as $row){
+       var_dump($row); 
+    }//foreach
+
+</pre>
+
+<p>Its done this way so that the returned result set may be completly freed and not interfere with preceding queries</p>
+
+

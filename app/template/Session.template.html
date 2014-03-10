@@ -1,0 +1,80 @@
+<h1><a target='_blank' href='https://github.com/jbhamilton/disco-core/blob/v1.0/core/BaseSession.core.php'>Session</a></h1>
+
+<p>The Session Facade provides an easy wrapper around using $_SESSION data</p>
+
+<p>The <span class='path'>__construct()</span> method of the Session Facade provides some important functionality:</p>
+
+<p>First it will check to see if the session has already seen a request and if not store the IP address of the user in the session variable <span class='variable'>$_SESSION['IP_REFER_CHECK']</span></p>
+
+<p>On subsequent requests the IP address will be double checked to make sure the session hasn't been hijacked.
+If its found to differ the application is going to redirect the user to a <span class='path'>/404</span> page.</p>
+
+
+<div class='panel notice'>
+
+    <p>For security reasons when we load up the application some <span class='path'>php_ini</span> variables are going to be changed</p>
+
+    <pre class='prettyprint'>
+    ini_set('session.use_trans_sid',0);
+    </pre>
+
+    <pre class='prettyprint'>
+    ini_set('session.use_only_cookies',1);
+    </pre>
+
+</div>
+
+<hr>
+
+<h2>Basic usage</h2>
+
+<p class='heading'>Seeing if a variable is set</p>
+
+<pre class='prettyprint'>
+
+    if(Session::has('user_id'))
+        View::html('we have a user ID');
+    else 
+        View::html('no user');
+
+</pre>
+
+<p class='heading'>Getting a set variable</p>
+
+<pre class='prettyprint'>
+    View::html('logged in user has id: '.Session::get('user_id'));
+</pre>
+
+<p class='heading'>Setting a variable</p>
+
+<pre class='prettyprint'>
+    Session::set('user_id',500);
+</pre>
+
+<p class='heading'>Removing a variable</p>
+
+<pre class='prettyprint'>
+    Session::remove('user_id');
+</pre>
+
+<p class='heading'>Regenerating a session ID</p>
+
+<pre class='prettyprint'>
+    Session::regen();
+</pre>
+<div class='panel notice'>
+It is recommended that you call <span class='path'>Session::regen()</span> after each login of a user
+</div>
+
+<p class='heading'>Reset a session</p>
+
+<pre class='prettyprint'>
+    Session::reset();
+</pre>
+
+<p class='heading'>Flush/Clear/Wipe a session</p>
+
+<pre class='prettyprint'>
+    Session::flush();
+</pre>
+

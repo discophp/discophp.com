@@ -1,0 +1,29 @@
+<h1><a target='_blank' href='https://github.com/jbhamilton/disco-core/blob/v1.0/core/BaseUtilities.core.php'>Util</a></h1>
+
+<p>The Util (Utilitiy) Facade is a Facade that is meant to be extended by you! You ever find that you have functions that you constantly need through out a project? This is the place to put them</p>
+
+<p class='heading'>Out of the box functions</p>
+
+<ul class='list'>
+    <li>Util::decodeURL() <span>- check out the API for this one</span></li>
+    <li>Util::encodeURL() <span>- check out the API for this one</span></li>
+    <li>Util::cleanInput() <span>- apply <a href='http://php.net/manual/en/function.htmlentities.php'>htmlentities()</a> to input string</span></li>
+    <li>Util::buildTime() <span>- take a UNIX timestamp and return either x mins ago, x hours ago, x days ago, x months ago, x years ago</span></li>
+    <li>Util::death() <span>- redirect the user to a <span class='path'>/404</span> page</span></li>
+</ul>
+
+<p class='heading'>Get to extending!</p>
+
+<p>
+Remember how to create a Facade from the section <a href=/docs/IoC-facades'>IoC & Facades</a> right?
+Create a facade for your Utility class that extends the BaseUtilities Disco class (but it doesn't have to!) and put it into use.
+</p>
+
+<pre class='prettyprint'>
+
+    Disco::make('Util',function(){
+        return new YourUtilClass();
+    });
+
+</pre>
+
