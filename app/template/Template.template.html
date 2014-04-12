@@ -4,10 +4,16 @@
 
 <p>We strove to create the <b>cleanest</b> and most <b>minimilistic</b> templating engine we could, while still being <b>powerful</b> and <b>intuitive</b>, and we ended with <u>tDisco</u></p>
 
+<p>If you have your memcached server running and configured in <span class='path'>.env.*.json</span> tDisco will take advantage of it and use it to 
+cache your templates by default!</p>
+
 <hr>
 
 <p class='heading'>Where do we store templates?</p>
 <p>Templates are stored in <span class='path'>app/template/</span> and should adhere to the naming convention like <span class='path'>*.template.html</span></p>
+
+<p>You can create sub-directorys in the template folder to better organize your templates. Accessing templates stored in sub-directorys is really simple for 
+example <span class='path'>Template::build('clothes/tshirt',$data);</span> where the template <span class='path'>tshirt.template.html</span> is stored in <span class='path'>app/template/clothes/</span></p>
 
 
 <p class='heading'>There are two main methods of the Template Facade that you really need to understand:</p>
@@ -51,7 +57,7 @@
     <hr>
 
     <div class='small-4 columns'>
-        {{$variable else 'no value'}}
+        {{$variable}}{{else 'no value'}}
     </div>
     <div class='small-8 columns'>
         A default value if a variable doesn't exist
@@ -138,7 +144,9 @@
 
 <p class='heading'>Nesting n Templates with data</p>
 <p>When using the syntax <span class='path'>{{$data with &#64;template}}</span> if <span class='variable'>$data</span> 
-is an array then the template will be repeated and injected with the data for how ever many elements there are in the passed array</p>
+is a numeric indexed array of arrays then the template will be repeated and injected with the data for how ever many elements there are in the passed array.
+If the passed <span class='variable'>$data</span> variable is an associative array then its variables will be accessible just like always.
+</p>
 
 <p><u>example:</u></p>
 

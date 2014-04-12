@@ -1,11 +1,16 @@
 <h1><a target='_blank' href='https://github.com/jbhamilton/disco-core/blob/v1.0/core/BaseCache.core.php'>Cache</a></h1>
 
-<p>Disco uses <a href='http://www.php.net/manual/en/book.memcache.php'>Memcached</a> as its default caching system</p>
+<p>Disco uses <a target='_blank' href='http://www.php.net/manual/en/book.memcache.php'>Memcache</a> as its default caching system</p>
 
 <p>The Cache Facade extends the memcache class so all functionality associated your typical memcache object is available through the Cache Facade</p>
 
 <div class='panel notice'>
     <p>You must have memcache installed and the memcached server installed and running.</p>
+    <p class='path'>
+        sudo apt-get install php5-memcache
+        <br>
+        sudo apt-get install memcached
+    </p>
     <p>You must also have configured your memcache host and port number in <span class='path'>.env.*.json</span> file</p>
 </div>
 

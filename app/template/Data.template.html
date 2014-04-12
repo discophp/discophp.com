@@ -1,0 +1,102 @@
+<h1><a target='_blank' href='https://github.com/jbhamilton/disco-core/blob/v1.0/core/BaseData.core.php'>Data</a></h1>
+
+<p>The Data Facade provides a convient wrapper around using HTTP GET, POST, PUT, and DELETE data. 
+It also provides the ability to sql escape any data you specify (Remember if you use the DB Facade and pass the query() or sp() methods data it will auto escape it).</p>
+
+<p>PHP comes out of the box with the two suberglobals <span class='variable'>$_POST</span> and <span class='variable'>$_GET</span>, it does not however, 
+provide the same superglobal access for what you would think would be <span class='variable'>$_PUT</span> and <span class='variable'>$_DELETE</span> data.
+The Data Facade will parse incoming data from a PUT or DELETE stream when the HTTP request is one of the two types of methods and allow the same type of superglobal 
+access through its methods.</p>
+
+<h2>Examples</h2>
+
+<p class='heading'>Getting a value by key</p>
+
+<pre class='prettyprint'>
+
+    $getVar = Data::get('someGetVariable');
+
+    $postVar = Data::post('somePostVariable');
+
+    $putVar = Data::put('somePutVariable');
+
+    $delVar = Data::delete('someDeleteVariable');
+
+</pre>
+
+<p class='heading'>Getting a value by key with a condition</p>
+
+<pre class='prettyprint'>
+
+    $getVar = Data::get()->where('getVar','integer');
+
+    $postVar = Data::post()->where('postVar','^[a-zA-Z\s]+$');
+
+</pre>
+
+<div class='panel'>
+<p>You can set your own regex conditions by calling:</p>
+<pre class='prettyprint'>
+    Disco::addCondition('numberAndDashes','^[0-9\-]+&');
+</pre>
+<p>See the default list of conditions available on the <a href='/docs/Router'>router page</a></p>
+</div>
+
+
+<p class='heading'>Setting a key/value pair</p>
+
+<pre class='prettyprint'>
+
+    Data::delete()->set('valueToDelete',52);
+
+    Data::get()->set('someGet','donut');
+
+    Data::post()->set('somePost','pictures');
+
+    Data::put()->set('somePut','someputvalue');
+
+</pre>
+
+<p class='heading'>Determining if a key is set</p>
+
+<pre class='prettyprint'>
+    
+    if(Data::delete('update-article-id')!==false)
+        //value is set
+    else
+        //value is not set
+
+</pre>
+
+<p class='heading'>Get all the key/value pairs as an associative array</p>
+
+<pre class='prettyprint'>
+
+    $allPostData = Data::post()->all();
+
+
+    $allDeleteData = Data::delete()->all();
+
+</pre>
+
+
+<p class='heading'>Escaping a value</p>
+
+<pre class='prettyprint'>
+
+    $escaped = Data::escape()->post('someData');
+    
+</pre>
+
+
+<p class='heading'>Escaping with a condition</p>
+
+<pre class='prettyprint'>
+
+    $escaped = Data::escape()->post()->where('postVar','alpha');
+    
+</pre>
+
+
+
+

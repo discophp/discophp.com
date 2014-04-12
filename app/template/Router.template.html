@@ -21,7 +21,33 @@
 
     Router::post('/contact',function(){
 
-        var_dump($_POST);
+        var_dump( Data::post()->all() );
+
+    });
+
+</pre>
+
+
+<p class='heading'>PUT Requests</p>
+
+<pre class='prettyprint'>
+
+    Router::put('/contact',function(){
+
+        var_dump( Data::put()->all() );
+
+    });
+
+</pre>
+
+
+<p class='heading'>DELETE Requests</p>
+
+<pre class='prettyprint'>
+
+    Router::delete('/contact',function(){
+
+        var_dump( Data::delete()->all() );
 
     });
 
@@ -33,12 +59,36 @@
 <pre class='prettyprint'>
 
     Router::any('/contact',function(){
-
+        
     });
 
 </pre>
 
+
+<p class='heading'>HTTPS requests</p>
+
+<pre class='prettyprint'>
+
+    Router::secure()->get('/login',function(){
+
+        Template::with('login');
+        
+    });
+
+
+    Router::secure()->post('/login',function(){
+        
+        Model::m('User')->login();
+
+    });
+
+
+</pre>
+
+
 <hr>
+
+
 
 <h2>Variables</h2>
 
@@ -67,6 +117,86 @@
     })->where('id','[0-9]+');
 
 </pre>
+
+<br><br>
+
+<p class='heading'>Default matching conditions</p>
+
+<p>Instead of making you repeat common regex patterns constantly we have provided a few default ones for your use.</p>
+
+<div class='row collapse'>
+    <div class='small-12 medium-4 columns'>
+        <p><b><u>Name</u></b></p>
+    </div>
+    <div class='small-12 medium-8 columns'>
+        <p><b><u>Valid Example or Format</u></b></p>
+    </div>
+    <hr>
+    <div class='small-12 medium-4 columns'>
+        <p>alpha</p>
+    </div>
+    <div class='small-12 medium-8 columns'>
+        <p>Disco</p>
+    </div>
+    <hr>
+    <div class='small-12 medium-4 columns'>
+        <p>alpha_numeric</p>
+    </div>
+    <div class='small-12 medium-8 columns'>
+        <p>B42-bomber</p>
+    </div>
+    <hr>
+    <div class='small-12 medium-4 columns'>
+        <p>integer</p>
+    </div>
+    <div class='small-12 medium-8 columns'>
+        <p>-55</p>
+    </div>
+    <hr>
+    <div class='small-12 medium-4 columns'>
+        <p>numeric</p>
+    </div>
+    <div class='small-12 medium-8 columns'>
+        <p>4.75089</p>
+    </div>
+    <hr>
+    <div class='small-12 medium-4 columns'>
+        <p>all</p>
+    </div>
+    <div class='small-12 medium-8 columns'>
+        <p>koolaid$rink*8it-()001##@</p>
+    </div>
+    <hr>
+</div>
+
+<div class='panel'>
+    <p>You can add your own matching conventions to the default list and they will be accesible through both the Router and Data Facades.</p>
+    <pre class='prettyprint'>
+        Disco::addCondition('numbersAndDashes','^[0-9\-]+$');
+        Disco::addCondition('lclettersAndDashes','^[a-z\-]+$');
+    </pre>
+</div>
+
+<p class='heading'>Using a default matching condition</p>
+
+
+<pre class='prettyprint'>
+
+    Router::put('/profile/{id}',function($id){
+
+        Model::m('user')->addBlogPost($id);
+
+    })->where('id','integer');
+
+
+    //ANOTHER EXAMPLE
+
+    Router::get('/article/{id}','Article@display')->where('id','aplha_numeric');
+
+</pre>
+
+
+<hr>
 
 <p class='heading'>Restricting multiple variables</p>
 
@@ -101,7 +231,7 @@ Class Profile {
         $profileData = DB::last()->fetch_assoc();
 
 
-        Template::with('profileHome.template.html',$profileData);
+        Template::with('profileHome',$profileData);
 
     }//printProfile
 

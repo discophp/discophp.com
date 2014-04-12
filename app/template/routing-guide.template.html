@@ -16,12 +16,14 @@
 
 <p>We tell the Router Facade that if there is a GET request with the route of <span class='path'>/about-us</span> execute the Closure function and put the heading "About Us" in the view</p>
 
-<p>There are three main methods you will want to be familar with:</p>
+<p>There are some main methods you will want to be familar with:</p>
 
 <ul class='list'>
-    <li>View::get() <span>- Only match requests with GET variables set</span></li>
-    <li>View::post() <span>- Only match requests with POST variables set on the route</span></li>
-    <li>View::any() <span>- Match any request either GET or POST</span></li>
+    <li>View::get() <span>- Match a HTTP GET request</span></li>
+    <li>View::post() <span>- Match a HTTP POST request</span></li>
+    <li>View::put() <span>- Match a HTTP PUT request</span></li>
+    <li>View::delete() <span>- Match a HTTP DELETE request</span></li>
+    <li>View::any() <span>- Match any type of HTTP request</span></li>
 </ul>
 
 
@@ -82,14 +84,14 @@ as the variable <span class='variable'>$userName</span>
 
         View::html("&lt;h1&gt;$item - $category&lt;/h1&gt");
 
-    })->where(Array('category'=>'[a-zA-Z\-]+','item'=>'[0-9]+');
+    })->where(Array('category'=>'alpha','item'=>'^[0-9]+$'));
 </pre>
 
 <hr>
 
 <h2>Introducing Controllers</h2>
 
-<p>Controllers are really just a class. Store them in <span class='path'>app/controllers/</span> with a naming convention like </br><span class='path'>[Your Controller Name].controller.php</span></p>
+<p>Controllers are really just a class that handles putting togethor and manipulating the pieces that go into completing a web request. Store them in <span class='path'>app/controllers/</span> with a naming convention like </br><span class='path'>[Your Controller Name].controller.php</span></p>
 
 <p class='heading'>A sample Controller</p>
 
@@ -103,7 +105,7 @@ Class Profile {
         $profileData = DB::last()->fetch_assoc();
 
 
-        Template::with('profileHome.template.html',$profileData);
+        Template::with('profileHome',$profileData);
 
     }//printProfile
 
@@ -132,14 +134,10 @@ Class Profile {
 
         Disco::useRouter('nestedRouter');
 
-    });
+    })->where('nest','all');
 
 </pre>
 
 <hr>
-
-<p class='heading'>Still confused?</p>
-
-<p>Try and warm your feet up by checking out the sample Disco App to see a whole project</p> 
 
 

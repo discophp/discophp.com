@@ -9,19 +9,21 @@ and hashing using the <a href='http://www.php.net/manual/en/functino.hash.php'>s
     <p>You must configure your SHA512_SALT_LEAD and SHA512_SALT_TAIL setting variable in <span class='path'>.env.*.json</span> to a random key of any length for your hasing to be secure</p>
 </div>
 
+<hr>
+
 <h2>Example Usage</h2>
 
-<h5>Encryption</h5>
+<p class='heading'>Encryption</p>
 <pre class='prettyprint'>
     $crypt = Crypt::encrypt('encrypt this string!');
 </pre>
 
-<h5>Decryption</h5>
+<p class='heading'>Decryption</p>
 <pre class='prettyprint'>
     $decrypt = Crypt::decrypt($encryptedString);
 </pre>
 
-<h5>Hashing</h5>
+<p class='heading'>Hashing</p>
 <pre class='prettyprint'>
     $hashedPassWord = Crypt::hash('hashthispassword');
 </pre>

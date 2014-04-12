@@ -18,22 +18,56 @@ to accomplish the task of organizing and outputting the page.
 
 <pre class='prettyprint'>
 &lt;!doctype html&gt;
-&lt;html lang='en'&gt;
+&lt;html lang='&lt;!-- lang will be printed here --&gt;'&gt;
 
     &lt;head&gt;
-         &lt;meta charset='utf-8' /&gt;
-         &lt;meta content='%6\$s' name='robots'&gt;
+         &lt;meta charset='&lt;!-- charset will be printed here --&gt;' /&gt;
+         &lt;meta content='&lt;!-- index type will be printed here --&gt;' name='robots'&gt;
          &lt;meta name='viewport' content='width=device-width, initial-scale=1.0' /&gt;
-         &lt;title&gt; %1\$s &lt;/title&gt;
-         &lt;meta name='description' content='%2\$s'&gt;
-         &lt;link type='image/x-icon' href='/favicon.png' rel='shortcut icon'&gt;
+         &lt;title&gt;&lt;!-- title will be printed here--&gt;&lt;/title&gt;
+         &lt;meta name='description' content='&lt;!-- description will be printed here--&gt;'&gt;
+         &lt;link type='image/x-icon' href='&lt;!-- favIcon will be printed here--&gt;' rel='shortcut icon'&gt;
 
-        &lt;!-- all your style srcs will be printed here --&gt;
+        &lt;!-- all your styleSrcs will be printed here --&gt;
         &lt;!-- all your additional styles will be printed here --&gt;
+        &lt;!-- all your headScriptSrcs be printed here--&gt;
+        &lt;!-- all your arbitrary headExtras will be printed here--&gt;
 
     &lt;/head&gt;
 
-    &lt;body class='row &lt;!--Your additional body classes will be added here--&gt;'&gt;
+    &lt;body class='&lt;!--Your additional body classes will be added here--&gt;'&gt;
+
+
+        &lt;div id='header'&gt;
+            &lt;!-- your header will be printed in here --&gt;
+        &lt;/div&gt;
+
+        &lt;div id='body'&gt;
+            &lt;!-- your html will be printed in here --&gt;
+        &lt;/div&gt;
+
+        &lt;div id='footer'&gt;
+            &lt;!-- your footer will be printed in here --&gt;
+        &lt;/div&gt;
+
+
+        &lt;!-- all your scriptSrcs will be printed here --&gt;
+
+        &lt;!-- all your scripts will be printed here --&gt;
+
+
+    &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<p class='heading'>SEO your view</p>
+
+<pre class='prettyprint'>
+    View::seo(true);
+</pre>
+
+<p>Setting seo to true on the view will make the view print the contents of the body like this:</p>
+<pre class='prettyprint'>
 
         &lt;div id='body'&gt;
             &lt;!-- your html will be printed in here --&gt;
@@ -47,15 +81,11 @@ to accomplish the task of organizing and outputting the page.
             &lt;!-- your footer will be printed in here --&gt;
         &lt;/div&gt;
 
-
-        &lt;!-- all your script srcs will be printed here --&gt;
-
-        &lt;!-- all your scripts will be printed here --&gt;
-
-
-    &lt;/body&gt;
-&lt;/html&gt;
 </pre>
+<p>Making the contents of your body come first is a must for seo best practice. This does however require some javascript
+to make it work. The javascript needed to handle formating the page for seo is included in the file 
+that comes with Disco <span class='path'>/scripts/js.js</span>
+</p>
 
 
 <a name='view-basics'></a>
@@ -71,11 +101,17 @@ to accomplish the task of organizing and outputting the page.
 All html you push through this method will end up in the #body element.</p>
 
 
+<hr>
+
+
 <p class='heading'>Setting the title of the page</p>
 
 <pre class='prettyprint'>
     View::title('Welcome to our site!');
 </pre>
+
+
+<hr>
 
 
 <p class='heading'>Setting the description of the page</p>
@@ -88,6 +124,9 @@ All html you push through this method will end up in the #body element.</p>
 </pre>
 
 
+<hr>
+
+
 <p class='heading'>Including an External CSS stylesheet</p>
 
 <pre class='prettyprint'>
@@ -97,6 +136,9 @@ All html you push through this method will end up in the #body element.</p>
 <p>Your stylesheets will be included in the head of the page.</p>
 
 
+<hr>
+
+
 <p class='heading'>Putting JavaScript into the View</p>
 
 <pre class='prettyprint'>
@@ -104,6 +146,9 @@ All html you push through this method will end up in the #body element.</p>
 </pre>
 
 <p>Scripts you add to the page will always be printed last, after the footer is printed.</p>
+
+
+<hr>
 
 
 <p class='heading'>Including an External Javascript File</p>
@@ -116,6 +161,51 @@ All html you push through this method will end up in the #body element.</p>
 <p>Scripts Sources you add to the page will always be printed last, after the footer is printed.</p>
 
 
+<hr>
+
+
+<p class='heading'>Including an External Javascript File In the HEAD of the page</p>
+
+<pre class='prettyprint'>
+    View::headScriptSrc('/scripts/js.js');
+</pre>
+
+<p>Scripts added with this method will put put in the header of page, specifying that you don't want the page to be ready until those scripts are loaded.</p>
+
+
+<hr>
+
+
+<p class='heading'>Setting a property on a &lt;script&gt; or &lt;link&gt; element</p>
+
+<pre class='prettyprint'>
+
+    //load the script file asynchronously
+    View::scriptSrc('/js/js.js')->prop('async','true');
+
+    //load the script file asynchronously
+    View::headScriptSrc('/js/js.js')->prop('async','true');
+
+    //set a media query on the style sheet
+    View::styleSrc('/css/800px.css')->prop('media','screen and (min-device-width: 800px)');
+
+</pre>
+
+
+<hr>
+
+<p class='heading'>Adding arbitrary elements to the head of the page</p>
+
+<pre class='prettyprint'>
+
+    View::headExtra('&lt;script src="/js/js.js"&gt;&lt;/script&gt;');
+
+</pre>
+
+
+<hr>
+
+
 <p class='heading'>Adding a css class to the body element</p>
 
 <pre class='prettyprint'>
@@ -124,6 +214,49 @@ All html you push through this method will end up in the #body element.</p>
 
 
 <hr>
+
+
+<p class='heading'>Setting the FavIcon of a page</p>
+
+<pre class='prettyprint'>
+    View::favIcon('/yourIcon.png');
+</pre>
+
+<p>The default value used if not set is <span class='path'>/favicon.png</span></p>
+
+
+<hr>
+
+<p class='heading'>Setting the language of a page</p>
+
+<pre class='prettyprint'>
+
+    //set the page language to French
+    View::lang('fr');
+
+</pre>
+
+<p>The default value used for the lang attr is 'en' for English</p>
+
+
+<hr>
+
+
+<p class='heading'>Setting the charset of a page</p>
+
+<pre class='prettyprint'>
+
+    //set the charset to UTF-16 
+    View::charset('utf-16');
+
+</pre>
+
+<p>The default value used for the charset attr is 'utf-8'</p>
+
+
+<hr>
+
+
 
 <a name='view-extend'></a>
 <h3 data-magellan-destination='view-extend'>Extending the BaseView class</h3>
@@ -174,7 +307,9 @@ Class StandardView extends BaseView {
     <li>footer() <span>- return html markup to be used in the #footer element of the page</li>
 </ul>
 
-<p class='heading'>How to set which View your application is using</p>
+
+
+<h4>Setting the View</h4>
 
 <pre class='prettyprint'>
 
@@ -193,6 +328,24 @@ Class StandardView extends BaseView {
 
 <hr>
 
+<p class='heading'>What if we want to set the header or footer of a view manually?</p>
+
+<pre class='prettyprint'>
+    View::setHeader(Template::build('pageHeader'));
+    //OR 
+    View::setHeader('Here is some header text and markup');
+
+    //now the footer
+    View::setFooter(Template::build('pageFooter'));
+</pre>
+
+
+<hr>
+
+<br>
+
+<h4>AjaxRequests and JSON</h4>
+
 <p class='heading'>What if we have an AjaxRequest and don't need a full page returned and just some data structure or a snippet?</p>
 
 <p>It's easy just use the isAjax() method</p>
@@ -205,16 +358,33 @@ Class StandardView extends BaseView {
 
 <hr>
 
-<p class='heading'>What if we want to set the header or footer of a view manually?</p>
+<p class='heading'>Returning JSON</p>
 
 <pre class='prettyprint'>
-    View::setHeader(Template::build('pageHeader'));
-    //OR 
-    View::setHeader('Here is some header text and markup');
-
-    //now the footer
-    View::setFooter(Template::build('pageFooter'));
+    View::json();
 </pre>
+
+<p>This will dump the html stack (it does not json_encode() it for you) and set the header Content-type to "application/json"</p>
+
+
+
+
+<hr>
+
+<h4>Setting how a page should be seen by a robot</h4>
+
+<p>In the heading of your page you may set a meta tag like <span class='path'>&lt;meta name='robots' content='index,follow'&gt;</span>.
+All the possible values of this meta tag are list below along with the corresponding method in the View Facade:
+</p>
+
+<ul class='list'>
+    <li>index,follow <span>- default value</span></li>
+    <li>noindex,nofollow - <span class='path'>View::noIndex()</span></li>
+    <li>index,nofollow - <span class='path'>View::indexNoFollow()</span></li>
+    <li>noindex,follow - <span class='path'>View::noIndexFollow()</span></li>
+</ul>
+
+
 
 
 

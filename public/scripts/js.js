@@ -101,6 +101,8 @@ var menu = {
 
 
 
+
+
 function shake(div){
     var interval = 100;
     var distance = 10;
@@ -115,3 +117,41 @@ function shake(div){
     $(div).animate({ left: 0},interval);
 
 }//shake 
+
+
+if (!String.prototype.format) {
+    String.prototype.format = function() {
+        var args = arguments;
+        return this.replace(/{(\d+)}/g, function(match, number) { 
+            return typeof args[number] != 'undefined' ? args[number] : match ;
+        });
+                                };
+}
+
+
+
+
+
+var setupSubNav = function(){
+    if(!$('.magellan-container').length)
+        return;
+
+    var container = '.magellan-container';
+    var entry = '<dd data-magellan-arrival="mlink-{0}"><a class="nav-link" href="#mlink-{0}">{1}</a></dd>'; 
+    var content='';
+    var types=['h1','h2','h3','h4','h5','h6'];
+    var iter=0;
+    for(var i=0;i<types.length;i++){
+        $('.docs-content '+types[i]).each(function(){
+            $(this).before('<a name="'+iter+'" id="mlink-'+iter+'"></a>');
+            $(this).attr('data-magellan-destination','mlink-'+iter);
+            content+=entry.format(iter,$(this).text());
+            iter++;
+        });
+    }//for
+
+    $(container+' .sub-nav').html(content);
+}();
+
+
+
