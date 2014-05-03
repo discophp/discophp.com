@@ -4,6 +4,7 @@ class Docs {
 
     public function introPage(){
         View::title('Disco PHP Framework');
+        View::bodyStyle('docs-intro');
         $content = Array('content'=>Template::build('docsIndex'));
         Template::with('docsBasePage',$content);
     }//introPage

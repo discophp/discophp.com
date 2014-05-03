@@ -46,6 +46,14 @@
 
 </pre>
 
+<p class='heading'>Get the last created Auto Incroment ID</p>
+
+<pre class='prettyprint'>
+
+    $lastId =DB::lastId();
+
+</pre>
+
 <hr>
 
 <h2>Variable Binding</h2>
@@ -66,6 +74,19 @@ This should be familiar as this is like a prepared statment.</p>
     DB::query('SELECT * FROM user WHERE email=? AND verified=?',$params);
 
 </pre>
+
+<p class='heading'>Setting variables manually or before query execution</p>
+
+<pre class='prettyprint'>
+    
+
+    $q = 'SELECT * FROM user WHERE email=? AND verified=?';
+    $params = Array('bobby@gmail.com',1);
+
+    $q = DB::set($q,$params);
+
+</pre>
+
 
 <hr>
 
@@ -88,5 +109,91 @@ This should be familiar as this is like a prepared statment.</p>
 </pre>
 
 <p>Its done this way so that the returned result set may be completly freed and not interfere with preceding queries</p>
+
+<hr>
+
+<h3>Using Multiple Databases</h3>
+
+<p>You can set up multiple Database connections super simply using the Disco PHP Framework</p>
+
+<p class='heading'>First, Extending the Facade class with your new Database Facade</p>
+
+<pre class='prettyprint'>
+
+    class DevDB extends Facade {
+
+        protected static function returnFacadeId(){
+
+            return 'DevDB';
+
+        }//returnFacadeId
+
+    }//DevDB
+
+</pre>
+
+<p>If this is confusing go read the <a href='/IoC-facades'>Inversion of Control and Facades page</a> before you proceed </p>
+
+<p class='heading'>Second, Create the new Database Class</p>
+
+<pre class='prettyprint'>
+
+    class BaseDevDB extends BaseMySQLiDatabase {
+
+        public function __construct(){
+
+            parent::__construct('hostname','username','password','database');
+
+        }//construct
+
+    }//BaseDevDB
+
+</pre>
+
+<div class='panel notice'>
+    <p>You can set additional $_SERVER or $_ENV variables in your <span class='path'>.env.*.json</span> file for your extra Database connection and use them to construct your connection to the Database.</p>
+    <p class='heading'>For Example</p>
+        <pre class='prettyprint'>
+
+    class BaseDevDB extends BaseMySQLiDatabase {
+
+        public function __construct(){
+
+            parent::__construct($_SERVER['DevDB_HOST'],$_SERVER['DevDB_USER'],$_SERVER['DevDB_PW'],$_SERVER['DevDB_DB']);
+
+        }//construct
+
+    }//BaseDevDB
+
+        </pre>
+    </p>
+</div>
+
+
+<p class='heading'>Third, Tell Disco to make the Facade</p>
+
+<pre class='prettyprint'>
+
+    Disco::make('DevDB',function(){
+        return new BaseDevDB();
+    });
+
+</pre>
+
+
+<p>Now you have a second Database Facade setup for potential use at some point during your applications life cycle.</p>
+
+<p class='heading'>Use it just like the standard DB Facade</p>
+
+<pre class='prettyprint'>
+
+    DevDB::query('
+        SELECT *
+        FROM USER 
+        WHERE id=?
+    ',$id);
+
+</pre>
+
 
 
