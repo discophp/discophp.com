@@ -17,6 +17,15 @@ function flex(){
             $(this).css('padding-top',$(this).parent().height()*.45);
         }//el
     });
+
+    if($('.starting-step').length){
+        var max=0;
+        $('.starting-step').each(function(){
+            if($(this).height()>max)
+                max=$(this).height();
+        });
+        $('.starting-step').height(max);
+    }//if
 }//flex
 
 var messageSlide = {
@@ -133,7 +142,7 @@ if (!String.prototype.format) {
 
 
 var setupSubNav = function(){
-    if(!$('.magellan-container').length)
+    if(!$('.magellan-container').length || $('body.docs-intro').length)
         return;
 
     var container = '.magellan-container';

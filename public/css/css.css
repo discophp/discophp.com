@@ -94,6 +94,20 @@ border:1px solid #ddd;
 box-shadow:0px 38px 9px -27px #222222;
 /*border:20px solid #1BBFA1;*/
 }
+
+
+.home-heading {
+font-size:1.6em;
+margin:50px 0px;
+}
+
+.home-info {
+background-color:rgba(255,255,255,0.4);
+margin:2.5% 20%;
+padding:5% 10%;
+}
+
+
 .top-bar.homepage {
 box-shadow:none !important;
 background-color:rgba(255,255,255,0.01);
@@ -246,6 +260,13 @@ border-radius:4px;
 padding:15px !important;
 margin:15px 0px;
 }
+pre {
+white-space: pre-wrap;
+white-space: -moz-pre-wrap;
+white-space: -pre-wrap;
+white-space: -o-pre-wrap;
+word-wrap: break-word;
+}
 
 nav.top-bar.docs,nav.top-bar.docs ul.right li a {
 background-color:#1BBFA1;
@@ -256,6 +277,20 @@ background-color:#FF4F4B !important;
 }
 nav.top-bar.docs li.active a:hover {
 background-color:#1BBFA1 !important;
+}
+
+
+.starting-step {
+margin:15px;
+padding:15px;
+background-color:#DDD;
+}
+.starting-step:hover {
+transition:all 0.15s ease-in-out;
+background-color:#FFF;
+}
+.starting-step h5 {
+text-align:center;
 }
 
 
