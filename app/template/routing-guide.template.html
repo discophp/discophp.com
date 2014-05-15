@@ -39,7 +39,7 @@
     and telling Disco to use it by executing
     </p>
     <pre class='prettyprint'>
-        Disco::useRouter('routerName');
+        Router::useRouter('routerName');
     </pre>
 </div>
 <p>You can also create your own file with routers in and just include it when you want to use them</p>
@@ -132,7 +132,7 @@ Class Profile {
 
     Router::get('/profile/{nest}',function($nest){
 
-        Disco::useRouter('nestedRouter');
+        Router::useRouter('nestedRouter');
 
     })->where('nest','all');
 

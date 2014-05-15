@@ -1,4 +1,4 @@
-<h1><a target='_blank' href='https://github.com/jbhamilton/disco-core/blob/v1.0/core/BaseModel.core.php'>Model</a></h1>
+<h1><a target='_blank' href='https://github.com/discophp/framework/blob/2.0/core/classes/Model.core.php'>Model Facade</a></h1>
 
 <p>A Model is meant to encapsulate CRUD (Create Read Udate Delete) properities and serve as an encapsulation of working with a specific data model (in our case a SQL table)</p>
 
@@ -49,14 +49,14 @@
 
 <pre class='prettyprint'>
 
-    class Band extends BaseModel {
+    class Band extends Disco\classes\Model {
 
         public $table='band';
         public $ids='band_id';
 
     }//Band
 
-    class Album extends BaseModel {
+    class Album extends Disco\classes\Model {
 
         public $table='album';
         public $ids=Array('band_id','album_id');

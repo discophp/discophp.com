@@ -1,6 +1,6 @@
 <?php
 
-Class Standard extends BaseView {
+Class Standard extends Disco\classes\View {
 
     public function header(){
         return Template::build('header');

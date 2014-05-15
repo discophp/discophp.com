@@ -3,15 +3,15 @@
 <p>There are 3 primary configuration files for Disco</p>
 <ul class='list'>
     <li>
-        <a href='https://github.com/jbhamilton/disco/blob/master/.env.local.json'>.env.[Your Machine Name].json </a>
+        <a href='https://github.com/discophp/project/blob/master/.env.local.json'>.env.[Your Machine Name].json </a>
         <span>- Your local environments settings</span>
     </li>
     <li>
-        <a href='https://github.com/jbhamilton/disco/blob/master/.env.json'>.env.json</a> 
+        <a href='https://github.com/discophp/project/blob/master/.env.json'>.env.json</a> 
         <span>- Your production environments settings</span>
     </li>
     <li>
-        <a href='https://github.com/jbhamilton/disco/blob/master/.mail.settings.json'>.mail.settings.json </a> 
+        <a href='https://github.com/discophp/project/blob/master/.mail.settings.json'>.mail.settings.json </a> 
         <span>- Your Email settings</span>
     </li>
 </ul>
@@ -34,6 +34,8 @@
     <li>"AES_KEY256" <span>- Set to a random 32 length string</span></li>
     <li>"SHA512_SALT_*" <span>- Salt your hash values</span></li>
 </ul>
+
+<p>You can set any variables in your <span class='path'>.env</span> files you want, they will be accessible through out your application through the PHP super globals <span class='path'>$_SERVER</span> and <span class='path'>$_ENV</span></p>
 
 <hr>
 

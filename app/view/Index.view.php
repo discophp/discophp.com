@@ -1,6 +1,6 @@
 <?php
 
-Class Index extends BaseView {
+Class Index extends Disco\classes\View {
 
     public function header(){
         return Template::build('menu');

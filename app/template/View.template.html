@@ -1,4 +1,4 @@
-<h1><a target='_blank' href='https://github.com/jbhamilton/disco-core/blob/v1.0/core/BaseView.core.php'>View</a></h1>
+<h1><a target='_blank' href='https://github.com/discophp/framework/blob/2.0/core/classes/View.core.php'>View Facade</a></h1>
 
 <p>Requests to web applications typically result in one of two types of responses:</p>
 <ul class='list'>
@@ -14,7 +14,7 @@ to accomplish the task of organizing and outputting the page.
 </p>
 
 
-<p class='heading'>The way the Disco BaseView class sees a webpage</p>
+<p class='heading'>The way the Disco View class sees a webpage</p>
 
 <pre class='prettyprint'>
 &lt;!doctype html&gt;
@@ -259,16 +259,16 @@ All html you push through this method will end up in the #body element.</p>
 
 
 <a name='view-extend'></a>
-<h3 data-magellan-destination='view-extend'>Extending the BaseView class</h3>
+<h3 data-magellan-destination='view-extend'>Extending the View class</h3>
 
-<p>So how do we get our view to represent differing pages? We extend the BaseView class!</p>
+<p>So how do we get our view to represent differing pages? We extend the Disco\classes\View class!</p>
 
 
-<p class='heading'>This is the extended BaseView class being used to generate the Docs pages of this site</p>
+<p class='heading'>This is the extended Disco\classes\View class being used to generate the Docs pages of this site</p>
 
 <pre class='prettyprint'>
 
-Class StandardView extends BaseView {
+Class StandardView extends Disco\classes\View {
 
     public function header(){
         return Template::build('header');
@@ -297,7 +297,7 @@ Class StandardView extends BaseView {
 
 </pre>
 
-<p>A couple key things are happening in this extended BaseView class</p>
+<p>A couple key things are happening in this extended Disco\classes\View class</p>
 
 <p>First we are overriding the three methods <span class='path'>header()</span>,<span class='path'>__construct()</span> and <span class='path'>footer()</span></p>
 
@@ -317,7 +317,7 @@ Class StandardView extends BaseView {
         return new StandardView();
     });
 
-    View::html('Were now using the Standard View class which extends the BaseView class!');
+    View::html('Were now using the Standard View class which extends the View class!');
 
 </pre>
 

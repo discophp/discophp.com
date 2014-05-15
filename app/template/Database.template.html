@@ -1,4 +1,4 @@
-<h1><a target='_blank' href='https://github.com/jbhamilton/disco-core/blob/v1.0/core/BaseMySQLiDatabase.core.php'>Database</a></h1>
+<h1><a target='_blank' href='https://github.com/discophp/framework/blob/2.0/core/classes/DB.core.php'>Database Facade</a></h1>
 
 <p>The DB Facade extends the <a target='_blank' href='http://php.net/manual/en/class.mysqli.php'>mysqli class</a></p>
 
@@ -120,7 +120,7 @@ This should be familiar as this is like a prepared statment.</p>
 
 <pre class='prettyprint'>
 
-    class DevDB extends Facade {
+    class DevDB extends Disco\classes\Facade {
 
         protected static function returnFacadeId(){
 
@@ -138,7 +138,7 @@ This should be familiar as this is like a prepared statment.</p>
 
 <pre class='prettyprint'>
 
-    class BaseDevDB extends BaseMySQLiDatabase {
+    class BaseDevDB extends Disco\classes\DB {
 
         public function __construct(){
 
@@ -155,7 +155,7 @@ This should be familiar as this is like a prepared statment.</p>
     <p class='heading'>For Example</p>
         <pre class='prettyprint'>
 
-    class BaseDevDB extends BaseMySQLiDatabase {
+    class BaseDevDB extends Disco\classes\DB {
 
         public function __construct(){
 

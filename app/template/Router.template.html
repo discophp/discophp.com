@@ -1,6 +1,15 @@
-<h1><a target='_blank' href='https://github.com/jbhamilton/disco-core/blob/v1.0/core/BaseRouter.core.php'>Router</a></h1>
+<h1><a target='_blank' href='https://github.com/discophp/framework/blob/2.0/core/classes/Router.core.php'>Router</a></h1>
 
-<p>The Router Facade is used to resolve a RESTful style endpoint to an action</p>
+<p>The Router class is used to resolve a RESTful style endpoint to an action. This is the only other class in the Disco PHP Framework
+that isn't treated as a Facade. The Router class is actually a invisible factory with complete static access. It works like this, everytime you call a method chain to resolve
+a endpoint a new BaseRouter instance is instantiated and used as the starting point for the method chain of the call.<br>
+<i>(Method Chaining is simply the calling of multiple methods in a single line of code execution. It can be achieved by returning $this from a function of a object.</i>
+</p>
+<a target='_blank' href='https://github.com/discophp/framework/blob/2.0/core/Router.core.php'>Check out the core Router class to get an understanding</a>
+
+<hr>
+
+<p>BTW; you can call any of the methods on the Router in any order you wish</p>
 
 <p class='heading'>GET Requests</p>
 

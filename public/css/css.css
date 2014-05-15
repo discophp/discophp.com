@@ -35,9 +35,20 @@ font-family:'ABeeZee' !important;
 }
 
 
-h1,h2,h3,h4,h5,h6 {
+h1,h2,h3,h4,h5,h6,.main-heading {
 font-family:'Gafata' !important;
 }
+
+.large-font {
+font-size:32px;
+}
+.mlarge-font {
+font-size:28px;
+}
+.medium-font {
+font-size:22px;
+}
+
 
 .logo-header {
 background-color:#1BBFA1;
@@ -84,7 +95,7 @@ font-weight:bold;
 }
 
 #dance-img {
-margin-top:50px;
+margin:50px 0px;
 text-align:center;
 }
 #dance-img img {
@@ -121,7 +132,7 @@ background-color:#E6D58F !important;
 
 .welcome-message {
 margin:0 auto;
-padding:125px 0px 75px 0px;
+padding:125px 0px 25px 0px;
 text-align:center;
 position:relative;
 }
@@ -168,9 +179,9 @@ padding:50px 0px;
 text-align:center;
 margin-bottom:25px;
 }
-.homepage-divider h4 {
+.homepage-divider h2 {
 color:#FFF;
-font-size:2em;
+font-size:2.2em;
 }
 .homepage-divider h5 a {
 font-size:2em;

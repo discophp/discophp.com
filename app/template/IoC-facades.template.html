@@ -3,22 +3,33 @@
 <p class='heading'>What is Inversion of Control?</p>
 
 <p>
-Inversion of Control (IoC for short) is an object oriented programming technique in which the applications needed objects are not known at run time.
-IoC techniques are typically used in combination with some sort of Dependency Injection. In Discos case we use Composers <span class='path'>autoload.php</span> script to handle our Dependency Injection.
+Inversion of Control or IoC for short, is an Object Oriented programming technique in which essentially empty objects act as STATIC access points for instances of objects of importance. 
+These essentially empty objects are called Facades, and the objects of importance we will refer to as Base objects. A “container” under IoC principle is an object who's duty it is to invisibly manage and resolve Base objects to their Facade counter-parts (The <span class='path'>Disco</span> object serves as our applications primary “container”). Facades are registered with the application container and contain instructions on what Base object they represent. When a Facade is used for the first time the Base object it represents becomes instantiated and its state is stored and kept internally in the container for future uses within the applications life-cycle. Each time that Facade is accessed it will provide access to the same instance of the underlying Base class.
+</p>
+
+<p>IoC techniques are typically used in combination with some sort of Dependency Injection. In Discos case we use Composers <span class='path'>autoload.php</span> script to handle our Dependency Injection.</p>
+
+<p class='heading'>This IoC paradigm provides us with some pretty powerful attributes:</p>
+
+<ul class='normal-list'>
+    <li>We never construct Base objects until they are absolutely needed</li>
+    <li>We can statically access our Base objects from anywhere in our applications logic</li>
+    <li>We can swap underlying Base objects of the Facade to change/extend functionality on the fly without any changes to code or object accessors</li>
+</ul>
+
 </p>
 
 <p class='heading'>Whats Dependency Injection?</p>
 
 <p>
-Dependency Injection is simply the lazy loading of classes as they are requested through the flow of control of the application.
+Dependency Injection ia a programming technique in which the applications needed objects are not known at run time.
+Simply put, dependency injection is the lazy loading of classes as they are requested through the flow of control of the application.
 Meaning that from here on out, you will never write another require statement for your classes again! This is awesome in that manner, and 
 because you will never be loading more than is absolutly necessary on each request to your application.</p>
 
 <p>So what does it mean for us?</p>
 
 <p>Well if you have read through any of the documentation you have been using the IoC technique and Facades already!</p>
-
-<p>The <span class='path'>Disco</span> object its self serves as the primary container for the application and acts as a Factory for creating your Facades</p>
 
 <p class='heading'>What is a Facade</p>
 
@@ -41,7 +52,7 @@ because you will never be loading more than is absolutly necessary on each reque
 
 <pre class='prettyprint'>
 
-    class Sample extends Facade {
+    class Sample extends Disco\classes\Facade {
 
         protected static function returnFacadeId(){
 
@@ -146,8 +157,16 @@ This is achieved using the <a target='_blank' href='http://php.net/manual/en/lan
 
 <hr>
 
+<h3>Modeling How A Facade Functions</h3>
+
+<a href='/images/how-a-facade-works-in-software-and-the-disco-php-framework.png'>
+    <div class='text-center'>
+        <img src='/images/how-a-facade-works-in-software-and-the-disco-php-framework.png' title='Flow chart and diagram of how a facade works in software and the Disco PHP Framework'>
+    </div>
+</a>
+
 <div class='panel'>
-Do yourself a favor and go to the <a target='_blank' href='https://github.com/jbhamilton/disco-core/blob/master/core/Facade.core.php'>Facade class of Disco</a> and check out the internals.
+Do yourself a favor and go to the <a target='_blank' href='https://github.com/discophp/framework/blob/2.0/core/classes/Facade.core.php'>Facade class of Disco</a> and check out the internals.
 </div>
 
 

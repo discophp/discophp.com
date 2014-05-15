@@ -32,16 +32,16 @@ Its eventual output produces a webpage skelton including a header and body, and 
 <hr>
 
 <a name='view-extend'></a>
-<h3>Extending the BaseView class</h3>
+<h3>Extending the View class</h3>
 
-<p>So how do we get our view to represent differing pages? We extend the BaseView class!</p>
+<p>So how do we get our view to represent differing pages? We extend the Disco\classes\View class!</p>
 
 
-<p class='heading'>This is the extended BaseView class being used to generate the Docs pages of this site</p>
+<p class='heading'>This is the extended Disco\classes\View class being used to generate the Docs pages of this site</p>
 
 <pre class='prettyprint'>
 
-Class StandardView extends BaseView {
+Class StandardView extends Disco\classes\View {
 
     public function header(){
         return Template::build('header');
@@ -70,7 +70,7 @@ Class StandardView extends BaseView {
 
 </pre>
 
-<p>A couple key things are happening in this extended BaseView class</p>
+<p>A couple key things are happening in this extended View class</p>
 
 <p>First we are overriding the three methods <span class='path'>header()</span>,<span class='path'>__construct()</span> and <span class='path'>footer()</span></p>
 
@@ -88,7 +88,7 @@ Class StandardView extends BaseView {
         return new StandardView();
     });
 
-    View::html('Were now using the Standard View class which extends the BaseView class!');
+    View::html('Were now using the Standard View class which extends the Disco\classes\View class!');
 
 </pre>
 

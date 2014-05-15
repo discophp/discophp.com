@@ -4,7 +4,7 @@
  * Load Disco 
  * The only require you must write
 */
-require_once('../vendor/jbhamilton/disco-core/core/Disco.core.php');
+require_once('../vendor/discophp/framework/core/Disco.core.php');
 
 
 
@@ -21,7 +21,7 @@ Disco::make('View',function(){
 /**
  * Set up a Router
 */
-Disco::useRouter('pages');
+Router::useRouter('pages');
 
 
 View::seo();
