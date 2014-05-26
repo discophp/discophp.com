@@ -51,15 +51,14 @@ and if not, redirect the request to the <span class='path'>/login</span> page</p
 
 <pre class='prettyprint'>
 
-    Router::any('/admin/{page}',function(){
+    Router::filter('/admin/{*}')->to('AdminRouter')->auth('admin','/login');
 
+    // --- OR WITH HTTPS ONLY ---//
 
-        Router::useRouter('AdminRouter');
+    Router::secure()->filter('/admin/{*}')->to('AdminRouter')->auth('admin','/login');
 
-
-    })->where('page','all')->auth('admin','/login');
 
 </pre>
 
-<p>In this example we are funneling any request to the <span class='path'>/admin/</span> segment of the site through this Router instance and forcing the existence of a session "admin" to exist. If it doesn't exist and the request to was the <span class='path'>/admin/</span> segment of the site redirect the request to the <span class='path'>/login</span> page</p> 
+<p>In this example we filter any request to the <span class='path'>/admin/</span> segment of the site through the Router File <span class='path'>app/router/AdminRouter.router.php</span> and force the existence of a session "admin" to exist. If it doesn't exist and the request was to the <span class='path'>/admin/</span> segment of the site redirect the request to the <span class='path'>/login</span> page</p> 
 

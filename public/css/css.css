@@ -37,6 +37,7 @@ font-family:'ABeeZee' !important;
 
 h1,h2,h3,h4,h5,h6,.main-heading {
 font-family:'Gafata' !important;
+font-size:30px !important;
 }
 
 .large-font {
@@ -49,10 +50,13 @@ font-size:28px;
 font-size:22px;
 }
 
+.starting-step h3 {
+font-size:22px !important;
+}
 
 .logo-header {
 background-color:#1BBFA1;
-padding:25px 0px;
+padding:2px 0px;
 }
 .logo-header div {
 display:inline-block;
@@ -343,7 +347,7 @@ background-color:#DDD;
 }
 span.variable {
 background-color:#222;
-color:#1BBFA1;
+color:#1BBFA1 !important;
 border-radius:2px;
 padding:2px;
 }
@@ -436,5 +440,8 @@ display:none;
 font-size:2em;
 }
 
+.docs-menu {
+padding:0px 25px !important;
+}
 
 }

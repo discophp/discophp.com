@@ -1,4 +1,4 @@
-<h1>Routing & Controllers Introduction</h1>
+<h1 class='mlarge-font'>Introducing Routers and Route Variables</h1>
 
 <p>Disco is RESTful routing centric and endpoints are achived by resolving a Router Facade</p>
 
@@ -35,47 +35,37 @@
 <p>In the <span class='path'>index.php</span> file</p>
 <div>
     <p>
-    By creating a router file in <span class='path'>app/router/</span> with a naming convention like <span class='path'>*.router.php</span> 
+    By creating a router file in <span class='path'>app/router/</span> with a naming convention like <span class='path'>[YourRouter].router.php</span> 
     and telling Disco to use it by executing
     </p>
     <pre class='prettyprint'>
-        Router::useRouter('routerName');
+    Router::useRouter('YourRouter');
     </pre>
 </div>
 <p>You can also create your own file with routers in and just include it when you want to use them</p>
+<pre class='prettyprint'>
+
+    require('someFileThatHasRouters.php');
+
+</pre>
 
 <hr>
 
-<p class='heading'>Introducing Variables</p>
+<p class='heading'>Introducing Variables and Using the <span class='path'>where()</span> method to apply variable restrictions to the route</p>
 
 <pre class='prettyprint'>
     Router::get('/profile/{userName}',function($userName){
 
         View::html("&lt;h1&gt;$userName&lt;/h1&gt");
 
-    });
+    })->where('userName','alpha_numeric');
 </pre>
 
-<p>Now if a GET request matches <span data-tooltip class='path has-tip tip-bottom' title='(we use the asterick to denote match all)'>/profile/*</span>  everything preceding the last slash will be set
-as the variable <span class='variable'>$userName</span>
-</p>
+<p>If a GET request coming into the application has the url <span class='path'>/profile/[some form of alpha_numeric text]</span> execute the Closure Function (the second paramater)</p>
 
 <p>So if the URL had been <span class='path'>/profile/timmy</span> you would have <span class='variable'>$userName='timmy'</span> and the Closure function would put a heading in the view that says "timmy"</p>
 
-
-
-<p class='heading'>Say we wanted to put restrictions on a variable for the matching in the URL</p>
-
-<pre class='prettyprint'>
-    Router::get('/profile/{userName}',function($userName){
-
-        View::html("&lt;h1&gt;$userName&lt;/h1&gt");
-
-    })->where('userName','[a-zA-Z0-9\-]+');
-</pre>
-
 <p>You can pass a single variable name and a corresponding regex pattern</p>
-
 
 <p>Or you could pass an array of restrictions like so</p>
 
@@ -89,11 +79,11 @@ as the variable <span class='variable'>$userName</span>
 
 <hr>
 
-<h2>Introducing Controllers</h2>
+<h2 class='mlarge-font'>Introducing Controllers</h2>
 
-<p>Controllers are really just a class that handles putting togethor and manipulating the pieces that go into completing a web request. Store them in <span class='path'>app/controllers/</span> with a naming convention like </br><span class='path'>[Your Controller Name].controller.php</span></p>
+<p>Controllers are really just a class that handles putting togethor and manipulating the pieces that go into completing a web request. Store them in <span class='path'>app/controllers/</span> with a naming convention like </br><span class='path'>[YourController].controller.php</span></p>
 
-<p class='heading'>A sample Controller</p>
+<p class='heading'>A sample Controller <small><span class='path'>app/controller/Profile.controller.php</span></small></p>
 
 <pre class='prettyprint'>
 Class Profile {
@@ -124,17 +114,41 @@ Class Profile {
 
 <hr>
 
-<h3>Nesting routers</h3>
+<h3 class='mlarge-font'>Router as a Filter</h3>
 
-<p>You can nest routers like this</p>
+<p>You can filter directories of your application really easy using the <span class='path'>filter()</span> method of the Router. A filter can be used to force the processing of a Router File, or execute a closure function which stores other Routers.</p>
+
+<p>To specify what should be filtered we use the special variable <span class='path'>{*}</span></p>
+
+<p>To specify what action should be taken when a filter is matched, you use the <span class='path'>to()</span> method. Pass it either a Router File name like <span class='path'>ShoppingRouter</span> which is saved at 
+<span class='path'>app/router/ShoppingRouter.router.php</span> , or pass it a Closure function</p>
+
+<p class='heading'>Examples of using the <span class='path'>filter</span> method and the <span class='path'>to</span> method
 
 <pre class='prettyprint'>
 
-    Router::get('/profile/{nest}',function($nest){
+    // ----- EXAMPLE #1
+    // The secured shopping area of the application 
 
-        Router::useRouter('nestedRouter');
+    Router::secure()->filter('/shopping/{*}')->to('ShoppingRouter');
 
-    })->where('nest','all');
+
+
+    // ----- EXAMPLE #2
+    // We want to make sure when a user is in the shopping area they use https
+
+    Router::filter('/shopping/{*}')->to(function(){
+        header("https://{$_SERVER['URL']}/shopping");
+        exit;
+    });
+
+
+
+    // ----- EXAMPLE #3
+    // protecting an area of your appliction and using a filter
+
+    Router::secure()->filter('/admin/{*}')->to('AdminRouter')->auth('admin','/login');
+
 
 </pre>
 

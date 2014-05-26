@@ -1,28 +1,31 @@
-<h1>Request LifeCycle</h1>
+<h1>Request Life-Cycle</h1>
 
-<p>A crucial aspect of application development is understanding how things are working under the hood.</p>
+<p>Here we will detail each piece of the applications request life-cycle in a step-wise process.</p>
 
-<p>Here we will detail each piece of the applications components in a step-wise process.</p>
-
-<p>First off, all requests in Disco are routed through <span class='path'>index.php</span>, unless there is a filename given with a matching file on the system to execute the request</p>
+<p>First off, all requests in Disco are routed through <span class='path'>public/index.php</span>, unless there is a filename given with a matching file on the system to execute the request.
+See the <a href='http://github.com/discophp/project/blog/master/public/.htaccess'><span class='path'>.htaccess</span></a> file and check out the modrewrite rules.</p>
 <div class='notice panel'>
-    <p>If your using Apache2 as a Web Server you must enable modrewrite.</p>
+    <p>You must enable modrewrite if your using the Apache2 Server.</p>
     <p class='command'>sudo a2enmod rewrite</p>
 </div>
 
-<p>The first line in <span class='path'>index.php</span> is going to require the core Disco file <span class='path'>core/Disco.core.php</span></p>
+<ul>
 
-<p>The core Disco file will then take care of setting up the environment configuration using the file <span class='path'>core/Prep.core.php</span></p>
+    <li>The first line in <span class='path'>public/index.php</span> is going to require the core Disco file <span class='path'>core/Disco.core.php</span></li>
+    
+    <li>The core Disco file will then take care of setting up the environment configuration using the file <span class='path'>core/Prep.core.php</span></li>
+    
+    <li>Disco will then register the default <a href='/docs/IoC-facades'>Facades</a> with its container by calling the method <span class='path'>Disco::registerDefaults()</span></li>
+    
+    <li>Now our flow of control is back to <span class='path'>public/index.php</span></li>
+    
+    <li>All user written logic begins being processed</li>
+    
+    <li><a href='/docs/Router'>Routers</a> begin being processed to resolve a endpoint url with an action by means of a Closure or <a href='/docs/routing-guide'>Controller</a></li>
 
-<p>It will then register the default <a href='/docs/IoC-facades'>Facades</a> with Disco</p>
+    <li>If no Router matched the requested URL then redirect the user to a <span class='path'>/404</span> page</li>
+    
+    <li>Finally <span class='path'>View::printPage();</span> is called and the View is printed</li>
 
-<p>Now our flow of control is back to index.php</p>
-
-<p>Now any user set required files are included</p>
-
-<p><a href='/docs/Event'>Event</a> listeners are registered</p>
-
-<p><a href='/docs/Router'>Routers</a> begin being processed to resolve a path with an action</p>
-
-<p>Finally <span class='code'>View::printPage();</span> is called and the View is printed</p>
+</ul>
 

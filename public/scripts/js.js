@@ -26,6 +26,9 @@ function flex(){
         });
         $('.starting-step').height(max);
     }//if
+
+    menu.flex();
+
 }//flex
 
 var messageSlide = {
@@ -105,7 +108,28 @@ var menu = {
             }//if
             
         });
-    }()//listen
+
+
+        $('.docs-menu').on('click','.divide',function(){
+            $(this).next().toggleClass('hide');
+        });
+
+    }(),//listen
+    flex:function(){
+        if(!$('.menu-wrap').length){
+            return;
+        }//if
+
+        var wwidth = $(window).width() / parseFloat($("body").css("font-size"));
+
+        if(wwidth<40.063){
+            $('.menu-wrap').addClass('hide');
+        }//if
+        else {
+            $('.menu-wrap').removeClass('hide');
+        }//el
+
+    }//flex
 }//menu
 
 

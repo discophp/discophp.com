@@ -1,43 +1,16 @@
-<h1><a target='_blank' href='https://github.com/discophp/framework/blob/2.0/core/classes/Email.core.php'>Email Facade</a></h1>
+<h1><a target='_blank' href='https://github.com/discophp/framework/blob/master/core/classes/Email.core.php'>Email Facade</a></h1>
 
 <p>Disco uses the <a href='http://swiftmailer.org'>swiftmailer</a> library to handle email related tasks.
 The library will be installed when you install Disco using composer.
 </p>
 
 <p class='panel notice'>
-You must configure your email settings in <span class='path'>.mail.settings.json</span> to send emails
+You must configure your email settings in <span class='path'>.mail.config.php</span> to send emails
 </p>
 
-<p class='heading'>Sample <span class='path'>.mail.settings.json</span></p>
+<p class='heading'>Sample <span class='path'>.mail.config.php</span></p>
 
-<pre class='prettyprint'>
-    {
-        "DEFAULT":"SMTP",
-
-        "johnny@messingengine.com":{
-            "NAME":"johnny@messingengine.com",
-            "PASSWORD":"johnnyspassword"
-        },
-        
-        "bobby@messingengine.com":{
-            "NAME":"bobby@messingengine.com",
-            "PASSWORD":"bobbyspassword"
-        },
-
-        "SMTP":{
-            "HOST":"mail.messingengine.com",
-            "PORT":"25"
-        },
-        "SSL":{
-            "HOST":"mail.messingengine.com",
-            "PORT":"465"
-        },
-        "TLS":{
-            "HOST":"mail.messingengine.com",
-            "PORT":"465"
-        }
-</pre>
-
+<img src='/images/mail-config-php.png'>
 
 <p>You can set which email server you wish to send through with the DEFAULT setting field but you may also switch in real time in the application using:</p>
 
@@ -57,7 +30,7 @@ You must configure your email settings in <span class='path'>.mail.settings.json
 
     $body = 'Hey there blah blah';
 
-    Email::send('johnny@messingengine.com',$toEmails,$subject,$body);
+    Email::send('johns-email',$toEmails,$subject,$body);
 
 </pre>
 
@@ -65,7 +38,7 @@ You must configure your email settings in <span class='path'>.mail.settings.json
 <p>Then you may either pass an Array of accounts or a single string email address to send to</p>
 <p>Then comes your subject line and your body</p>
 
-<h2>Including Attachments</h2>
+<h2 class='large-font'>Including Attachments</h2>
 
 <p>You may need to attach a file or files to an email</p>
 
@@ -79,12 +52,31 @@ You must configure your email settings in <span class='path'>.mail.settings.json
 
     $attach = Array('/tmp/meeting.docx','/tmp/meeting.wav');
 
-    Email::send('bobby@messingengine.com',$toEmails,$subject,$body,$attach);
+    Email::send('johns-email',$toEmails,$subject,$body,$attach);
 
 </pre>
 
 
-<h2>Using a template with your Email</h2>
+<h3 class='large-font'>Sending Emails in parallel to avoid lag in your applications response time</h3>
+
+<p>Often times when you need to send a dynamic email triggered by some user interaction with your application you encounter a lag. 
+Just use the <span class='path'>delay()</span> method prior to sending your email and your application will keep moving seemlessly.</p>
+
+<pre class='prettyprint'>
+    
+    // with a delay of 5 seconds
+    Email::delay(5)->send('johns-email',$toEmail,$subject,$body);
+
+
+    // immediatly 
+    Email::delay(0)->send('johns-email',$toEmail,$subject,$body);
+
+
+</pre>
+
+
+
+<h4 class='large-font'>Using a template with your Email</h4>
 
 <p>You want to leverage the ability to send beautiful HTML based emails so use a Template!</p>
 

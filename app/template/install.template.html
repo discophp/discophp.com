@@ -1,16 +1,25 @@
 <h1>Install</h1>
 
-<p class='heading'>Using Composer</p>
+<h2 class='mlarge-font heading'>Git Clone then Composer</h2>
+
 <p>First you will want to clone a Disco Project from github</p>
 <p class='command'>git clone https://github.com/discophp/project.git</p>
 
 <p>If you don't have composer installed globally grab a copy into the project directory</p>
+<p class='command'>cd project</p>
 <p class='command'>curl -sS https://getcomposer.org/installer | php</p>
 
-<p>Put the <span class='path'>composer.phar</span> in the projects root directory</p>
+<p>Make sure the <span class='path'>composer.phar</span> is in the projects root directory</p>
 
 <p>Now install Disco!</p>
 
 <p class='command'>php composer.phar install</p>
 
-<p>Congrats now Disco is installed!</p>
+<hr>
+
+
+<h3 class='heading mlarge-font'>Using only Composer</h3>
+
+<p class='command'>composer create-project discophp/project your-project-folder 2.0</p>
+
+

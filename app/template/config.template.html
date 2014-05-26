@@ -3,15 +3,15 @@
 <p>There are 3 primary configuration files for Disco</p>
 <ul class='list'>
     <li>
-        <a href='https://github.com/discophp/project/blob/master/.env.local.json'>.env.[Your Machine Name].json </a>
+        <a href='https://github.com/discophp/project/blob/master/.config.php'>.config.php</a>
         <span>- Your local environments settings</span>
     </li>
+    <li>.dev.config.php<span>- Your development environment settings. Will only attempt to be loaded if app is in DEV MODE ( <span class='variable'>APP_MODE=DEV</span> ).
+        Any variables you have set in your <span class='path'>.dev.config.php</span> will override its production <span class='path'>.config.php</span> counterpart value.
+        The <span class='path'>.dev.config.php</span> does not have to exist or be used while in <span class='variable'>DEV</span> MODE
+    </span></li>
     <li>
-        <a href='https://github.com/discophp/project/blob/master/.env.json'>.env.json</a> 
-        <span>- Your production environments settings</span>
-    </li>
-    <li>
-        <a href='https://github.com/discophp/project/blob/master/.mail.settings.json'>.mail.settings.json </a> 
+        <a href='https://github.com/discophp/project/blob/master/.mail.config.php'>.mail.conf.php</a> 
         <span>- Your Email settings</span>
     </li>
 </ul>
@@ -19,40 +19,80 @@
 
 <hr>
 
-<h4>.env.[Your Machine Name].json</h4>
-<p>Rename the file <span class='path'>.env.local.json</span> that comes in the standard distribution to
-<span class='path'>.env.[Your Machine Hostname].json</span></p>
-<p>If you don't know your machines hostname run the command</p>
-<p class='command'>hostname</p>
-<img src='/images/config.png'>
+<h2 class='mlarge-font'>.config.php - Your applications primary configuration file</h2>
+
+<img src='/images/config-php.png'>
+
 <p>Most of these should be pretty self-explanatory.</p>
 <ul class='list'>
-    <li>"URL" <span>- The URL of your project</span></li>
+    <li>"URL" <span>- The URL of your project ( somesite.com || sub.localhost )</span></li>
+    <li>"APP_MODE" <span>- The mode your application is running ( DEV || PROD )</span></li>
     <li>"COMPOSER_PATH" <span>- Installation directory of Composer</span></li>
     <li>"DB_*" <span>- Set up your DB config options for MySQL.</span></li>
     <li>"MEMCACHE_*" <span>- Set up your Memcache Host and Port</span></li>
-    <li>"AES_KEY256" <span>- Set to a random 32 length string</span></li>
-    <li>"SHA512_SALT_*" <span>- Salt your hash values</span></li>
+    <li>"AES_KEY256" <span>- This will be set to a 32 length value for you after install</span></li>
+    <li>"SHA512_SALT_*" <span>- This will be set to a 12 length value for you after install</span></li>
 </ul>
 
-<p>You can set any variables in your <span class='path'>.env</span> files you want, they will be accessible through out your application through the PHP super globals <span class='path'>$_SERVER</span> and <span class='path'>$_ENV</span></p>
+<div class='panel alert'>
+    <p class='heading'>About the variable <span class='variable'>APP_MODE</span></p>
+    <p>This controls what mode your application is running in.</p>
+    <p>You can run in two different modes; <span class='variable'>DEV</span> or <span class='variable'>PROD</span></p>
+    <p>When you are in <span class='variable'>DEV</span> mode your application will do these things differently:</p>
+    <ul>
+        <li>Send all emails to the email address set in the <span class='path'>.mail.config.php</span> file with the key <span class='variable'>DEV_MODE_SEND_TO</span></li>
+        <li>If <span class='path'>.dev.config.php</span> exists, override the <span class='path'>.config.php</span> values with any of its values</li>
+    </ul>
+</div>
+
+<p>You can set any variables in your <span class='path'>.config.php</span> files you want, they will be accessible through out your application through the PHP super global <span class='variable'>$_SERVER</span></p>
 
 <hr>
 
-<h4>.env.json</h4>
-<p>This file is the same as <span class='path'>.env.local.json</span> but for your production environment</p>
-<p>It will be used when the machine name doesn't match a settings file</p>
-<p>So to use your production settings just make sure your local environment machines hostname doesn't match your production servers</p>
+<h3 class='mlarge-font'>.mail.config.php - Your email configuration file</h3>
+
+<img src='/images/mail-config-php.png'>
+<p>Set up your SMTP, TLS, and/or SSL email servers settings.</p>
+<p>Set up your email addresses by replacing <span class='variable'>johns-email</span> with your defined key and and appropriate information.</p>
+<p>You can add as many email addresses as you want to the <span class='path'>.mail.config.php<span> file.</p>
+<p>Learn how to use the Email Fadade <a href='/docs/Email'>here</a>.</p>
 
 <hr>
 
-<h4>.mail.settings.json</h4>
+<h4 class='mlarge-font'>Configuring your Apache2 or Nginx Server to handle URL rewriting</h4>
 
-<img src='/images/mail-config.png'>
-<p>Set up your SMTP, TLS, and/or SSL email servers settings</p>
-<p>Replace email@site.com (and the password obviously) with an active email address associated with one of your servers</p>
-<p>You can add as many email addresses as you want to the json file</p>
-<p>Learn how to use the Email Fadade <a href='/docs/Email'>here</a></p>
+<p class='heading'>For Apache2 Servers</p>
 
+<p>Make sure you have the <span class='path'>rewrite module</span> enabled</p>
+
+<p class='command'>sudo a2enmod rewrite</p>
+
+<p class='heading'>.htaccess rules</p>
+<pre class='prettyprint'>
+
+    &lt;IFModule mod_rewrite.c&gt;
+
+        RewriteEngine On
+
+        RewriteCond %{REQUEST_FILENAME} !-d
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteRule ^ index.php [L]
+
+    &lt;/IfModule&gt;
+
+</pre>
+
+
+<p class='heading'>For Nginx Servers</p>
+
+<p>Add this directive to your sites configuration file</p>
+
+<pre class='prettyprint'>
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+</pre>
 
 

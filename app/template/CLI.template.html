@@ -1,0 +1,115 @@
+<h1>Command Line Interface CLI</h1>
+
+<p>The Disco PHP Framework ships with its own CLI or Command Line Interface that you can use to monitor and tweak your application with.</p>
+
+<p class='heading'>Usage</p>
+
+<p class='command'>php disco [task] [[options]]</p>
+
+<br>
+<hr>
+<br>
+
+<p class='heading'>Switching Your Application Into <span class='variable'>DEV</span> and <span class='variable'>PROD</span> mode</p>
+
+<p class='command'>php disco mode [DEV|PROD]</p>
+
+<p>Or to check which mode your application is currently in</p>
+
+<p class='command'>php disco mode</p>
+
+<br>
+<hr>
+<br>
+
+<p class='heading'>View Queued Jobs</p>
+
+<p class='command'>php disco jobs</p>
+
+<p>Example Output</p>
+
+<div class='text-center'>
+    <img src='/images/jobs.png'>
+</div>
+
+
+<p class='heading'>Kill a Queued Job</p>
+
+<p class='command'>php disco kill-job [job#]</p>
+
+<br>
+<hr>
+<br>
+
+<p class='heading'>View MySQL Statistics</p>
+
+<p class='command'>php disco mysql</p>
+
+<p>Example Output</p>
+
+<div class='text-center'>
+    <img src='/images/mysql-stats.png' title='sample output from running the mysql CLI command'>
+</div>
+
+
+<br>
+<hr>
+<br>
+
+
+<p class='heading'>Generate AES256 Key</p>
+
+<p class='command'>php disco gen aes</p>
+
+<p>Output</p>
+
+<p><span class='variable'>0e0d82b85c5d840df16488ea7b3dbc6a</span></p>
+
+
+<p class='heading'>Generate and Set AES256 Key</p>
+
+<p class='command'>php disco gen aes set</p>
+
+<p>This will set the <span class='variable'>AES_KEY256</span> in <span class='path'>.config.php</span> to the newly generated key</p>
+
+
+<p class='heading'>Generate SHA512 Key</p>
+
+<p class='command'>php disco gen sha [length]</p>
+
+<p>For the sha512 keys you will need to specifiy what length you wish generated</p>
+
+<p class='command'>php disco gen sha 12</p>
+
+<p>Output</p>
+
+<p><span class='variable'>2ca5fcdb77c4</span></p>
+
+
+<p class='heading'>Generate and Set SHA512 Key</p>
+
+<p>To set the sha512 values in your <span class='path'>.config.php</span> pass one of the two paramters <span class='path'>set-lead</span> or <span class='path'>set-tail</span> after the length paramater.</p>
+
+<p class='command'>php disco gen sha 12 [set-lead|set-tail]</p>
+
+<p>This will set the <span class='variable'>SHA512_SALT_[LEAD|TAIL]</span> in <span class='path'>.config.php</span> to the newly generated key</p>
+
+<br>
+<hr>
+<br>
+
+<p class='heading'>Dynamically call a Facade or Class and method of your Application</p>
+
+<p>format</p>
+<p class='command'>php disco make [[object] [method] [var0] [var1]...]</p>
+
+<p>Examples</p>
+
+<p class='command'>php disco make User profileData 3205</p>
+
+
+<p class='command'>php disco make View header</p>
+
+<p class='command'>php disco make DB sp 'CALL user_data(?)' 3205</p>
+
+

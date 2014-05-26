@@ -1,11 +1,11 @@
-<h1><a target='_blank' href='https://github.com/discophp/framework/blob/2.0/core/classes/Router.core.php'>Router</a></h1>
+<h1><a target='_blank' href='https://github.com/discophp/framework/blob/master/core/classes/Router.core.php'>Router</a></h1>
 
 <p>The Router class is used to resolve a RESTful style endpoint to an action. This is the only other class in the Disco PHP Framework
 that isn't treated as a Facade. The Router class is actually a invisible factory with complete static access. It works like this, everytime you call a method chain to resolve
-a endpoint a new BaseRouter instance is instantiated and used as the starting point for the method chain of the call.<br>
+a endpoint a new Disco\classes\Router instance is instantiated and used as the starting point for the method chain of the call.<br>
 <i>(Method Chaining is simply the calling of multiple methods in a single line of code execution. It can be achieved by returning $this from a function of a object.</i>
 </p>
-<a target='_blank' href='https://github.com/discophp/framework/blob/2.0/core/Router.core.php'>Check out the core Router class to get an understanding</a>
+<a target='_blank' href='https://github.com/discophp/framework/blob/master/core/Router.core.php'>Check out the core Router class to get an understanding</a>
 
 <hr>
 
@@ -105,9 +105,11 @@ a endpoint a new BaseRouter instance is instantiated and used as the starting po
 
 <pre class='prettyprint'>
 
-    Router::get('/profile/{id}',function($id){
-        View::html("you requested profile $id");
-    });
+    Router::get('/profile/{userName}',function($userName){
+
+        View::html("you requested profile $userName");
+
+    })->where('userName','alpha_numeric');
 
 </pre>
 
@@ -255,6 +257,46 @@ Class Profile {
 </pre>
 
 <p>The <span class='variable'>$id</span> variable will automatically be passed into the requested method <span class='path'>printProfile</span> as a parameter</p>
+
+
+<hr>
+
+<h5 class='mlarge-font'>Router as a Filter</h5>
+
+<p>You can filter directories of your application really easy using the <span class='path'>filter()</span> method of the Router. A filter can be used to force the processing of a Router File, or execute a closure function which stores other Routers.</p>
+
+<p>To specify what should be filtered we use the special variable <span class='path'>{*}</span></p>
+
+<p>To specify what action should be taken when a filter is matched, you use the <span class='path'>to</span> method. Pass it either a Router File name like <span class='path'>ShoppingRouter</span> which is saved at app/router/ShoppingRouter.router.php, or pass it a Closure function</p>
+
+<p class='heading'>Examples of using the <span class='path'>filter</span> method and the <span class='path'>to</span> method
+
+<pre class='prettyprint'>
+
+    // ----- EXAMPLE #1
+    // The secured shopping area of the application 
+
+    Router::secure()->filter('/shopping/{*}')->to('ShoppingRouter');
+
+
+
+    // ----- EXAMPLE #2
+    // We want to make sure when a user is in the shopping area they use https
+
+    Router::filter('/shopping/{*}')->to(function(){
+        header("https://{$_SERVER['URL']}/shopping");
+        exit;
+    });
+
+
+
+    // ----- EXAMPLE #3
+    // protecting an area of your appliction and using a filter
+
+    Router::secure()->filter('/admin/{*}')->to('AdminRouter')->auth('admin','/login');
+
+
+</pre>
 
 
 

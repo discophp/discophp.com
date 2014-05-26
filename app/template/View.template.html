@@ -1,4 +1,4 @@
-<h1><a target='_blank' href='https://github.com/discophp/framework/blob/2.0/core/classes/View.core.php'>View Facade</a></h1>
+<h1><a target='_blank' href='https://github.com/discophp/framework/blob/master/core/classes/View.core.php'>View Facade</a></h1>
 
 <p>Requests to web applications typically result in one of two types of responses:</p>
 <ul class='list'>
@@ -170,7 +170,7 @@ All html you push through this method will end up in the #body element.</p>
     View::headScriptSrc('/scripts/js.js');
 </pre>
 
-<p>Scripts added with this method will put put in the header of page, specifying that you don't want the page to be ready until those scripts are loaded.</p>
+<p>Scripts added with this method will put the script in the header of the page, specifying that you don't want the page to be ready until those scripts are loaded.</p>
 
 
 <hr>
@@ -331,12 +331,15 @@ Class StandardView extends Disco\classes\View {
 <p class='heading'>What if we want to set the header or footer of a view manually?</p>
 
 <pre class='prettyprint'>
+
     View::setHeader(Template::build('pageHeader'));
+
     //OR 
     View::setHeader('Here is some header text and markup');
 
     //now the footer
     View::setFooter(Template::build('pageFooter'));
+
 </pre>
 
 
@@ -354,7 +357,8 @@ Class StandardView extends Disco\classes\View {
     View::isAjax();
 </pre>
 
-<p>This will just echo out the contents of the html stack</p>
+<p>This will force the View to only echo out the contents of the html stack when its <span class='path'>printPage()</span> method is called. 
+Leaving behind all the script, css, header, body, and footer content.</p>
 
 <hr>
 
@@ -364,7 +368,7 @@ Class StandardView extends Disco\classes\View {
     View::json();
 </pre>
 
-<p>This will dump the html stack (it does not json_encode() it for you) and set the header Content-type to "application/json"</p>
+<p>This will set the header Content-type to "application/json" and subsequently call <span class='path'>View::isAjax()</span></p>
 
 
 
