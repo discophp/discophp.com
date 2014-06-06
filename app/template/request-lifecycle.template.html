@@ -9,23 +9,27 @@ See the <a href='http://github.com/discophp/project/blog/master/public/.htaccess
     <p class='command'>sudo a2enmod rewrite</p>
 </div>
 
-<ul>
+<ol>
 
-    <li>The first line in <span class='path'>public/index.php</span> is going to require the core Disco file <span class='path'>core/Disco.core.php</span></li>
+    <li>The first line in <span class='path'>public/index.php</span> is going to require the core Disco file 
+    <span class='path'><a target='_blank' href='http://github.com/discophp/framework/blob/master/core/Disco.core.php'>core/Disco.core.php</a></span></li>
     
-    <li>The core Disco file will then take care of setting up the environment configuration using the file <span class='path'>core/Prep.core.php</span></li>
+    <li>It is going to call a method on itself<span class='path'>Disco::assemble()</span> in which the necessary preprocessing is done to make the application ready for use</li>
+    <ul>
+        <p>Called within <span class='path'><i>::assemble()</i></span>:</p>
+        <li>Call <span class='path'>Disco::prep()</span> which handles loading your <a href='/docs/config'>applications configuration</a></li>
+        <li>Require composers <span class='path'>autoload.php</span> which handles our <a href='/docs/IoC-facades'>dependency injection</a></li>
+        <li>Call <span class='path'>Disco::registerDefaults()</span> to register the default <a href='/docs/IoC-facades'>Facades</a> with its the Disco container</li>
+        <li>If our application is in <span class='variable'><a href='/docs/config'>MAINTENANCE_MODE</a></span> then display the maintenance screen and exit the application immediatly</li>
+    </ul>
     
-    <li>Disco will then register the default <a href='/docs/IoC-facades'>Facades</a> with its container by calling the method <span class='path'>Disco::registerDefaults()</span></li>
-    
-    <li>Now our flow of control is back to <span class='path'>public/index.php</span></li>
-    
-    <li>All user written logic begins being processed</li>
-    
-    <li><a href='/docs/Router'>Routers</a> begin being processed to resolve a endpoint url with an action by means of a Closure or <a href='/docs/routing-guide'>Controller</a></li>
+    <li>Now our flow of control is back to <span class='path'>public/index.php</span> and all user written logic begins being processed</li>
 
-    <li>If no Router matched the requested URL then redirect the user to a <span class='path'>/404</span> page</li>
-    
-    <li>Finally <span class='path'>View::printPage();</span> is called and the View is printed</li>
+    <li>Lastly <span class='path'>Disco::tearDownApp()</span> is called to handle the necessary application post processing</p> 
+    <ul>
+        <li>Check that a Router did match the requested URI, <b>if not</b> then display the applications <span class='path'>/404</span> page</li>
+        <li><span class='path'>View::printPage()</span> is called and the View is printed</li>
+    </ul>
 
-</ul>
+</ol>
 

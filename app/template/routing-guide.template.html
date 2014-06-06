@@ -1,6 +1,6 @@
 <h1 class='mlarge-font'>Introducing Routers and Route Variables</h1>
 
-<p>Disco is RESTful routing centric and endpoints are achived by resolving a Router Facade</p>
+<p>Disco is RESTful routing centric and endpoints are achived by resolving the requested URI with a <a href='/docs/Router'>Router</a></p>
 
 <p class='heading'>Lets start with a simple example</p>
 
@@ -110,7 +110,7 @@ Class Profile {
     Router::get('/profile/{id}','Profile@printProfile')->where('id','[0-9]+');
 </pre>
 
-<p>This instructs the Router that upon a successful match it should instantiate a Profile class and call the function printProfile on it and pass it any matched variables</p>
+<p>This instructs the Router that upon a successful match it should resolve the Profile class from the container and call the function printProfile on it and pass it any matched variables</p>
 
 <hr>
 

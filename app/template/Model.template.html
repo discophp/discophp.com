@@ -80,6 +80,78 @@ They have two important variables that need to be defiend if you wish to work wi
 </ul>
 
 
+<hr>
+
+<p class='heading'>Working with a Model</p>
+
+<p>You can work with your Models in 2 ways:</p>
+
+<p class='heading'>1. Through the ModelFactory</p>
+
+<pre class='prettyprint'>
+
+    Model::m('Band')->select('name');
+
+</pre>
+
+<p class='heading'>2. Or as a <a href='/docs/IoC-facades'>Facade</a></p>
+
+<p>Start by creating your Facade class</p>
+
+<pre class='prettyprint'>
+
+    class Band extends Disco\classes\Facade {
+        
+        protected static function returnFacadeId(){
+            return 'Band';
+        }//returnFacadeId
+
+    }//Band
+
+</pre>
+
+
+<p>Now your BaseBand class</p>
+
+<pre class='prettyprint'>
+
+    class BaseBand {
+
+        public $table='band';
+        public $ids='band_id';
+
+    }//Band
+
+</pre>
+
+<p>Now register the Facade with the Disco Container</p>
+
+<pre class='prettyprint'>
+
+    Disco::make('Band',function(){
+        return new BaseBand();
+    });
+
+</pre>
+
+<p>Now use it!</p>
+
+<pre class='prettyprint'>
+
+    Band::select('name','genre')->where('genre','LIKE','%hip%')->limit(10);
+
+
+    while($row = Band::data()->fetch_assoc()){
+
+        var_dump($row);
+
+    }//while
+
+</pre>
+
+
+
+<hr>
 
 
 <h2>C<span class='crud-section'><small>(</small>R<small>ead)</small></span>UD of the ORM</h2>

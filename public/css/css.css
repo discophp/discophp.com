@@ -44,7 +44,7 @@ font-size:30px !important;
 font-size:32px;
 }
 .mlarge-font {
-font-size:28px;
+font-size:28px !important;
 }
 .medium-font {
 font-size:22px;
@@ -61,17 +61,22 @@ padding:2px 0px;
 .logo-header div {
 display:inline-block;
 }
-.logo-header h1 {
-margin:0 !important;
-line-height:45px !important;
-color:#FFF !important;
+
+.logo-header .name {
+font-family: 'Gafata' !important;
+font-size: 30px !important;
+color:#FFF;
+margin:4px 0px 0px 4px;
+width:auto;
+padding:8px 4px 4px 4px;
+float:left;
 }
 .logo-header img {
 margin-left:15px;
 width:auto;
 height:50px;
-display:inline-block;
-padding-bottom:16px;
+float:left;
+padding:4px;
 }
 
 
@@ -434,7 +439,6 @@ display:none;
 .right-bracket {
 display:none;
 }
-
 
 .homepage-quote .quote span {
 font-size:2em;

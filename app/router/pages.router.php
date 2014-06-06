@@ -23,6 +23,20 @@ Router::get('/docs',function(){
 
 });
 
+Router::get('/docs/addon/directory',function(){
+    View::title('Addon Directory - Disco PHP Framework');
+    View::desc('Listing of addons available with the Disco PHP Framework.');
+    $html='';
+    DB::query('SELECT name,git_link FROM ADDON');
+    while($row = DB::last()->fetch_assoc()){
+        $html.=Template::build('addon/addon',$row); 
+    }//while
+
+    $html = '<h1>Addon Directory</h1>'.$html;
+
+    Template::with('docsBasePage',Array('content'=>$html));
+});
+
 Router::get('/docs/{pageName}',function($pageName){
 
         $titles = Array(
@@ -44,7 +58,8 @@ Router::get('/docs/{pageName}',function($pageName){
             'Session'=>'Session Facade - Disco PHP Framework',
             'Template'=>'Template Facade - Disco PHP Framework',
             'Util'=>'Util Facade - Disco PHP Framework',
-            'View'=>'View Facade - Disco PHP Framework'
+            'View'=>'View Facade - Disco PHP Framework',
+            'Addons'=>'Addons - Disco PHP Framework'
         );
 
         if(isset($titles[$pageName])){

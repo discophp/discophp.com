@@ -1,4 +1,8 @@
 <div class='row collapse'>
+    <div class='docs-content small-12 medium-10 columns right'>
+        {{@inPageStickyNav}}
+        {{$content}}
+    </div>
     <div class='docs-menu small-12 medium-2 columns'>
         <ul class='side-nav'>
             <li class='divide'>Getting Started</li>
@@ -10,11 +14,6 @@
                 <li><a href='/docs/routing-guide'>Routing & Controllers</a></li>
                 <li><a href='/docs/template-guide'>Views & Templates</a></li>
                 <li><a href='/docs/IoC-facades'>IoC & Facades</a></li>
-            </div>
-
-            <li class='divide'>Command Line Interface</li>
-            <div class='menu-wrap'>
-                <li><a href='/docs/CLI'>CLI</a></li>
             </div>
 
             <li class='divide'>Core</li>
@@ -39,10 +38,18 @@
                 <li><a href='/docs/View'>View</a></li>
             </div>
 
+            <li class='divide'>Extra</li>
+            <div class='menu-wrap'>
+                <li><a href='/docs/CLI'>Command Line Interface</a></li>
+            </div>
+
+            <li class='divide'>Addons</li>
+            <div class='menu-wrap'>
+                <li><a href='/docs/Addons'>How To</a></li>
+                <li><a href='/docs/addon/directory'>Directory</a></li>
+            </div>
+
+
         </ul>
-    </div>
-    <div class='docs-content small-12 medium-10 columns'>
-        {{@inPageStickyNav}}
-        {{$content}}
     </div>
 </div>

@@ -22,6 +22,23 @@
 <hr>
 <br>
 
+
+<p class='heading'>Putting Your Application into <span class='variable'>MAINTENANCE_MODE</a></p>
+
+<p>When your application is in maintenance mode all requests made to it will display the result of the Closure function stored in <a href='http://github.com/discophp/project/blob/master/app/maintenance.php' target='_blank'>app/maintenance.php</a>
+on every page and none of your applications logic will be called.</p>
+
+<p class='command'>php disco maintenance-mode [YES|NO]</p>
+
+<p>Or to check which mode your application is currently in</p>
+
+<p class='command'>php disco maintenance-mode</p>
+
+<br>
+<hr>
+<br>
+
+
 <p class='heading'>View Queued Jobs</p>
 
 <p class='command'>php disco jobs</p>

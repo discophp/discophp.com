@@ -4,7 +4,15 @@
 
 <p>
 Inversion of Control or IoC for short, is an Object Oriented programming technique in which essentially empty objects act as STATIC access points for instances of objects of importance. 
-These essentially empty objects are called Facades, and the objects of importance we will refer to as Base objects. A “container” under IoC principle is an object who's duty it is to invisibly manage and resolve Base objects to their Facade counter-parts (The <span class='path'>Disco</span> object serves as our applications primary “container”). Facades are registered with the application container and contain instructions on what Base object they represent. When a Facade is used for the first time the Base object it represents becomes instantiated and its state is stored and kept internally in the container for future uses within the applications life-cycle. Each time that Facade is accessed it will provide access to the same instance of the underlying Base class.
+These essentially empty objects are called Facades, and the objects of importance we will refer to as Base objects. A “container” under IoC principle is an object who's duty it is to:
+</p>
+<ul>
+    <li>Invisibly manage and resolve Base objects to their Facade counter-parts</li>
+    <li>Provide access to singleton instances of objects</li>
+    <li>Factory style creation of objects</li>
+</ul>
+
+<p>The <span class='path'>Disco</span> object serves as our applications primary “container”. Facades are registered with the application container and contain instructions on what Base object they represent. When a Facade is used for the first time the Base object it represents becomes instantiated and its state is stored and kept internally in the container for future uses within the applications life-cycle. Each time that Facade is accessed it will provide access to the same instance of the underlying Base class.
 </p>
 
 <p>IoC techniques are typically used in combination with some sort of Dependency Injection. In Discos case we use Composers <span class='path'>autoload.php</span> script to handle our Dependency Injection.</p>
@@ -16,8 +24,6 @@ These essentially empty objects are called Facades, and the objects of importanc
     <li>We can statically access our Base objects from anywhere in our applications logic</li>
     <li>We can swap underlying Base objects of the Facade to change/extend functionality on the fly without any changes to code or object accessors</li>
 </ul>
-
-</p>
 
 <p class='heading'>Whats Dependency Injection?</p>
 
@@ -31,6 +37,9 @@ because you will never be loading more than is absolutly necessary on each reque
 
 <p>Well if you have read through any of the documentation you have been using the IoC technique and Facades already!</p>
 
+
+
+
 <p class='heading'>What is a Facade</p>
 
 
@@ -43,6 +52,29 @@ because you will never be loading more than is absolutly necessary on each reque
 <p>This actually applies to software as well!</p>
 
 <p><u>A Facade is simply a class that will serve as a front for another class.</u></p>
+
+<hr>
+
+<p class='heading mlarge-font'>Before we discuss building facades... Using Objects that aren't Facades with the container</p>
+
+<p class='heading'>Using the container to handle Objects as Singletons</p>
+
+<pre class='prettyprint'>
+    Disco::with('YourClass')->yourMethod($arg);
+</pre>
+
+<p class='heading'>Factory style Object access through the container</p>
+
+<pre class='prettyprint'>
+    $class = Disco::factory('YourClass');
+    $class->method();
+    $class = Disco::factory('YourClass');
+    $class->method();
+</pre>
+
+
+<hr>
+
 
 <h2>The 3 pieces that go into creating a Facade</h2>
 
