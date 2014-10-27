@@ -88,6 +88,31 @@ that comes with Disco <span class='path'>/scripts/js.js</span>
 </p>
 
 
+<p>You can change default markup the holds the #header,#body, and #footer with your own</p>
+<b>example:</b>
+<pre class='prettyprint'>
+    View::setBodyTemplate(
+    "
+        &lt;div class='header'&gt;%1\$s&lt;/div&gt;
+        &lt;div class='body'&gt;%2\$s&lt;/div&gt;
+        &lt;div class='footer'&gt;%3\$s&lt;/div&gt;
+    "
+    );
+</pre>
+
+<p>Or set the default seo body template</p>
+<pre class='prettyprint'>
+    View::setSeoBodyTemplate(
+    "
+        &lt;div class='body'&gt;%1\$s&lt;/div&gt;
+        &lt;div class='header'&gt;%2\$s&lt;/div&gt;
+        &lt;div class='footer'&gt;%3\$s&lt;/div&gt;
+    "
+    );
+</pre>
+
+
+
 <a name='view-basics'></a>
 <h2 data-magellan-destination='view-basics'>View Basics</h2>
 
@@ -382,7 +407,7 @@ All the possible values of this meta tag are list below along with the correspon
 </p>
 
 <ul class='list'>
-    <li>index,follow <span>- default value</span></li>
+    <li>index,follow <span>- <span class='path'>View::index()</span>   (default value)</span></li>
     <li>noindex,nofollow - <span class='path'>View::noIndex()</span></li>
     <li>index,nofollow - <span class='path'>View::indexNoFollow()</span></li>
     <li>noindex,follow - <span class='path'>View::noIndexFollow()</span></li>

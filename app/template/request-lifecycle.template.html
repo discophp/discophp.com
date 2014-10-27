@@ -11,15 +11,13 @@ See the <a href='http://github.com/discophp/project/blog/master/public/.htaccess
 
 <ol>
 
-    <li>The first line in <span class='path'>public/index.php</span> is going to require the core Disco file 
-    <span class='path'><a target='_blank' href='http://github.com/discophp/framework/blob/master/core/Disco.core.php'>core/Disco.core.php</a></span></li>
+    <li>The first line in <span class='path'>public/index.php</span> is going to require the the composer autoloader</li>
     
-    <li>It is going to call a method on itself<span class='path'>Disco::assemble()</span> in which the necessary preprocessing is done to make the application ready for use</li>
+    <li>We then construct a new Disco at which point the necessary preprocessing is done to make the application ready for use</li>
     <ul>
-        <p>Called within <span class='path'><i>::assemble()</i></span>:</p>
-        <li>Call <span class='path'>Disco::prep()</span> which handles loading your <a href='/docs/config'>applications configuration</a></li>
-        <li>Require composers <span class='path'>autoload.php</span> which handles our <a href='/docs/IoC-facades'>dependency injection</a></li>
-        <li>Call <span class='path'>Disco::registerDefaults()</span> to register the default <a href='/docs/IoC-facades'>Facades</a> with its the Disco container</li>
+        <p>Called within <span class='path'><i>__construct()</i></span>:</p>
+        <li>Call <span class='path'>prep()</span> which handles loading your <a href='/docs/config'>applications configuration</a></li>
+        <li>Call <span class='path'>facades()</span> to register the default <a href='/docs/IoC-facades'>Facades</a> with the Disco container</li>
         <li>If our application is in <span class='variable'><a href='/docs/config'>MAINTENANCE_MODE</a></span> then display the maintenance screen and exit the application immediatly</li>
     </ul>
     

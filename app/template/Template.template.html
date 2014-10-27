@@ -26,8 +26,6 @@ example <span class='path'>Template::build('clothes/tshirt',$data);</span> where
 
 <p class='heading'>Templating Syntax</p>
 
-{{$empty}}
-
 <div class='row collapse'>
     <div class='small-4 columns'>
         <b><u>Syntax</u></b>
@@ -39,7 +37,7 @@ example <span class='path'>Template::build('clothes/tshirt',$data);</span> where
     <hr>
 
     <div class='small-4 columns'>
-        {{$variable}}
+        {{&#36;variable}}
     </div>
     <div class='small-8 columns'>
         A standard Variable
@@ -48,7 +46,7 @@ example <span class='path'>Template::build('clothes/tshirt',$data);</span> where
     <hr>
 
     <div class='small-4 columns'>
-        {{&$variable}}
+        {{&&#36;variable}}
     </div>
     <div class='small-8 columns'>
         A copy/duplicate of a variable
@@ -57,7 +55,7 @@ example <span class='path'>Template::build('clothes/tshirt',$data);</span> where
     <hr>
 
     <div class='small-4 columns'>
-        {{$variable}}{{else 'no value'}}
+        {{&#36;variable}}{{&#101;lse 'no value'}}
     </div>
     <div class='small-8 columns'>
         A default value if a variable doesn't exist
@@ -89,7 +87,11 @@ example <span class='path'>Template::build('clothes/tshirt',$data);</span> where
 
 <p class='heading'>Loading a template that has no variables into the View</p>
 <pre class='prettyprint'>
+    //push the template onto the Views html stac
     Template::with('index');
+
+    //return the template
+    $index = Template::build('index');
 </pre>
 
 <hr>
@@ -105,6 +107,7 @@ example <span class='path'>Template::build('clothes/tshirt',$data);</span> where
     $data = Array('message'=>'Hello World!');
 
     Template::with('welcomePage',$data);
+
 </pre>
 
 <hr>
@@ -219,6 +222,21 @@ If the passed <span class='variable'>$data</span> variable is an associative arr
 
 <p>Like magic we now have a table that has 3 rows</p>
 
+
+<h3>Building a Template From a model</h3>
+
+<p>You can build a template from a model that extends \Disco\classes\Model by passing its class name as the second arguement and the where condition as the third arguement.
+A ->select('*') will be performed on the model and the fields in your table will be available as variables inside the template with the exact name as they are in your database table.
+</p>
+
+<pre class='prettyprint'>
+    //the from method will push the template onto the Views html stack.
+    Template::from('dashboard','user',Array('id'=>Session::get('id')));
+
+    //the build_from method will return the template
+    $dashboard = Template::build_from('dashboard','user',Array('id'=>Session::get('id')));
+
+</pre>
 
 
 

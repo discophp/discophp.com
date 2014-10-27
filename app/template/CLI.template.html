@@ -118,15 +118,38 @@ on every page and none of your applications logic will be called.</p>
 <p class='heading'>Dynamically call a Facade or Class and method of your Application</p>
 
 <p>format</p>
-<p class='command'>php disco make [[object] [method] [var0] [var1]...]</p>
+<p class='command'>php disco with [[object] [method] [var0] [var1]...]</p>
 
 <p>Examples</p>
 
-<p class='command'>php disco make User profileData 3205</p>
+<p>Check out the information about a Models table</p>
+<p class='command'>php disco with SomeModel about</p>
+<p>Check out the columns of a Models table</p>
+<p class='command'>php disco with SomeModel columns</p>
+
+<p>Call some random methods</p>
+<p class='command'>php disco with User profileData 3205</p>
+
+<p class='command'>php disco with View header</p>
+
+<p class='command'>php disco with DB sp 'CALL user_data(?)' 3205</p>
+
+<br>
+<hr>
+<br>
+
+<p class='heading'>Creating models from your DB</p>
+<p>format</p>
+<p class='command'>php disco create model [table_name]</p>
+
+<p>This will not override a model that already exists</p>
+<p>You can use the keyword <span class='variable'>all</span> to create a model for all your tables.</p>
+<p class='command'>php disco create model all</p>
+
+<p>Example</p>
+
+<p class='command'>php disco create model products</p>
 
 
-<p class='command'>php disco make View header</p>
-
-<p class='command'>php disco make DB sp 'CALL user_data(?)' 3205</p>
 
 

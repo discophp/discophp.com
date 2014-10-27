@@ -1,47 +1,75 @@
-<h1>Inversion of Control and Facades</h1>
+<h1>Inversion of Control</h1>
 
 <p class='heading'>What is Inversion of Control?</p>
 
 <p>
-Inversion of Control or IoC for short, is an Object Oriented programming technique in which essentially empty objects act as STATIC access points for instances of objects of importance. 
-These essentially empty objects are called Facades, and the objects of importance we will refer to as Base objects. A “container” under IoC principle is an object who's duty it is to:
+Inversion of control is a software design principle in which class (service) construction is removed from the flow of control
+of the application and is handled internally by what is know as a "container". Disco extends and provides a wrapper around the 
+<a target='_blank' href='https://github.com/fabpot/Pimple'>Pimple Container</a>. Services registered in the container typically are 
+identified by a key and a value, with the key being how the service is accessed via the container and the value being what is to be 
+constructed or called. Standard services in the container will only be constructed once and that construction is deferred until the 
+service is first called. This means that if in the flow of control of the application we did not end up using a service, then it will
+never have been constructed. Factory services return a new instance of the service on every call. Protected services are treated as functions
+and will either always return a call to the Closure function specified in make, or a call to the magic method __call on your class.
+You can at any point in the application life cycle re-register or swap any of your services.
 </p>
-<ul>
-    <li>Invisibly manage and resolve Base objects to their Facade counter-parts</li>
-    <li>Provide access to singleton instances of objects</li>
-    <li>Factory style creation of objects</li>
-</ul>
 
-<p>The <span class='path'>Disco</span> object serves as our applications primary “container”. Facades are registered with the application container and contain instructions on what Base object they represent. When a Facade is used for the first time the Base object it represents becomes instantiated and its state is stored and kept internally in the container for future uses within the applications life-cycle. Each time that Facade is accessed it will provide access to the same instance of the underlying Base class.
-</p>
+<p class='heading'>Register services in the container</p>
 
-<p>IoC techniques are typically used in combination with some sort of Dependency Injection. In Discos case we use Composers <span class='path'>autoload.php</span> script to handle our Dependency Injection.</p>
+<pre class='prettyprint'>
+    Disco::make('service',function(){
+        return new class;
+    });
 
-<p class='heading'>This IoC paradigm provides us with some pretty powerful attributes:</p>
+    //OR
 
-<ul class='normal-list'>
-    <li>We never construct Base objects until they are absolutely needed</li>
-    <li>We can statically access our Base objects from anywhere in our applications logic</li>
-    <li>We can swap underlying Base objects of the Facade to change/extend functionality on the fly without any changes to code or object accessors</li>
-</ul>
+    Disco::make('service','namespace/class');
+</pre>
 
-<p class='heading'>Whats Dependency Injection?</p>
+<p class='heading'>Registering Factory services</p>
 
-<p>
-Dependency Injection ia a programming technique in which the applications needed objects are not known at run time.
-Simply put, dependency injection is the lazy loading of classes as they are requested through the flow of control of the application.
-Meaning that from here on out, you will never write another require statement for your classes again! This is awesome in that manner, and 
-because you will never be loading more than is absolutly necessary on each request to your application.</p>
+<pre class='prettyprint'>
+    Disco::as_factory('factory','factory');
+</pre>
 
-<p>So what does it mean for us?</p>
+<p class='heading'>Registering protected services</p>
 
-<p>Well if you have read through any of the documentation you have been using the IoC technique and Facades already!</p>
+<pre class='prettyprint'>
+    Disco::as_protected('rand',function(){
+        return rand();
+    });
+</pre>
 
 
+<h2>Work with a service from the container, even if its not registered</h2>
+
+<p>When you request a service from the container that has not been registered it is assumed that the key of the service 
+is also the service name and that class will be created in the container.</p>
+
+<pre class='prettyprint'>
+    Disco::with('class')->method($arg);
+</pre>
 
 
+<h2>Dependency Injection</h2>
+
+<p>When services are instianted from the container if their constructors specify other classes as parameters, Disco 
+will resolve those classes out of the container and pass their refrences to the constructor as arguements</p>
+
+<pre class='prettyprint'>
+    public function __construct(SomeClass $c1,SomeClass2 $c2){
+        $this->c1 = $c1;
+        $this->c2 = $c2;
+    }
+</pre>
+
+
+
+
+<h2>Facades</h2>
 <p class='heading'>What is a Facade</p>
 
+<p><u>A Facade is simply a class that will serve as a front or static access point for another class.</u></p>
 
 <div class='panel'>
     <i>Definition:</i>
@@ -51,30 +79,8 @@ because you will never be loading more than is absolutly necessary on each reque
 
 <p>This actually applies to software as well!</p>
 
-<p><u>A Facade is simply a class that will serve as a front for another class.</u></p>
 
 <hr>
-
-<p class='heading mlarge-font'>Before we discuss building facades... Using Objects that aren't Facades with the container</p>
-
-<p class='heading'>Using the container to handle Objects as Singletons</p>
-
-<pre class='prettyprint'>
-    Disco::with('YourClass')->yourMethod($arg);
-</pre>
-
-<p class='heading'>Factory style Object access through the container</p>
-
-<pre class='prettyprint'>
-    $class = Disco::factory('YourClass');
-    $class->method();
-    $class = Disco::factory('YourClass');
-    $class->method();
-</pre>
-
-
-<hr>
-
 
 <h2>The 3 pieces that go into creating a Facade</h2>
 
@@ -135,9 +141,7 @@ because you will never be loading more than is absolutly necessary on each reque
 
 <pre class='prettyprint'>
 
-    Disco::make('Sample',function(){
-        return new BaseSample();
-    });
+    Disco::make('Sample','BaseSample');
 
 </pre>
 
@@ -174,28 +178,6 @@ This is achieved using the <a target='_blank' href='http://php.net/manual/en/lan
 </p>
 
 <hr>
-
-<p class='heading'>Want to get a physical instance of the Facades underlying class?</p>
-
-<p>Use the <span class='path'>::instance()</span> method on the Facade</p>
-
-<pre class='prettyprint'>
-
-    $sample = Sample::instance();
-
-    $sample->printSample();
-
-</pre>
-
-<hr>
-
-<h3>Modeling How A Facade Functions</h3>
-
-<a href='/images/how-a-facade-works-in-software-and-the-disco-php-framework.png'>
-    <div class='text-center'>
-        <img src='/images/how-a-facade-works-in-software-and-the-disco-php-framework.png' title='Flow chart and diagram of how a facade works in software and the Disco PHP Framework'>
-    </div>
-</a>
 
 <div class='panel'>
 Do yourself a favor and go to the <a target='_blank' href='https://github.com/discophp/framework/blob/master/core/classes/Facade.core.php'>Facade class of Disco</a> and check out the internals.

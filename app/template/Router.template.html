@@ -1,11 +1,11 @@
 <h1><a target='_blank' href='https://github.com/discophp/framework/blob/master/core/classes/Router.core.php'>Router</a></h1>
 
-<p>The Router class is used to resolve a RESTful style endpoint to an action. This is the only other class in the Disco PHP Framework
-that isn't treated as a Facade. The Router class is actually a invisible factory with complete static access. It works like this, everytime you call a method chain to resolve
-a endpoint a new Disco\classes\Router instance is instantiated and used as the starting point for the method chain of the call.<br>
-<i>(Method Chaining is simply the calling of multiple methods in a single line of code execution. It can be achieved by returning $this from a function of a object.</i>
+<p>The Router class is used to resolve a RESTful style endpoint to an action. The router class is a factory service in the container. It works like this, everytime you call a method chain to resolve
+a endpoint a new Disco\classes\Router instance is instantiated and used as the starting point for the method chain of the call.
+<i>(Method Chaining is simply the calling of multiple methods in a single line of code execution. It can be achieved by returning $this from a function of a object.)</i>
+Once a router has matched the request the container will no longer return a factory service, but a standard service returning a 
+<a target='_blank' href='https://github.com/discophp/framework/blob/master/core/classes/MockBox.class.php'>MockBox</a> instance.
 </p>
-<a target='_blank' href='https://github.com/discophp/framework/blob/master/core/Router.core.php'>Check out the core Router class to get an understanding</a>
 
 <hr>
 

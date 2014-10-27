@@ -4,17 +4,15 @@
  * Load Disco 
  * The only require you must write
 */
-require_once('../vendor/discophp/framework/core/Disco.core.php');
+require(dirname(dirname(__FILE__)).'/vendor/autoload.php');
 
+$app = new Disco;
 
 
 /**
  * Swap the View Facade with a new instance 
 */
-Disco::make('View',function(){
-    return new Standard();
-});
-
+Disco::make('View','Standard');
 
 
 
@@ -42,11 +40,6 @@ View::headExtra("
   </script>
 ");
 
-/**
- * Print out our View
-*/
-View::printPage();
 
-
-
+Disco::tearDownApp();
 ?>

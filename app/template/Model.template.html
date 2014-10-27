@@ -6,7 +6,7 @@
 <p>Models live in the directory <span class='path'>app/model/</span> and use the naming convention <span class='path'>MyModel.model.php</span></p>
 
 
-<p class='heading'>Models may extend the BaseModel class to gain added functionality</p>
+<p class='heading'>Models may extend \Disco\classes\Model to gain added functionality</p>
 
 <p>By extending the BaseModel class you will have the ability to treat your Model as a ORM (Object-Relational Mapping) object</p>
 
@@ -80,11 +80,26 @@ They have two important variables that need to be defiend if you wish to work wi
 </ul>
 
 
+<p class='heading'>Creating Models via command line</p>
+
+<p>You can create models from your SQL tables through the Disco CLI</p>
+<p>The CLI will not overwrite existing model files</p>
+
+<pre class='prettyprint'>
+
+    php disco create model Table_Name
+
+    //OR YOU CAN CREATE A MODEL FOR ALL YOUR TABLES
+
+    php disco create model all
+
+</pre>
+
 <hr>
 
 <p class='heading'>Working with a Model</p>
 
-<p>You can work with your Models in 2 ways:</p>
+<p>You can work with your Models in 3 ways:</p>
 
 <p class='heading'>1. Through the ModelFactory</p>
 
@@ -94,7 +109,15 @@ They have two important variables that need to be defiend if you wish to work wi
 
 </pre>
 
-<p class='heading'>2. Or as a <a href='/docs/IoC-facades'>Facade</a></p>
+<p class='heading'>2. In the Disco container</p>
+
+<pre class='prettyprint'>
+
+    Disco::with('Band')->select('name');
+
+</pre>
+
+<p class='heading'>3. Or as a <a href='/docs/IoC-facades'>Facade</a></p>
 
 <p>Start by creating your Facade class</p>
 
@@ -161,6 +184,10 @@ They have two important variables that need to be defiend if you wish to work wi
 <pre class='prettyprint'>
 
     Model::m('Band')->select('name','genre','year_formed');
+    //OR
+    Model::m('Band')->select(Array('name','genre','year_formed'));
+    //OR
+    Model::m('Band')->select('name,genre,year_formed');
 
     while($row = Model::m('Band')->data()->fetch_assoc()){
         var_dump($row);
@@ -179,9 +206,11 @@ They have two important variables that need to be defiend if you wish to work wi
 <pre class='prettyprint'>
 
     Model::m('Band')
-        ->select('name','genre','year_formed')
-        ->where('genre','=','rock')
+        ->select('name,genre,year_formed')
+        ->where(Array('genre'=>'rock'))
         ->where('year_formed','&lt;',1990);
+        //OR
+        ->where('genre=? AND year_formed&lt;?',Array('rock',1990))
 
     while($row = Model::m('Band')->data()->fetch_assoc()){
         var_dump($row);
@@ -249,11 +278,18 @@ They have two important variables that need to be defiend if you wish to work wi
 </ul>
 
 
-<p>To successfully join two models togethor you must have set the <span class='variable'>$ids</span> for both models
+<p>To successfully join two models togethor without implicitly specifying a join condition you must have set the <span class='variable'>$ids</span> for both models
 and there must be a foreign key in the joined table that matches with the parent table</p>
 
-<p>If you require more complexity than this use the DB Facade and write the query yourself</p>
+<p class='heading'>Specifying what to join ON</p>
 
+<pre class='prettyprint'>
+    ->join('album AS a','a.band_id=5')
+    //OR
+    ->join('album AS a','a.album_name LIKE ? AND a.number_of_tracks>?',Array('%wind%',5))
+    //OR
+    ->join('album AS a','a.album_id=25')
+</pre>
 
 
 <h2><span class='crud-section'><small>(</small>C<small>reate)</small></span>RUD of the ORM</h2>
@@ -290,7 +326,9 @@ and there must be a foreign key in the joined table that matches with the parent
 
     Model::m('Album')
         ->update('number_of_tracks',12)
-        ->where('album_id','=',15)
+        //OR
+        ->update(Array('number_of_tracks'=>12))
+        ->where(Array('album_id'=>15))
         ->finalize();
 
 
@@ -311,6 +349,8 @@ and there must be a foreign key in the joined table that matches with the parent
 
     Model::m('Album')
         ->delete('album_id','=',15);
+        //OR
+        ->delete(Array('album_id'=>15));
 
 </pre>
 
@@ -323,9 +363,9 @@ and there must be a foreign key in the joined table that matches with the parent
 <pre class='prettyprint'>
 
     Model::m('Band')
-        ->select('name','genre','album_name','release_date')
+        ->select('name,genre,album_name,release_date')
         ->join('Album')
-        ->where('genre','=','bluegrass')
+        ->where(Array('genre'=>'bluegrass'))
         ->order('release_date','DESC')
         ->limit(5);
 
@@ -356,14 +396,11 @@ When using Disco your Models do not have to extend the BaseModel if you do not w
 
         public function profileData(){
 
-            DB::query('
-                SELECT name,birthday,profile_photo,create_date 
-                FROM user 
-                WHERE user_id=?',
-                Session::get('user_id')
-            );
+            $fields = Array('name','birthday','profile_photo','create_date');
 
-            return DB::last()->fetch_assoc();
+            return $this->select($fields)
+                ->where('user_id=?',Session::get('user_id'))
+                ->data()->fetch_assoc();
 
         }//profileData
 
@@ -379,17 +416,11 @@ When using Disco your Models do not have to extend the BaseModel if you do not w
 
     Router::get('/dashboard',function(){
 
-        if(Session::has('user_id')){
+        $data = Model::m('UserModel')->profileData();
 
-            $data = Model::m('UserModel')->profileData();
+        Template::with('userDashboard',$data);
 
-            Template::with('userDashboard',$data);
-
-        }//if
-        else 
-            header('Location:/');
-
-    });
+    })->auth('user_id','/');
 
 </pre>
 

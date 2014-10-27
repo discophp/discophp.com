@@ -87,12 +87,22 @@ This should be familiar as this is like a prepared statment.</p>
 
 </pre>
 
+<p class='heading'>Setting a raw variable (MySQL function or unescaped value)</p>
+
+<p>The "raw" key is reserved for specifying that the value should not be altered in anyway before being bound into the query.</p>
+
+<pre class='prettyprint'>
+
+    DB::query('SELECT ? FROM user',Array('raw'=>'COUNT(*)'));
+
+</pre>
+
 
 <hr>
 
 <h2>Stored Procedures</h2>
 
-<p>We treat stored procedures a little bit differntly than a typical query in that a stored procedure returns an array of associative keyed results rather than an actual ResultSet object</p>
+<p>We treat stored procedures a little bit differntly than a typical query in that a stored procedure returns an array of associative keyed results rather than an actual mysqli_resultset object</p>
 
 <p class='heading'>Example</p>
 
