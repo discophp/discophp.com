@@ -87,7 +87,7 @@ example <span class='path'>Template::build('clothes/tshirt',$data);</span> where
 
 <p class='heading'>Loading a template that has no variables into the View</p>
 <pre class='prettyprint'>
-    //push the template onto the Views html stac
+    //push the template onto the Views html stack
     Template::with('index');
 
     //return the template
@@ -223,7 +223,22 @@ If the passed <span class='variable'>$data</span> variable is an associative arr
 <p>Like magic we now have a table that has 3 rows</p>
 
 
-<h3>Building a Template From a model</h3>
+<h3>Treat a Dynamic String as a Template</h3>
+
+<p>You can use the <span class='path'>live($string,$data)</span> method to create a template to be rendered on the fly.</p>
+
+<pre class='prettyprint'>
+    $t = "&lt;h1&gt;{{$heading}}&lt;/h1&gt; {{&#64;other-template}}";
+
+    //push the rendered template onto the Views html stack
+    Template::live($t,Array('heading'=>'Hello!'));
+
+    //return the rendered template 
+    $t = Template::buildLive($t,Array('heading'=>'Hello!'));
+</pre>
+
+
+<h3>Building a Template From a Model</h3>
 
 <p>You can build a template from a model that extends \Disco\classes\Model by passing its class name as the second arguement and the where condition as the third arguement.
 A ->select('*') will be performed on the model and the fields in your table will be available as variables inside the template with the exact name as they are in your database table.
@@ -234,7 +249,7 @@ A ->select('*') will be performed on the model and the fields in your table will
     Template::from('dashboard','user',Array('id'=>Session::get('id')));
 
     //the build_from method will return the template
-    $dashboard = Template::build_from('dashboard','user',Array('id'=>Session::get('id')));
+    $dashboard = Template::buildFrom('dashboard','user',Array('id'=>Session::get('id')));
 
 </pre>
 
