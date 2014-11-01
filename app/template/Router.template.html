@@ -1,6 +1,6 @@
 <h1><a target='_blank' href='https://github.com/discophp/framework/blob/master/core/classes/Router.core.php'>Router</a></h1>
 
-<p>The Router class is used to resolve a RESTful style endpoint to an action. The router class is a factory service in the container. It works like this, everytime you call a method chain to resolve
+<p>The Router class is used to resolve a RESTful style endpoint to an action. The action is either a Closure function, or a Controller/Method combination. The router class is a factory service in the container. It works like this, everytime you call a method chain to resolve
 a endpoint a new Disco\classes\Router instance is instantiated and used as the starting point for the method chain of the call.
 <i>(Method Chaining is simply the calling of multiple methods in a single line of code execution. It can be achieved by returning $this from a function of a object.)</i>
 Once a router has matched the request the container will no longer return a factory service, but a standard service returning a 
@@ -96,7 +96,6 @@ Once a router has matched the request the container will no longer return a fact
 
 
 <hr>
-
 
 
 <h2>Variables</h2>
@@ -260,6 +259,27 @@ Class Profile {
 
 
 <hr>
+
+
+<p class='heading'>Un-matching the Router</p>
+
+<p>Even though a router matched the incoming URI you may occasionally want to speicify that it actually didn't. Say if a certain product failed to exist from the variable that was in the URI.</p>
+<p>By returning <span class='variable'>false</span> from your Closure or controller method you can unmatch the route, most likely causing a 404, unless of course another router matches.</p>
+
+<pre class='prettyprint'>
+    Router::('/bad-page',function(){
+        return false;
+    });
+
+
+    //You can also force a no match like this
+    Router::routeMatch(false);
+
+</pre>
+
+
+<hr>
+
 
 <h5 class='mlarge-font'>Router as a Filter</h5>
 

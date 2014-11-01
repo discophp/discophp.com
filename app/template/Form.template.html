@@ -166,6 +166,29 @@ Finally we build the form by calling the <span class='path'>make()</span> method
         ->submitButton("&lt;div class='some-action button'&gt;Update It!&lt;/div&gt;");
 </pre>
 
+
+<br>
+
+<p class='heading'><span class='path'>withToken()</span> Method</p>
+
+<p>You can add CSRF tokens to your forms by calling the <span class='path'>withToken()</span> method. The token is added as a hidden input element in your form, named <span class='variable'>disco-csrf-token</span>.
+ When posting with a token the incoming token will be cross checked against the token stored in the session.</p>
+
+<pre class='prettyprint'>
+    
+    Form::withToken();
+
+    //Or you can retrieve the token 
+    $token = Form::token();
+
+    //If you want to do a token comparision yourself
+    $vt = Form::validToken( $token );
+
+
+</pre>
+
+
+
 <br>
 <hr>
 
