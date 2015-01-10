@@ -113,7 +113,7 @@ They have two important variables that need to be defiend if you wish to work wi
 
 <pre class='prettyprint'>
 
-    Disco::with('Band')->select('name');
+    App::with('Band')->select('name');
 
 </pre>
 
@@ -151,7 +151,7 @@ They have two important variables that need to be defiend if you wish to work wi
 
 <pre class='prettyprint'>
 
-    Disco::make('Band',function(){
+    App::make('Band',function(){
         return new BaseBand();
     });
 
@@ -208,7 +208,7 @@ They have two important variables that need to be defiend if you wish to work wi
     Model::m('Band')
         ->select('name,genre,year_formed')
         ->where(Array('genre'=>'rock'))
-        ->where('year_formed','&lt;',1990);
+        ->where('year_formed&lt;?',1990);
         //OR
         ->where('genre=? AND year_formed&lt;?',Array('rock',1990))
 
@@ -227,8 +227,8 @@ They have two important variables that need to be defiend if you wish to work wi
 
     Model::m('Band')
         ->select('name','genre','year_formed')
-        ->where('year_formed','=',1981)
-        ->otherwise('year_formed','=',1982);
+        ->where('year_formed=?',1981)
+        ->otherwise(Array('year_formed'=>1982));
 
     while($row = Model::m('Band')->data()->fetch_assoc()){
         var_dump($row);
@@ -243,8 +243,8 @@ They have two important variables that need to be defiend if you wish to work wi
 <pre class='prettyprint'>
 
     Model::m('Band')
-        ->select('name','genre','year_formed')
-        ->where('genre','=','downtempo')
+        ->select(Array('name','genre','year_formed'))
+        ->where('genre=?','downtempo')
         ->order('name','ASC')
         ->limit(5,5);
 
@@ -296,16 +296,6 @@ and there must be a foreign key in the joined table that matches with the parent
 
 <p class='heading'>Lets look at creating a record with the Model</p>
 
-<pre class='prettyprint'>
-
-    Model::m('Band')
-        ->insert('name','Bobbys Coleslaw','genre','southern-rock','year_formed',2006);
-
-</pre>
-
-<p>We just created a band record with a name of "Bobbys Coleslaw" and a genre of "southern-rock" and the year they formed 2006</p>
-
-<p>You could also pass an associative array</p>
 
 <pre class='prettyprint'>
 
@@ -316,6 +306,7 @@ and there must be a foreign key in the joined table that matches with the parent
 
 </pre>
 
+<p>We just created a band record with a name of "Bobbys Coleslaw" and a genre of "southern-rock" and the year they formed 2006</p>
 
 
 <h2>CR<span class='crud-section'><small>(</small>U<small>pdate)</small></span>D of the ORM</h2>
@@ -348,7 +339,7 @@ and there must be a foreign key in the joined table that matches with the parent
 <pre class='prettyprint'>
 
     Model::m('Album')
-        ->delete('album_id','=',15);
+        ->delete('album_id=?',15);
         //OR
         ->delete(Array('album_id'=>15));
 
@@ -392,7 +383,10 @@ When using Disco your Models do not have to extend the BaseModel if you do not w
 
 <pre class='prettyprint'>
 
-    Class UserModel {
+    Class UserModel extends \Disco\classes\Model {
+
+        public $table = 'user';
+        public $ids = 'user_id';
 
         public function profileData(){
 

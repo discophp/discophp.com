@@ -17,25 +17,25 @@ You can at any point in the application life cycle re-register or swap any of yo
 <p class='heading'>Register services in the container</p>
 
 <pre class='prettyprint'>
-    Disco::make('service',function(){
+    App::make('service',function(){
         return new class;
     });
 
     //OR
 
-    Disco::make('service','namespace/class');
+    App::make('service','namespace/class');
 </pre>
 
 <p class='heading'>Registering Factory services</p>
 
 <pre class='prettyprint'>
-    Disco::as_factory('factory','factory');
+    App::as_factory('factory','factory');
 </pre>
 
 <p class='heading'>Registering protected services</p>
 
 <pre class='prettyprint'>
-    Disco::as_protected('rand',function(){
+    App::as_protected('rand',function(){
         return rand();
     });
 </pre>
@@ -47,7 +47,7 @@ You can at any point in the application life cycle re-register or swap any of yo
 is also the service name and that class will be created in the container.</p>
 
 <pre class='prettyprint'>
-    Disco::with('class')->method($arg);
+    App::with('class')->method($arg);
 </pre>
 
 
@@ -69,7 +69,7 @@ will resolve those classes out of the container and pass their refrences to the 
 <h2>Facades</h2>
 <p class='heading'>What is a Facade</p>
 
-<p><u>A Facade is simply a class that will serve as a front or static access point for another class.</u></p>
+<p><u>A Facade is simply a service locater. It provides what appears to be static access to an instantiated service from within the container.</u></p>
 
 <div class='panel'>
     <i>Definition:</i>
@@ -141,17 +141,17 @@ will resolve those classes out of the container and pass their refrences to the 
 
 <pre class='prettyprint'>
 
-    Disco::make('Sample','BaseSample');
+    App::make('Sample','BaseSample');
 
 </pre>
 
-<p>The method <span class='path'>Disco::make()</span> simply registers an action to be performed when an object "Sample" is used for the first time. 
+<p>The method <span class='path'>App::make()</span> simply registers an action to be performed when an object "Sample" is used for the first time. 
 We want the action to be the return of an instantiation of the underlying class that the Facade will act as a front for. In this case we want to return
 a new "BaseSample" class.
 </p>
 <div class='panel notice'>
     <p>
-        The first parameter of <span class='path'>Disco::make()</span> must match the id you returned from your extended Facade class through the method 
+        The first parameter of <span class='path'>App::make()</span> must match the id you returned from your extended Facade class through the method 
         <span class='path'>returnFacadeId()</span>
     </p>
 </div>
@@ -180,7 +180,7 @@ This is achieved using the <a target='_blank' href='http://php.net/manual/en/lan
 <hr>
 
 <div class='panel'>
-Do yourself a favor and go to the <a target='_blank' href='https://github.com/discophp/framework/blob/master/core/classes/Facade.core.php'>Facade class of Disco</a> and check out the internals.
+Do yourself a favor and go to the <a target='_blank' href='https://github.com/discophp/framework/blob/master/core/classes/Facade.class.php'>Facade class of Disco</a> and check out the internals.
 </div>
 
 

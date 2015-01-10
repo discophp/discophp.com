@@ -1,7 +1,6 @@
 <h1><a target='_blank' href='https://github.com/discophp/framework/blob/master/core/classes/Data.core.php'>Data Facade</a></h1>
 
-<p>The Data Facade provides a convient wrapper around using HTTP GET, POST, PUT, and DELETE data. 
-It also provides the ability to sql escape any data you specify (Remember if you use the DB Facade and pass the query() or sp() methods data it will auto escape it).</p>
+<p>The Data Facade provides a convient wrapper around using HTTP GET, POST, PUT, and DELETE data.</p>
 
 <p>PHP comes out of the box with the two suberglobals <span class='variable'>$_POST</span> and <span class='variable'>$_GET</span>, it does not however, 
 provide the same superglobal access for what you would think would be <span class='variable'>$_PUT</span> and <span class='variable'>$_DELETE</span> data.
@@ -37,7 +36,7 @@ access through its methods.</p>
 <div class='panel'>
 <p>You can set your own regex conditions by calling:</p>
 <pre class='prettyprint'>
-    Disco::addCondition('numberAndDashes','^[0-9\-]+&');
+    App::addCondition('numberAndDashes','^[0-9\-]+&');
 </pre>
 <p>See the default list of conditions available on the <a href='/docs/Router'>router page</a></p>
 </div>
@@ -87,25 +86,3 @@ access through its methods.</p>
     Data::post()->remove('post-value-to-remove');
 
 </pre>
-
-
-<p class='heading'>Escaping a value</p>
-
-<pre class='prettyprint'>
-
-    $escaped = Data::escape()->post('someData');
-    
-</pre>
-
-
-<p class='heading'>Escaping with a condition</p>
-
-<pre class='prettyprint'>
-
-    $escaped = Data::escape()->post()->where('postVar','alpha');
-    
-</pre>
-
-
-
-

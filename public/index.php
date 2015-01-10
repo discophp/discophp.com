@@ -1,18 +1,16 @@
 <?php
-
 /**
  * Load Disco 
  * The only require you must write
 */
 require(dirname(dirname(__FILE__)).'/vendor/autoload.php');
 
-$app = new Disco;
-
+\Disco\classes\App::instance()->setUp();
 
 /**
  * Swap the View Facade with a new instance 
 */
-Disco::make('View','Standard');
+App::make('View','Standard');
 
 
 
@@ -41,5 +39,5 @@ View::headExtra("
 ");
 
 
-Disco::tearDownApp();
+App::tearDown();
 ?>

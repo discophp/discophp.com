@@ -51,6 +51,22 @@
 
 <hr>
 
+<p class='heading'>You can also specify routers in the <a href='http://github.com/discophp/project/blob/master/app/routes'><span class='path'>app/routes</span></a> file</p>
+
+<p>The routes file uses a very simple syntax:</p>
+
+<pre class='prettyprint'>
+GET     /               RootController@index
+POST    /               RootController@signin
+
+
+GET     /{user}/dashboard      DashboardController@index    where(user=>alpha)  auth(user|admin,/login)
+PUT     /{user}/dashboard      DashboardController@update   where(user=>alpha)  auth(user|admin,/login)
+</pre>
+
+<hr>
+
+
 <p class='heading'>Introducing Variables and Using the <span class='path'>where()</span> method to apply variable restrictions to the route</p>
 
 <pre class='prettyprint'>
@@ -148,6 +164,20 @@ Class Profile {
     // protecting an area of your appliction and using a filter
 
     Router::secure()->filter('/admin/{*}')->to('AdminRouter')->auth('admin','/login');
+
+
+</pre>
+
+<p class='heading'>You can also do filters in the <a href='http://github.com/discophp/project/blob/master/app/routes'><span class='path'>app/routes</span></a> file</p>
+
+<pre class='prettyprint'>
+
+[FILTER /user/{*} auth(user,/login)]
+
+    GET     /user/dashboard     UserController@dashboard
+    GET     /user/post/{id}     UserController@post         where(id=>integer)
+
+[/FILTER]
 
 
 </pre>

@@ -5,7 +5,7 @@ The library will be installed when you install Disco using composer.
 </p>
 
 <p class='panel notice'>
-You must configure your email settings in <span class='path'>.mail.config.php</span> to send emails
+You must configure your email settings in <a target='_blank' href='https://github.com/discophp/project/blob/master/.mail.config.php'><span class='path'>.mail.config.php</span></a> to send emails
 </p>
 
 <p class='heading'>Sample <span class='path'>.mail.config.php</span></p>
@@ -30,7 +30,10 @@ You must configure your email settings in <span class='path'>.mail.config.php</s
 
     $body = 'Hey there blah blah';
 
-    Email::send('johns-email',$toEmails,$subject,$body);
+    $success = Email::send('johns-email',$toEmails,$subject,$body);
+
+    if(!$success)
+        error_log('Email failed to send!');
 
 </pre>
 

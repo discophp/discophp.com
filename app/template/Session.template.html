@@ -2,12 +2,7 @@
 
 <p>The Session Facade provides an easy wrapper around using $_SESSION data</p>
 
-<p>The <span class='path'>__construct()</span> method of the Session Facade provides some important functionality:</p>
-
-<p>First it will check to see if the session has already seen a request and if not store the IP address of the user in the session variable <span class='variable'>$_SESSION['IP_REFER_CHECK']</span></p>
-
-<p>On subsequent requests the IP address will be double checked to make sure the session hasn't been hijacked.
-If its found to differ the application is going to redirect the user to a <span class='path'>/404</span> page.</p>
+<p>The <span class='path'>__construct()</span> method of the Session Facade will call session_start()</p>
 
 
 <div class='panel notice'>
@@ -55,6 +50,12 @@ If its found to differ the application is going to redirect the user to a <span 
 
 <pre class='prettyprint'>
     Session::remove('user_id');
+</pre>
+
+<p class='heading'>Determine if the session contains a key</p>
+
+<pre class='prettyprint'>
+    Session::in(Array('user','admin'));
 </pre>
 
 <p class='heading'>Regenerating a session ID</p>

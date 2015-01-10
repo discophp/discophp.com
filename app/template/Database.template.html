@@ -3,9 +3,9 @@
 <p>The DB Facade extends the <a target='_blank' href='http://php.net/manual/en/class.mysqli.php'>mysqli class</a></p>
 
 <div class='panel notice'>
-    <p>You must configure your Database settings in <span class='path'>.env.*.json</span> to work with the DB Facade</p>
+    <p>You must configure your Database settings in <a target='_blank' href='https://github.com/discophp/project/blob/master/.config.php'><span class='path'>.config.php</span></a> to work with the DB Facade</p>
     <br>
-    You must also have mysql installed and running on your server
+    <p>You must also have mysql installed and running on your server</p>
 </div>
 
 
@@ -161,15 +161,15 @@ This should be familiar as this is like a prepared statment.</p>
 </pre>
 
 <div class='panel notice'>
-    <p>You can set additional $_SERVER or $_ENV variables in your <span class='path'>.env.*.json</span> file for your extra Database connection and use them to construct your connection to the Database.</p>
+    <p>You can set additional config variables in your <a target='_blank' href='https://github.com/discophp/project/blob/master/.config.php'><span class='path'>.config.php</span></a> file for your extra Database connection and use them to construct your connection to the Database.</p>
     <p class='heading'>For Example</p>
         <pre class='prettyprint'>
 
     class BaseDevDB extends Disco\classes\DB {
 
         public function __construct(){
-
-            parent::__construct($_SERVER['DevDB_HOST'],$_SERVER['DevDB_USER'],$_SERVER['DevDB_PW'],$_SERVER['DevDB_DB']);
+            $config = \App::instance()->config;
+            parent::__construct($config['DevDB_HOST'],$config['DevDB_USER'],$config['DevDB_PW'],$config['DevDB_DB']);
 
         }//construct
 
@@ -184,7 +184,7 @@ This should be familiar as this is like a prepared statment.</p>
 
 <pre class='prettyprint'>
 
-    Disco::make('DevDB',function(){
+    App::make('DevDB',function(){
         return new BaseDevDB();
     });
 

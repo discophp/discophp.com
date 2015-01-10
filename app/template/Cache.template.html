@@ -11,7 +11,7 @@
         <br>
         sudo apt-get install memcached
     </p>
-    <p>You must also have configured your memcache host and port number in <span class='path'>.env.*.json</span> file</p>
+    <p>You must also have configured your memcache host and port number in <a target='_blank' href='https://github.com/discophp/project/blob/master/.config.php'><span class='path'>.config.php</span></a> file</p>
 </div>
 
 <p>We have extended two of the most used functions</p>
@@ -32,12 +32,11 @@ Cache::set('key','value');
 <pre class='prettyprint'>
     $visitor = Cache::get('last_visitor');
 
-    if($visitor){
-        View::html("last vistor was $visitor");
-    }//if
-    else {
+    if(!$visitor){
         Cache::set('last_visitor',$_SERVER['REMOTE_ADDR']);
-    }//el
+    }//if
+
+    View::html("last vistor was $visitor");
 
 </pre>
 

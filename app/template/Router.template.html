@@ -7,7 +7,55 @@ Once a router has matched the request the container will no longer return a fact
 <a target='_blank' href='https://github.com/discophp/framework/blob/master/core/classes/MockBox.class.php'>MockBox</a> instance.
 </p>
 
+<p class='heading'>As of v2.2 you can specify routes in the <a href='http://github.com/discophp/project/blob/master/app/routes'><span class='path'>app/routes</span></a> file</p>
+
+<p>It uses a super simple syntax and provides a ruby on rails-esque feel.</p>
+
+<p>Let's check it out:</p>
+
+<pre class='prettyprint'>
+
+
+GET     /              RootController@index
+POST    /              RootController@signin
+
+#pound sign will comment out the route
+#GET    /              RootController@index
+
+#Using s: will only match on HTTPS requests
+s:GET   /              SecureRoot@index
+
+GET     /{user}/dashboard      DashboardController@index    where(user=>alpha)  auth(user|admin,/login)
+PUT     /{user}/dashboard      DashboardController@update   where(user=>alpha)  auth(user|admin,/login)
+DELETE  /{user}/dashboard      DashboardController@delete   where(user=>alpha)  auth(user|admin,/login)
+
+</pre>
+
+<p>You can also do Filters:</p>
+
+<pre class='prettyprint'>
+
+[FILTER /project/{*} auth(user|admin) ]
+
+    GET     /project/{id}       Project@project     where(id=>integer)
+    PUT     /project/{id}       Project@update      where(id=>integer)
+
+[/FILTER]
+
+#or we can make it for HTTPS only by adding s:
+[FILTER s: /project/{*} auth(user|admin,/login) ]
+
+    GET     /project/{id}       Project@project     where(id=>integer)
+    PUT     /project/{id}       Project@update      where(id=>integer)
+
+[/FILTER]
+
+</pre>
+
+
 <hr>
+
+<p class='heading'>Standard in script method for Routing</p>
 
 <p>BTW; you can call any of the methods on the Router in any order you wish</p>
 
@@ -182,8 +230,8 @@ Once a router has matched the request the container will no longer return a fact
 <div class='panel'>
     <p>You can add your own matching conventions to the default list and they will be accesible through both the Router and Data Facades.</p>
     <pre class='prettyprint'>
-        Disco::addCondition('numbersAndDashes','^[0-9\-]+$');
-        Disco::addCondition('lclettersAndDashes','^[a-z\-]+$');
+        App::addCondition('numbersAndDashes','^[0-9\-]+$');
+        App::addCondition('lclettersAndDashes','^[a-z\-]+$');
     </pre>
 </div>
 

@@ -3,7 +3,7 @@
 <p>Here we will detail each piece of the applications request life-cycle in a step-wise process.</p>
 
 <p>First off, all requests in Disco are routed through <span class='path'>public/index.php</span>, unless there is a filename given with a matching file on the system to execute the request.
-See the <a href='http://github.com/discophp/project/blog/master/public/.htaccess'><span class='path'>.htaccess</span></a> file and check out the modrewrite rules.</p>
+See the <a href='http://github.com/discophp/project/blob/master/public/.htaccess'><span class='path'>.htaccess</span></a> file and check out the modrewrite rules.</p>
 <div class='notice panel'>
     <p>You must enable modrewrite if your using the Apache2 Server.</p>
     <p class='command'>sudo a2enmod rewrite</p>
@@ -13,17 +13,17 @@ See the <a href='http://github.com/discophp/project/blog/master/public/.htaccess
 
     <li>The first line in <span class='path'>public/index.php</span> is going to require the the composer autoloader</li>
     
-    <li>We then construct a new Disco at which point the necessary preprocessing is done to make the application ready for use</li>
+    <li>We then construct a new App at which point the necessary preprocessing is done to make the application ready for use</li>
     <ul>
-        <p>Called within <span class='path'><i>__construct()</i></span>:</p>
+        <p>Call <span class='path'>App::setUp()</span> to bootstrap the App:</p>
         <li>Call <span class='path'>prep()</span> which handles loading your <a href='/docs/config'>applications configuration</a></li>
-        <li>Call <span class='path'>facades()</span> to register the default <a href='/docs/IoC-facades'>Facades</a> with the Disco container</li>
+        <li>Call <span class='path'>services()</span> to register the default <a href='/docs/IoC-facades'>Facades</a> with the Disco container</li>
         <li>If our application is in <span class='variable'><a href='/docs/config'>MAINTENANCE_MODE</a></span> then display the maintenance screen and exit the application immediatly</li>
     </ul>
     
     <li>Now our flow of control is back to <span class='path'>public/index.php</span> and all user written logic begins being processed</li>
 
-    <li>Lastly <span class='path'>Disco::tearDownApp()</span> is called to handle the necessary application post processing</p> 
+    <li>Lastly <span class='path'>App::tearDown()</span> is called to handle the necessary application post processing. This is when routes in <a href='http://github.com/discophp/project/blob/master/app/routes'><span class='path'>app/routes</span></a></p> 
     <ul>
         <li>Check that a Router did match the requested URI, <b>if not</b> then display the applications <span class='path'>/404</span> page</li>
         <li><span class='path'>View::printPage()</span> is called and the View is printed</li>
