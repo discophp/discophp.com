@@ -2,7 +2,7 @@
 
 Router::get('/',function(){
 
-    Disco::make('View',function(){
+    App::make('View',function(){
         return new Index();
     });
     View::title('Disco PHP Framework - Inversion of Control, MVC, RESTful Routing');
