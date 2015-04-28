@@ -1,4 +1,22 @@
-<h1><a target='_blank' href='https://github.com/discophp/framework/blob/master/core/classes/Template.core.php'>Template Facade</a></h1>
+<?php
+
+/* Template.template.html */
+class __TwigTemplate_5fb2027bd4f005743bdca93dfcd35cc2cb6167a4d3b8b883c3d970b71825ba85 extends Twig_Template
+{
+    public function __construct(Twig_Environment $env)
+    {
+        parent::__construct($env);
+
+        $this->parent = false;
+
+        $this->blocks = array(
+        );
+    }
+
+    protected function doDisplay(array $context, array $blocks = array())
+    {
+        // line 1
+        echo "<h1><a target='_blank' href='https://github.com/discophp/framework/blob/master/core/classes/Template.core.php'>Template Facade</a></h1>
 
 <div class='panel warning'>
     <p>As of v2.3 the tDisco templating system has been removed and replaced with <a target='_blank' href='http://twig.sensiolabs.org'>Twig by Sensio Labs</a></p>
@@ -15,14 +33,14 @@ We came to the conclusion that it wouldn't make sense to pursue tDisco any longe
 
 <p class='heading'>How to render a twig template</p>
 <pre class='prettyprint'>
-    $renderedTemplate = Template::render('template.html',Array('variable'=>'value'));
+    \$renderedTemplate = Template::render('template.html',Array('variable'=>'value'));
 </pre>
 
 <p class='heading'>Where do we store templates?</p>
 <p>Templates are stored in <span class='path'>app/template/</span> and can use any naming convention you like.</p>
 
 <p>You can create sub-directorys in the template folder to better organize your templates. Accessing templates stored in sub-directorys is really simple for 
-example <span class='path'>Template::build('clothes/tshirt.html',$data);</span> where the template <span class='path'>tshirt.html</span> is stored in <span class='path'>app/template/clothes/</span></p>
+example <span class='path'>Template::build('clothes/tshirt.html',\$data);</span> where the template <span class='path'>tshirt.html</span> is stored in <span class='path'>app/template/clothes/</span></p>
 
 <p class='heading'>Specifing a default template extension</p>
 <p>It's redundant to have to declare the templates extension everytime you render one, ie <span class='path'>.html</span> after every template name.</p>
@@ -30,7 +48,7 @@ example <span class='path'>Template::build('clothes/tshirt.html',$data);</span> 
 <pre class='prettyprint'>
 //This is in .config.php
 
-"TEMPLATE_EXTENSION" => ".html"
+\"TEMPLATE_EXTENSION\" => \".html\"
 
 </pre>
 <pre class='prettyprint'>
@@ -55,16 +73,16 @@ Template::with('index');
     Template::with('index.html');
 
     //return the template
-    $index = Template::build('index.html');
+    \$index = Template::build('index.html');
 </pre>
 
 <hr>
 
 <p class='heading'>Loading a template that has variables into the View</p>
 <pre class='prettyprint'>
-    $data = Array('message'=>'Hello World!');
+    \$data = Array('message'=>'Hello World!');
 
-    Template::with('welcomePage.html',$data);
+    Template::with('welcomePage.html',\$data);
 
 </pre>
 
@@ -73,15 +91,15 @@ Template::with('index');
 <p class='heading'>Assign a Template to a variable</p>
 
 <pre class='prettyprint'>
-    $data = Array('message'=>'Hello World!');
+    \$data = Array('message'=>'Hello World!');
 
-    $template = Template::build('welcomePage.html',$data);
+    \$template = Template::build('welcomePage.html',\$data);
 </pre>
 
 
 <h3>Building a Template From a Model</h3>
 
-<p>You can build a template from a model that extends \Disco\classes\Model by passing its class name as the second arguement and the where condition as the third arguement.
+<p>You can build a template from a model that extends \\Disco\\classes\\Model by passing its class name as the second arguement and the where condition as the third arguement.
 A ->select('*') will be performed on the model and the fields in your table will be available as variables inside the template with the exact name as they are in your database table.
 </p>
 
@@ -90,7 +108,7 @@ A ->select('*') will be performed on the model and the fields in your table will
     Template::from('dashboard.html','user',Array('id'=>Session::get('id')));
 
     //the build_from method will return the template
-    $dashboard = Template::buildFrom('dashboard.html','user',Array('id'=>Session::get('id')));
+    \$dashboard = Template::buildFrom('dashboard.html','user',Array('id'=>Session::get('id')));
 
 </pre>
 
@@ -98,3 +116,16 @@ A ->select('*') will be performed on the model and the fields in your table will
 
 
 
+";
+    }
+
+    public function getTemplateName()
+    {
+        return "Template.template.html";
+    }
+
+    public function getDebugInfo()
+    {
+        return array (  19 => 1,);
+    }
+}

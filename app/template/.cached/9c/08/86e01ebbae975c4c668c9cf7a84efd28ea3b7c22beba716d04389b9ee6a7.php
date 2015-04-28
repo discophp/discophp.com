@@ -1,4 +1,22 @@
-<h1><a target='_blank' href='https://github.com/discophp/framework/blob/master/core/classes/View.core.php'>View Facade</a></h1>
+<?php
+
+/* View.template.html */
+class __TwigTemplate_9c0886e01ebbae975c4c668c9cf7a84efd28ea3b7c22beba716d04389b9ee6a7 extends Twig_Template
+{
+    public function __construct(Twig_Environment $env)
+    {
+        parent::__construct($env);
+
+        $this->parent = false;
+
+        $this->blocks = array(
+        );
+    }
+
+    protected function doDisplay(array $context, array $blocks = array())
+    {
+        // line 1
+        echo "<h1><a target='_blank' href='https://github.com/discophp/framework/blob/master/core/classes/View.core.php'>View Facade</a></h1>
 
 <p>Requests to web applications typically result in one of two types of responses:</p>
 <ul class='list'>
@@ -28,13 +46,13 @@ to accomplish the task of organizing and outputting the page.
             &lt;meta name='viewport' content='width=device-width, initial-scale=1.0' /&gt;
             &lt;title&gt;&#123;&#123; view.title &#125;&#125;&lt;/title&gt;
             &#123;% if view.description %&#125;
-            &lt;meta name='description' content="&#123;&#123; view.description &#125;&#125;"&gt;
+            &lt;meta name='description' content=\"&#123;&#123; view.description &#125;&#125;\"&gt;
             &#123;% endif %&#125;
     
             &lt;link type='image/x-icon' href='&#123;&#123; url(view.favIcon) &#125;&#125;' rel='shortcut icon'&gt;
     
             &#123;% for s in view.styleSrcs %&#125;
-            &lt;link rel='stylesheet' href='&#123;&#123; url(s.src) &#125;&#125;' type='text/css'&#123;% for p,a in s.props %&#125; &#123;&#123; p &#125;&#125;="&#123;&#123; a &#125;&#125;"&#123;% endfor %&#125; /&gt;
+            &lt;link rel='stylesheet' href='&#123;&#123; url(s.src) &#125;&#125;' type='text/css'&#123;% for p,a in s.props %&#125; &#123;&#123; p &#125;&#125;=\"&#123;&#123; a &#125;&#125;\"&#123;% endfor %&#125; /&gt;
             &#123;% endfor %&#125;
     
             &#123;% if view.styles %&#125;
@@ -42,7 +60,7 @@ to accomplish the task of organizing and outputting the page.
             &#123;% endif %&#125;
     
             &#123;% for s in view.headScriptSrcs %&#125;
-            &lt;script type='text/javascript' src='&#123;&#123; url(s.src) &#125;&#125;'&#123;% for p,a in s.props %&#125; &#123;&#123; p &#125;&#125;="&#123;&#123; a &#125;&#125;"&#123;% endfor %&#125;&gt;&lt;/script&gt;
+            &lt;script type='text/javascript' src='&#123;&#123; url(s.src) &#125;&#125;'&#123;% for p,a in s.props %&#125; &#123;&#123; p &#125;&#125;=\"&#123;&#123; a &#125;&#125;\"&#123;% endfor %&#125;&gt;&lt;/script&gt;
             &#123;% endfor %&#125;
     
             &#123;% if view.headExtra %&#125;
@@ -55,7 +73,7 @@ to accomplish the task of organizing and outputting the page.
             &#123;% block content %&#125;&#123;% endblock %&#125;
     
             &#123;% for s in view.scriptSrcs %&#125;
-            &lt;script type='text/javascript' src='&#123;&#123; url(s.src) &#125;&#125;'&#123;% for p,a in s.props %&#125; &#123;&#123; p &#125;&#125;="&#123;&#123; a &#125;&#125;"&#123;% endfor %&#125;&gt;&lt;/script&gt;
+            &lt;script type='text/javascript' src='&#123;&#123; url(s.src) &#125;&#125;'&#123;% for p,a in s.props %&#125; &#123;&#123; p &#125;&#125;=\"&#123;&#123; a &#125;&#125;\"&#123;% endfor %&#125;&gt;&lt;/script&gt;
             &#123;% endfor %&#125;
     
             &#123;% if view.scripts %&#125;
@@ -72,7 +90,7 @@ to accomplish the task of organizing and outputting the page.
 // app/template/_default.html
 
 
-&#123;% extends view.isAjax ? "_ajax_layout.html" : "_layout.html" %&#125;
+&#123;% extends view.isAjax ? \"_ajax_layout.html\" : \"_layout.html\" %&#125;
 
 &#123;% block content %&#125;
 
@@ -92,7 +110,7 @@ View::setBaseTemplate('shopping.html');
 <p>As you can see above the variable <span class='path'>view</span> is made available in both your <span class='path'>_layout.html</span> and <span class='path'>_default.html</span> templates. This variable contains all the data set by your extended view class as well as some sensible defaults.</p>
 <p>Here is whats made available in the view variable</p>
 <pre class='prettyprint'>
-private $view = Array(                                                                                              
+private \$view = Array(                                                                                              
          'title'             => '',
          'description'       => '',
          'charset'           => 'utf-8',
@@ -120,7 +138,7 @@ View::addViewVariable('customVar',Array('blue','green');
 </pre>
 
 <p class='heading'>Don't worry about mixed content types (SSL)</p>
-<p>Seen in the <span class='path'>_layout.html</span> template is a custom twig function <span class='path'>url()</span>, which handles making sure your urls are correct. It will make them https if the user is connected via SSL, and it will make sure resources requested outside of your domain will be prefex with "http://" so you dont have to</p>
+<p>Seen in the <span class='path'>_layout.html</span> template is a custom twig function <span class='path'>url()</span>, which handles making sure your urls are correct. It will make them https if the user is connected via SSL, and it will make sure resources requested outside of your domain will be prefex with \"http://\" so you dont have to</p>
 
 <hr>
 
@@ -178,7 +196,7 @@ All html you push through this method will end up in the #body element.</p>
 <p class='heading'>Putting JavaScript into the View</p>
 
 <pre class='prettyprint'>
-    View::script('alert("hi!");');
+    View::script('alert(\"hi!\");');
 </pre>
 
 <p>Scripts you add to the page will always be printed last, after the footer is printed.</p>
@@ -234,7 +252,7 @@ All html you push through this method will end up in the #body element.</p>
 
 <pre class='prettyprint'>
 
-    View::headExtra('&lt;script src="/js/js.js"&gt;&lt;/script&gt;');
+    View::headExtra('&lt;script src=\"/js/js.js\"&gt;&lt;/script&gt;');
 
 </pre>
 
@@ -297,14 +315,14 @@ All html you push through this method will end up in the #body element.</p>
 <a name='view-extend'></a>
 <h3 data-magellan-destination='view-extend'>Extending the View class</h3>
 
-<p>So how do we get our view to represent differing pages? We extend the Disco\classes\View class!</p>
+<p>So how do we get our view to represent differing pages? We extend the Disco\\classes\\View class!</p>
 
 
-<p class='heading'>This is the extended Disco\classes\View class being used to generate the Docs pages of this site</p>
+<p class='heading'>This is the extended Disco\\classes\\View class being used to generate the Docs pages of this site</p>
 
 <pre class='prettyprint'>
 
-Class StandardView extends Disco\classes\View {
+Class StandardView extends Disco\\classes\\View {
 
     public function header(){
         return Template::build('header');
@@ -312,16 +330,16 @@ Class StandardView extends Disco\classes\View {
 
     public function __construct(){
 
-        $this->scriptSrc('http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js');
-        $this->scriptSrc('/scripts/js.js');
-        $this->scriptSrc('/scripts/modernizr.js');
-        $this->scriptSrc('/scripts/foundation.min.js');
-        $this->scriptSrc('https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js');
+        \$this->scriptSrc('http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js');
+        \$this->scriptSrc('/scripts/js.js');
+        \$this->scriptSrc('/scripts/modernizr.js');
+        \$this->scriptSrc('/scripts/foundation.min.js');
+        \$this->scriptSrc('https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js');
 
-        $this->styleSrc('/css/foundation.min.css');
-        $this->styleSrc('/css/css.css');
+        \$this->styleSrc('/css/foundation.min.css');
+        \$this->styleSrc('/css/css.css');
 
-        $this->script('$(document).foundation();');
+        \$this->script('\$(document).foundation();');
 
     }//construct
 
@@ -333,7 +351,7 @@ Class StandardView extends Disco\classes\View {
 
 </pre>
 
-<p>A couple key things are happening in this extended Disco\classes\View class</p>
+<p>A couple key things are happening in this extended Disco\\classes\\View class</p>
 
 <p>First we are overriding the three methods <span class='path'>header()</span>,<span class='path'>__construct()</span> and <span class='path'>footer()</span></p>
 
@@ -404,7 +422,7 @@ Leaving behind all the script, css, header, body, and footer content.</p>
     View::json();
 </pre>
 
-<p>This will set the header Content-type to "application/json" and subsequently call <span class='path'>View::isAjax()</span></p>
+<p>This will set the header Content-type to \"application/json\" and subsequently call <span class='path'>View::isAjax()</span></p>
 
 
 
@@ -428,3 +446,16 @@ All the possible values of this meta tag are list below along with the correspon
 
 
 
+";
+    }
+
+    public function getTemplateName()
+    {
+        return "View.template.html";
+    }
+
+    public function getDebugInfo()
+    {
+        return array (  19 => 1,);
+    }
+}

@@ -1,0 +1,217 @@
+<?php
+
+/* IoC-facades.template.html */
+class __TwigTemplate_c1e9f53c3b55335096f2cd6ffb9a4b0e910603f705e6b1f2aeb87863afa5e335 extends Twig_Template
+{
+    public function __construct(Twig_Environment $env)
+    {
+        parent::__construct($env);
+
+        $this->parent = false;
+
+        $this->blocks = array(
+        );
+    }
+
+    protected function doDisplay(array $context, array $blocks = array())
+    {
+        // line 1
+        echo "<h1>Inversion of Control</h1>
+
+<p class='heading'>What is Inversion of Control?</p>
+
+<p>
+Inversion of control is a software design principle in which class (service) construction is removed from the flow of control
+of the application and is handled internally by what is know as a \"container\". Disco extends and provides a wrapper around the 
+<a target='_blank' href='https://github.com/fabpot/Pimple'>Pimple Container</a>. Services registered in the container typically are 
+identified by a key and a value, with the key being how the service is accessed via the container and the value being what is to be 
+constructed or called. Standard services in the container will only be constructed once and that construction is deferred until the 
+service is first called. This means that if in the flow of control of the application we did not end up using a service, then it will
+never have been constructed. Factory services return a new instance of the service on every call. Protected services are treated as functions
+and will either always return a call to the Closure function specified in make, or a call to the magic method __call on your class.
+You can at any point in the application life cycle re-register or swap any of your services.
+</p>
+
+<p class='heading'>Register services in the container</p>
+
+<pre class='prettyprint'>
+    App::make('service',function(){
+        return new class;
+    });
+
+    //OR
+
+    App::make('service','namespace/class');
+</pre>
+
+<p class='heading'>Registering Factory services</p>
+
+<pre class='prettyprint'>
+    App::as_factory('factory','factory');
+</pre>
+
+<p class='heading'>Registering protected services</p>
+
+<pre class='prettyprint'>
+    App::as_protected('rand',function(){
+        return rand();
+    });
+</pre>
+
+
+<h2>Work with a service from the container, even if its not registered</h2>
+
+<p>When you request a service from the container that has not been registered it is assumed that the key of the service 
+is also the service name and that class will be created in the container.</p>
+
+<pre class='prettyprint'>
+    App::with('class')->method(\$arg);
+</pre>
+
+
+<h2>Dependency Injection</h2>
+
+<p>When services are instianted from the container if their constructors specify other classes as parameters, Disco 
+will resolve those classes out of the container and pass their refrences to the constructor as arguements</p>
+
+<pre class='prettyprint'>
+    public function __construct(SomeClass \$c1,SomeClass2 \$c2){
+        \$this->c1 = \$c1;
+        \$this->c2 = \$c2;
+    }
+</pre>
+
+
+
+
+<h2>Facades</h2>
+<p class='heading'>What is a Facade</p>
+
+<p><u>A Facade is simply a service locater. It provides what appears to be static access to an instantiated service from within the container.</u></p>
+
+<div class='panel'>
+    <i>Definition:</i>
+    <p>- the face of a building, esp. the principal front that looks onto a street or open space.</br>
+    - an outward appearance that is maintained to conceal a less pleasant or creditable reality.</p>
+</div>
+
+<p>This actually applies to software as well!</p>
+
+
+<hr>
+
+<h2>The 3 pieces that go into creating a Facade</h2>
+
+<p>Seeing an example will really help you understand what a Facade is and how it functions, so lets dive in</p>
+
+<p class='heading'>1. Extending the Facade class</p>
+
+<pre class='prettyprint'>
+
+    class Sample extends Disco\\classes\\Facade {
+
+        protected static function returnFacadeId(){
+
+            return 'Sample';
+
+        }//returnFacadeId
+
+    }//Sample
+
+</pre>
+
+<p>Here we create a class called \"Sample\" that extends the class Facade (the Facade class is an internal Disco class).</p>
+<div class='panel notice'>
+<p>Every Facade you create must implement the method <span class='path'>protected static function returnFacadeId()</span> and you should return a unique string id from the function.</p>
+</div>
+
+
+<p class='heading'>2. Create the class that the Facade will serve as a front for</p>
+
+<pre class='prettyprint'>
+
+    class BaseSample {
+
+    \tprivate \$count=0;
+
+        public function printSample(){
+
+            \$this->count++;
+
+            View::html(\"You have called printSample {\$this->count} times\");
+
+        }//printSample
+
+        public function printTest(){
+
+            View::html('You called the printTest function!');
+
+        }//printTest
+
+    }//BaseSample
+
+</pre>
+
+<p>Now we have the class \"BaseSample\" that our Facade \"Sample\" is going act as a front for</p>
+
+
+<p class='heading'>3. Finally tell Disco to make the Facade</p>
+
+<pre class='prettyprint'>
+
+    App::make('Sample','BaseSample');
+
+</pre>
+
+<p>The method <span class='path'>App::make()</span> simply registers an action to be performed when an object \"Sample\" is used for the first time. 
+We want the action to be the return of an instantiation of the underlying class that the Facade will act as a front for. In this case we want to return
+a new \"BaseSample\" class.
+</p>
+<div class='panel notice'>
+    <p>
+        The first parameter of <span class='path'>App::make()</span> must match the id you returned from your extended Facade class through the method 
+        <span class='path'>returnFacadeId()</span>
+    </p>
+</div>
+
+<p class='heading'>Using it</p>
+
+<p>
+Registering a Facade and the actual instantiation of a Facade are not the same thing!
+Your underlying class will not be instantiated untill the first time the object is used. 
+So if it never gets used it will never be created.
+</p>
+
+<pre class='prettyprint'>
+
+    Sample::printTest();
+
+    Sample::printSample();
+
+</pre>
+
+<p>
+Notice that you access your object exactly by its class name and that all your methods are accessible using static method syntax.
+This is achieved using the <a target='_blank' href='http://php.net/manual/en/language.oop5.overloading.php#object.callstatic'>php magic method __callStatic()</a>.
+</p>
+
+<hr>
+
+<div class='panel'>
+Do yourself a favor and go to the <a target='_blank' href='https://github.com/discophp/framework/blob/master/core/classes/Facade.class.php'>Facade class of Disco</a> and check out the internals.
+</div>
+
+
+";
+    }
+
+    public function getTemplateName()
+    {
+        return "IoC-facades.template.html";
+    }
+
+    public function getDebugInfo()
+    {
+        return array (  19 => 1,);
+    }
+}

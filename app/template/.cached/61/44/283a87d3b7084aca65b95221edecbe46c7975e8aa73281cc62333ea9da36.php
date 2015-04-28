@@ -1,0 +1,112 @@
+<?php
+
+/* Session.template.html */
+class __TwigTemplate_6144283a87d3b7084aca65b95221edecbe46c7975e8aa73281cc62333ea9da36 extends Twig_Template
+{
+    public function __construct(Twig_Environment $env)
+    {
+        parent::__construct($env);
+
+        $this->parent = false;
+
+        $this->blocks = array(
+        );
+    }
+
+    protected function doDisplay(array $context, array $blocks = array())
+    {
+        // line 1
+        echo "<h1><a target='_blank' href='https://github.com/discophp/framework/blob/master/core/classes/Session.core.php'>Session Facade</a></h1>
+
+<p>The Session Facade provides an easy wrapper around using \$_SESSION data</p>
+
+<p>The <span class='path'>__construct()</span> method of the Session Facade will call session_start()</p>
+
+
+<div class='panel notice'>
+
+    <p>For security reasons when we load up the application some <span class='path'>php_ini</span> variables are going to be changed</p>
+
+    <pre class='prettyprint'>
+    ini_set('session.use_trans_sid',0);
+    </pre>
+
+    <pre class='prettyprint'>
+    ini_set('session.use_only_cookies',1);
+    </pre>
+
+</div>
+
+<hr>
+
+<h2>Basic usage</h2>
+
+<p class='heading'>Seeing if a variable is set</p>
+
+<pre class='prettyprint'>
+
+    if(Session::has('user_id'))
+        View::html('we have a user ID');
+    else 
+        View::html('no user');
+
+</pre>
+
+<p class='heading'>Getting a set variable</p>
+
+<pre class='prettyprint'>
+    View::html('logged in user has id: '.Session::get('user_id'));
+</pre>
+
+<p class='heading'>Setting a variable</p>
+
+<pre class='prettyprint'>
+    Session::set('user_id',500);
+</pre>
+
+<p class='heading'>Removing a variable</p>
+
+<pre class='prettyprint'>
+    Session::remove('user_id');
+</pre>
+
+<p class='heading'>Determine if the session contains a key</p>
+
+<pre class='prettyprint'>
+    Session::in(Array('user','admin'));
+</pre>
+
+<p class='heading'>Regenerating a session ID</p>
+
+<pre class='prettyprint'>
+    Session::regen();
+</pre>
+<div class='panel notice'>
+It is recommended that you call <span class='path'>Session::regen()</span> after each login of a user
+</div>
+
+<p class='heading'>Reset a session</p>
+
+<pre class='prettyprint'>
+    Session::reset();
+</pre>
+
+<p class='heading'>Flush/Clear/Wipe a session</p>
+
+<pre class='prettyprint'>
+    Session::flush();
+</pre>
+
+";
+    }
+
+    public function getTemplateName()
+    {
+        return "Session.template.html";
+    }
+
+    public function getDebugInfo()
+    {
+        return array (  19 => 1,);
+    }
+}

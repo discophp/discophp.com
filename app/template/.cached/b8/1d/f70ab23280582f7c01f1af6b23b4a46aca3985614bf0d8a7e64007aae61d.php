@@ -1,7 +1,30 @@
-<div class='row collapse'>
+<?php
+
+/* docsBasePage.template.html */
+class __TwigTemplate_b81df70ab23280582f7c01f1af6b23b4a46aca3985614bf0d8a7e64007aae61d extends Twig_Template
+{
+    public function __construct(Twig_Environment $env)
+    {
+        parent::__construct($env);
+
+        $this->parent = false;
+
+        $this->blocks = array(
+        );
+    }
+
+    protected function doDisplay(array $context, array $blocks = array())
+    {
+        // line 1
+        echo "<div class='row collapse'>
     <div class='docs-content small-12 medium-10 columns right'>
-        {% include("inPageStickyNav.template.html") %}
-        {{ content|raw }}
+        ";
+        // line 3
+        $this->loadTemplate("inPageStickyNav.template.html", "docsBasePage.template.html", 3)->display($context);
+        // line 4
+        echo "        ";
+        echo (isset($context["content"]) ? $context["content"] : null);
+        echo "
     </div>
     <div class='docs-menu small-12 medium-2 columns'>
         <ul class='side-nav'>
@@ -53,3 +76,21 @@
         </ul>
     </div>
 </div>
+";
+    }
+
+    public function getTemplateName()
+    {
+        return "docsBasePage.template.html";
+    }
+
+    public function isTraitable()
+    {
+        return false;
+    }
+
+    public function getDebugInfo()
+    {
+        return array (  25 => 4,  23 => 3,  19 => 1,);
+    }
+}

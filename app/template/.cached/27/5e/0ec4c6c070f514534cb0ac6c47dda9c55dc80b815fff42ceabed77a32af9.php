@@ -1,4 +1,22 @@
-<h1>Configuration</h1>
+<?php
+
+/* config.template.html */
+class __TwigTemplate_275e0ec4c6c070f514534cb0ac6c47dda9c55dc80b815fff42ceabed77a32af9 extends Twig_Template
+{
+    public function __construct(Twig_Environment $env)
+    {
+        parent::__construct($env);
+
+        $this->parent = false;
+
+        $this->blocks = array(
+        );
+    }
+
+    protected function doDisplay(array $context, array $blocks = array())
+    {
+        // line 1
+        echo "<h1>Configuration</h1>
 
 <p>There are 3 primary configuration files for Disco</p>
 <ul class='list'>
@@ -49,15 +67,15 @@ return Array(
 
 <p>Most of these should be pretty self-explanatory.</p>
 <ul class='list'>
-    <li>"URL" <span>- The URL of your project ( somesite.com/ || sub.localhost/ )</span></li>
-    <li>"TEMPLATE_EXTENSION" <span>- A default extension for your templates. Saves you from repeating yourself.</span></li>
-    <li>"APP_MODE" <span>- The mode your application is running ( DEV || PROD )</span></li>
-    <li>"MAINTENANCE_MODE" <span>- Whether or not your application is in MAINTENANCE_MODE ( YES || NO )</span></li>
-    <li>"COMPOSER_PATH" <span>- Installation directory of Composer</span></li>
-    <li>"DB_*" <span>- Set up your DB config options for MySQL.</span></li>
-    <li>"MEMCACHE_*" <span>- Set up your Memcache Host and Port</span></li>
-    <li>"AES_KEY256" <span>- This will be set to a 32 length value for you after install</span></li>
-    <li>"SHA512_SALT_*" <span>- This will be set to a 12 length value for you after install</span></li>
+    <li>\"URL\" <span>- The URL of your project ( somesite.com/ || sub.localhost/ )</span></li>
+    <li>\"TEMPLATE_EXTENSION\" <span>- A default extension for your templates. Saves you from repeating yourself.</span></li>
+    <li>\"APP_MODE\" <span>- The mode your application is running ( DEV || PROD )</span></li>
+    <li>\"MAINTENANCE_MODE\" <span>- Whether or not your application is in MAINTENANCE_MODE ( YES || NO )</span></li>
+    <li>\"COMPOSER_PATH\" <span>- Installation directory of Composer</span></li>
+    <li>\"DB_*\" <span>- Set up your DB config options for MySQL.</span></li>
+    <li>\"MEMCACHE_*\" <span>- Set up your Memcache Host and Port</span></li>
+    <li>\"AES_KEY256\" <span>- This will be set to a 32 length value for you after install</span></li>
+    <li>\"SHA512_SALT_*\" <span>- This will be set to a 12 length value for you after install</span></li>
 </ul>
 
 <div class='panel alert'>
@@ -125,9 +143,22 @@ return Array(
 <pre class='prettyprint'>
 
     location / {
-        try_files $uri $uri/ /index.php?$query_string;
+        try_files \$uri \$uri/ /index.php?\$query_string;
     }
 
 </pre>
 
 
+";
+    }
+
+    public function getTemplateName()
+    {
+        return "config.template.html";
+    }
+
+    public function getDebugInfo()
+    {
+        return array (  19 => 1,);
+    }
+}

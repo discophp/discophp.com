@@ -1,0 +1,130 @@
+<?php
+
+/* Email.template.html */
+class __TwigTemplate_5105490d66446b6bf9b463775c59a3ffc4aa0e43d7094e8d2d8c5f4b555756ea extends Twig_Template
+{
+    public function __construct(Twig_Environment $env)
+    {
+        parent::__construct($env);
+
+        $this->parent = false;
+
+        $this->blocks = array(
+        );
+    }
+
+    protected function doDisplay(array $context, array $blocks = array())
+    {
+        // line 1
+        echo "<h1><a target='_blank' href='https://github.com/discophp/framework/blob/master/core/classes/Email.core.php'>Email Facade</a></h1>
+
+<p>Disco uses the <a href='http://swiftmailer.org'>swiftmailer</a> library to handle email related tasks.
+The library will be installed when you install Disco using composer.
+</p>
+
+<p class='panel notice'>
+You must configure your email settings in <a target='_blank' href='https://github.com/discophp/project/blob/master/.mail.config.php'><span class='path'>.mail.config.php</span></a> to send emails
+</p>
+
+<p class='heading'>Sample <span class='path'>.mail.config.php</span></p>
+
+<img src='/images/mail-config-php.png'>
+
+<p>You can set which email server you wish to send through with the DEFAULT setting field but you may also switch in real time in the application using:</p>
+
+<ul class='list'>
+    <li>Email::useSSL();</li>
+    <li>Email::useTLS();</li>
+    <li>Email::useSMTP();</li>
+</ul>
+
+<p class='heading'>With these settings lets jump right into an example</p>
+
+<pre class='prettyprint'>
+
+    \$toEmails = Array('someone@gmail.com','someoneelse@gmail.com');
+
+    \$subject ='Hi!';
+
+    \$body = 'Hey there blah blah';
+
+    \$success = Email::send('johns-email',\$toEmails,\$subject,\$body);
+
+    if(!\$success)
+        error_log('Email failed to send!');
+
+</pre>
+
+<p>The first parameter is the account you wish to use to send through</p>
+<p>Then you may either pass an Array of accounts or a single string email address to send to</p>
+<p>Then comes your subject line and your body</p>
+
+<h2 class='large-font'>Including Attachments</h2>
+
+<p>You may need to attach a file or files to an email</p>
+
+<pre class='prettyprint'>
+
+    \$toEmails = Array('someone@gmail.com','someoneelse@gmail.com');
+
+    \$subject ='The last meetings file!';
+
+    \$body = 'Let me know if all looks good';
+
+    \$attach = Array('/tmp/meeting.docx','/tmp/meeting.wav');
+
+    Email::send('johns-email',\$toEmails,\$subject,\$body,\$attach);
+
+</pre>
+
+
+<h3 class='large-font'>Sending Emails in parallel to avoid lag in your applications response time</h3>
+
+<p>Often times when you need to send a dynamic email triggered by some user interaction with your application you encounter a lag. 
+Just use the <span class='path'>delay()</span> method prior to sending your email and your application will keep moving seemlessly.</p>
+
+<pre class='prettyprint'>
+    
+    // with a delay of 5 seconds
+    Email::delay(5)->send('johns-email',\$toEmail,\$subject,\$body);
+
+
+    // immediatly 
+    Email::delay(0)->send('johns-email',\$toEmail,\$subject,\$body);
+
+
+</pre>
+
+
+
+<h4 class='large-font'>Using a template with your Email</h4>
+
+<p>You want to leverage the ability to send beautiful HTML based emails so use a Template!</p>
+
+<p class='panel notice'>By default we send a plaintext email and an HTML based email</p>
+
+<pre class='prettyprint'>
+
+    \$toEmail = 'someone@gmail.com';
+
+    \$subject ='This months Deals!';
+
+    \$body = Template::build('emails/monthlyDeals',Array('to'=>\$toEmail));
+
+    Email::send('johnny@messingengine.com',\$toEmail,\$subject,\$body);
+
+</pre>
+
+";
+    }
+
+    public function getTemplateName()
+    {
+        return "Email.template.html";
+    }
+
+    public function getDebugInfo()
+    {
+        return array (  19 => 1,);
+    }
+}

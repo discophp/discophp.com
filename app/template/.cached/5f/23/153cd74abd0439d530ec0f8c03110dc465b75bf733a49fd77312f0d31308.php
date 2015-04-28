@@ -1,0 +1,148 @@
+<?php
+
+/* docsIndex.template.html */
+class __TwigTemplate_5f23153cd74abd0439d530ec0f8c03110dc465b75bf733a49fd77312f0d31308 extends Twig_Template
+{
+    public function __construct(Twig_Environment $env)
+    {
+        parent::__construct($env);
+
+        $this->parent = false;
+
+        $this->blocks = array(
+        );
+    }
+
+    protected function doDisplay(array $context, array $blocks = array())
+    {
+        // line 1
+        echo "
+<h1>Welcome to the Disco PHP Framework Documentation</h1>
+
+<p>
+You will be happy to hear that Disco uses <a href='http://getcomposer.org'>composer</a> for dependency management and installation.
+</p>
+
+<br>
+
+
+<div class='row collapse'>
+
+    <div class='text-center'>
+        <h2>Where to get started?</h2>
+    </div>
+
+    <div class='small-12 medium-4 columns'>
+        <a href='/docs/install'>
+            <div class='starting-step'>
+                <h3>Install</h3>
+                <p>Get Disco up and running</p>
+            </div>
+        </a>
+    </div>
+
+    <div class='small-12 medium-4 columns'>
+        <a href='/docs/config'>
+            <div class='starting-step'>
+                <h3>Configure</h3>
+                <p>Configure your local and development environments</p>
+            </div>
+        </a>
+    </div>
+
+    <div class='small-12 medium-4 columns'>
+        <a href='/docs/request-lifecycle'>
+            <div class='starting-step'>
+                <h3>Request Life-cycle</h3>
+                <p>Learn about the application flow of control</p>
+            </div>
+        </a>
+    </div>
+
+    <div class='small-12 medium-4 columns'>
+        <a href='/docs/IoC-facades'>
+            <div class='starting-step'>
+                <h3>Inversion of Control and Facades</h3>
+                <p>Then take a quick read of the core principles empowering Disco; </p>
+            </div>
+        </a>
+    </div>
+
+    <div class='small-12 medium-4 columns'>
+        <a href='/docs/routing-guide'>
+            <div class='starting-step'>
+                <h3>RESTfull Routing & Controllers</h3>
+                <p>Learn how to RESTfully route your application and pair routes with Controllers</p>
+            </div>
+        </a>
+    </div>
+
+    <div class='small-12 medium-4 columns'>
+        <a href='/docs/template-guide'>
+            <div class='starting-step'>
+                <h3>Views and Templates</h3>
+                <p>Learn how to use Views and templates in your application</p>
+            </div>
+        </a>
+    </div>
+
+
+
+</div>
+
+<br>
+<br>
+
+<div class='row collapse'>
+    <div class='text-center'>
+            <h4>Go Through The Discos Facades</h4>
+            <p>Go through each Facade and understand each ones uses and place in your application.</p>
+    </div>
+</div>
+
+<br>
+<br>
+
+<div class='row collapse'>
+    <div class='text-center'>
+            <h5>Check out the Command Line Interface</h5>
+            <p>See what you can do with your shell and the Disco PHP Framework</p>
+    </div>
+</div>
+
+<br>
+<br>
+
+<div class='row collapse'>
+    <div class='text-center'>
+            <h5>Check out the Classic \"To-Do List\" Application written with the Framework</h5>
+            <p><a href='https://github.com/discophp/to-do-list' target='_blank'>The To-Do List application on github</a></p>
+    </div>
+</div>
+
+<br>
+<br>
+
+
+
+<div class='text-center'>
+    <p class='heading'>Find a Bug?</p>
+    <a target='_blank' href='https://github.com/discophp/framework/issues/new'><div class='button tiny'>Open an Issue on github</div></a>
+</div>
+
+<br>
+
+
+";
+    }
+
+    public function getTemplateName()
+    {
+        return "docsIndex.template.html";
+    }
+
+    public function getDebugInfo()
+    {
+        return array (  19 => 1,);
+    }
+}

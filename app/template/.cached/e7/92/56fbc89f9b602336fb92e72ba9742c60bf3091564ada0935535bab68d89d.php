@@ -1,0 +1,240 @@
+<?php
+
+/* Database.template.html */
+class __TwigTemplate_e79256fbc89f9b602336fb92e72ba9742c60bf3091564ada0935535bab68d89d extends Twig_Template
+{
+    public function __construct(Twig_Environment $env)
+    {
+        parent::__construct($env);
+
+        $this->parent = false;
+
+        $this->blocks = array(
+        );
+    }
+
+    protected function doDisplay(array $context, array $blocks = array())
+    {
+        // line 1
+        echo "<h1><a target='_blank' href='https://github.com/discophp/framework/blob/master/core/classes/DB.core.php'>Database Facade</a></h1>
+
+<p>The DB Facade extends the <a target='_blank' href='http://php.net/manual/en/class.mysqli.php'>mysqli class</a></p>
+
+<div class='panel notice'>
+    <p>You must configure your Database settings in <a target='_blank' href='https://github.com/discophp/project/blob/master/.config.php'><span class='path'>.config.php</span></a> to work with the DB Facade</p>
+    <br>
+    <p>You must also have mysql installed and running on your server</p>
+</div>
+
+
+<p class='heading'>Lets execute a Query</p>
+
+<pre class='prettyprint'>
+
+    \$id = 500;
+    
+    DB::query('SELECT profile_photo FROM user WHERE user_id=?',\$id);
+
+
+
+    //When you execute a query you can retrieve the result set in two ways:
+
+    \$result = DB::query('SELECT profile_photo FROM user WHERE user_id=?',\$id);
+
+    \$row = \$result->fetch_assoc();
+
+    //OR
+
+    \$row = DB::last()->fetch_assoc();
+
+
+</pre>
+
+<p class='heading'>Iterate through results</p>
+
+<pre class='prettyprint'>
+
+    \$id = 100;
+
+    DB::query('SELECT profile_photo FROM user WHERE user_id&lt;?',\$id);
+
+    while(\$row = DB::last()->fetch_assoc()){
+        var_dump(\$row);
+    }//while
+
+</pre>
+
+<p class='heading'>Get the last created Auto Incroment ID</p>
+
+<pre class='prettyprint'>
+
+    \$lastId =DB::lastId();
+
+</pre>
+
+<hr>
+
+<h2>Variable Binding</h2>
+
+<p>As your probably noticed in the above examples we passed our variable in as a second paramater and put a \"?\" placeholder in the query for where its value should go.
+This should be familiar as this is like a prepared statment.</p>
+
+<p>You can either pass a single variable or an array of variables</p>
+
+<p>You don't need to worry about wrapping strings in quotes or escaping your input, the DB Facade handles that when it binds the variables to the query</p>
+
+<p class='heading'>Passing multiple variables</p>
+
+<pre class='prettyprint'>
+    
+    \$params = Array('bobby@gmail.com',1);
+
+    DB::query('SELECT * FROM user WHERE email=? AND verified=?',\$params);
+
+</pre>
+
+<p class='heading'>Setting variables manually or before query execution</p>
+
+<pre class='prettyprint'>
+    
+
+    \$q = 'SELECT * FROM user WHERE email=? AND verified=?';
+    \$params = Array('bobby@gmail.com',1);
+
+    \$q = DB::set(\$q,\$params);
+
+</pre>
+
+<p class='heading'>Setting a raw variable (MySQL function or unescaped value)</p>
+
+<p>The \"raw\" key is reserved for specifying that the value should not be altered in anyway before being bound into the query.</p>
+
+<pre class='prettyprint'>
+
+    DB::query('SELECT ? FROM user',Array('raw'=>'COUNT(*)'));
+
+</pre>
+
+
+<hr>
+
+<h2>Stored Procedures</h2>
+
+<p>We treat stored procedures a little bit differntly than a typical query in that a stored procedure returns an array of associative keyed results rather than an actual mysqli_resultset object</p>
+
+<p class='heading'>Example</p>
+
+<pre class='prettyprint'>
+
+    \$results = DB::sp('CALL last_ten_visitors_sp()');
+
+
+    //iterate through the results like a normal array
+    foreach(\$results as \$row){
+       var_dump(\$row); 
+    }//foreach
+
+</pre>
+
+<p>Its done this way so that the returned result set may be completly freed and not interfere with preceding queries</p>
+
+<hr>
+
+<h3>Using Multiple Databases</h3>
+
+<p>You can set up multiple Database connections super simply using the Disco PHP Framework</p>
+
+<p class='heading'>First, Extending the Facade class with your new Database Facade</p>
+
+<pre class='prettyprint'>
+
+    class DevDB extends Disco\\classes\\Facade {
+
+        protected static function returnFacadeId(){
+
+            return 'DevDB';
+
+        }//returnFacadeId
+
+    }//DevDB
+
+</pre>
+
+<p>If this is confusing go read the <a href='/IoC-facades'>Inversion of Control and Facades page</a> before you proceed </p>
+
+<p class='heading'>Second, Create the new Database Class</p>
+
+<pre class='prettyprint'>
+
+    class BaseDevDB extends Disco\\classes\\DB {
+
+        public function __construct(){
+
+            parent::__construct('hostname','username','password','database');
+
+        }//construct
+
+    }//BaseDevDB
+
+</pre>
+
+<div class='panel notice'>
+    <p>You can set additional config variables in your <a target='_blank' href='https://github.com/discophp/project/blob/master/.config.php'><span class='path'>.config.php</span></a> file for your extra Database connection and use them to construct your connection to the Database.</p>
+    <p class='heading'>For Example</p>
+        <pre class='prettyprint'>
+
+    class BaseDevDB extends Disco\\classes\\DB {
+
+        public function __construct(){
+            \$config = \\App::instance()->config;
+            parent::__construct(\$config['DevDB_HOST'],\$config['DevDB_USER'],\$config['DevDB_PW'],\$config['DevDB_DB']);
+
+        }//construct
+
+    }//BaseDevDB
+
+        </pre>
+    </p>
+</div>
+
+
+<p class='heading'>Third, Tell Disco to make the Facade</p>
+
+<pre class='prettyprint'>
+
+    App::make('DevDB',function(){
+        return new BaseDevDB();
+    });
+
+</pre>
+
+
+<p>Now you have a second Database Facade setup for potential use at some point during your applications life cycle.</p>
+
+<p class='heading'>Use it just like the standard DB Facade</p>
+
+<pre class='prettyprint'>
+
+    DevDB::query('
+        SELECT *
+        FROM USER 
+        WHERE id=?
+    ',\$id);
+
+</pre>
+
+
+
+";
+    }
+
+    public function getTemplateName()
+    {
+        return "Database.template.html";
+    }
+
+    public function getDebugInfo()
+    {
+        return array (  19 => 1,);
+    }
+}

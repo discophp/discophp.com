@@ -1,0 +1,95 @@
+<?php
+
+/* Authentication.template.html */
+class __TwigTemplate_d22645a73d7a71c3fded8f9b970ca2db8447e605f8fdecf14494cd567f657478 extends Twig_Template
+{
+    public function __construct(Twig_Environment $env)
+    {
+        parent::__construct($env);
+
+        $this->parent = false;
+
+        $this->blocks = array(
+        );
+    }
+
+    protected function doDisplay(array $context, array $blocks = array())
+    {
+        // line 1
+        echo "<h1>Authentication</h1>
+
+<p>You can protect your pages, and even whole segments of your site super easily using the Disco PHP Framework.</p>
+
+<p class='heading'>The auth() method and protecting single page routes and using redirects</p>
+
+<pre class='prettyprint'>
+
+    Router::get('/dashboard',function(){
+
+
+        \$data = Model::m('userModel')->profileData(Session::get('user'));
+
+        Template::with('user-dashboard',\$data);
+
+
+    })->auth('user','/login');
+
+</pre>
+
+<p>In this example when the route <span class='path'>/dashboard</span> is accessed we want to make sure that we have a \"user\" session going,
+and if not, redirect the request to the <span class='path'>/login</span> page</p>
+
+<hr>
+
+<p class='heading'>Protecting a single route with multiple possible sessions and no redirect</p>
+
+<pre class='prettyprint'>
+
+    Router::get('/stats',function(){
+
+
+        if(Session::has('user'))
+            \$data = Model::m('stats')->adminStats(Session::get('admin'));
+        else if(Session::has('admin'))
+            \$data = Model::m('stats')->userStats(Session::get('user'));
+
+        Template::with('stats',\$data);
+
+
+    })->auth(Array('user','admin'));
+
+</pre>
+
+<p>Here we are making sure that either a \"user\" or \"admin\" session are going and then generating their stats page. If neither session is active then this route will not be considered a match. To handle that case simply add another router with the <span class='path'>/stats</span> slug and don't authenticate the route.</p>
+
+
+<hr>
+
+<h2>Protecting entire segments of your site</h2>
+
+<pre class='prettyprint'>
+
+    Router::filter('/admin/{*}')->to('AdminRouter')->auth('admin','/login');
+
+    // --- OR WITH HTTPS ONLY ---//
+
+    Router::secure()->filter('/admin/{*}')->to('AdminRouter')->auth('admin','/login');
+
+
+</pre>
+
+<p>In this example we filter any request to the <span class='path'>/admin/</span> segment of the site through the Router File <span class='path'>app/router/AdminRouter.router.php</span> and force the existence of a session \"admin\" to exist. If it doesn't exist and the request was to the <span class='path'>/admin/</span> segment of the site redirect the request to the <span class='path'>/login</span> page</p> 
+
+";
+    }
+
+    public function getTemplateName()
+    {
+        return "Authentication.template.html";
+    }
+
+    public function getDebugInfo()
+    {
+        return array (  19 => 1,);
+    }
+}

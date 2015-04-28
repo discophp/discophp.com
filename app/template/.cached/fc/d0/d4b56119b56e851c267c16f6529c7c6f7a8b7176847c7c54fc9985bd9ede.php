@@ -1,4 +1,22 @@
-<h1>Views & Templating</h1>
+<?php
+
+/* template-guide.template.html */
+class __TwigTemplate_fcd0d4b56119b56e851c267c16f6529c7c6f7a8b7176847c7c54fc9985bd9ede extends Twig_Template
+{
+    public function __construct(Twig_Environment $env)
+    {
+        parent::__construct($env);
+
+        $this->parent = false;
+
+        $this->blocks = array(
+        );
+    }
+
+    protected function doDisplay(array $context, array $blocks = array())
+    {
+        // line 1
+        echo "<h1>Views & Templating</h1>
 
 <p>Requests to web applications typically result in one of two types of responses:</p>
 <ul class='list'>
@@ -24,7 +42,7 @@ Its eventual output produces either a webpage including a header, body, and foot
 <p class='heading'>Putting JavaScript into the View</p>
 
 <pre class='prettyprint'>
-    View::script('alert("hi!");');
+    View::script('alert(\"hi!\");');
 </pre>
 
 <p>Scripts you add to the page will always be printed last, after the footer is printed</p>
@@ -34,14 +52,14 @@ Its eventual output produces either a webpage including a header, body, and foot
 <a name='view-extend'></a>
 <h3>Extending the View class</h3>
 
-<p>So how do we get our view to represent differing pages? We extend the Disco\classes\View class!</p>
+<p>So how do we get our view to represent differing pages? We extend the Disco\\classes\\View class!</p>
 
 
-<p class='heading'>This is the extended Disco\classes\View class being used to generate the Docs pages of this site</p>
+<p class='heading'>This is the extended Disco\\classes\\View class being used to generate the Docs pages of this site</p>
 
 <pre class='prettyprint'>
 
-Class StandardView extends Disco\classes\View {
+Class StandardView extends Disco\\classes\\View {
 
     public function header(){
         return Template::build('header');
@@ -49,16 +67,16 @@ Class StandardView extends Disco\classes\View {
 
     public function __construct(){
 
-        $this->scriptSrc('http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js');
-        $this->scriptSrc('/scripts/js.js');
-        $this->scriptSrc('/scripts/modernizr.js');
-        $this->scriptSrc('/scripts/foundation.min.js');
-        $this->scriptSrc('https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js');
+        \$this->scriptSrc('http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js');
+        \$this->scriptSrc('/scripts/js.js');
+        \$this->scriptSrc('/scripts/modernizr.js');
+        \$this->scriptSrc('/scripts/foundation.min.js');
+        \$this->scriptSrc('https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js');
 
-        $this->styleSrc('/css/foundation.min.css');
-        $this->styleSrc('/css/css.css');
+        \$this->styleSrc('/css/foundation.min.css');
+        \$this->styleSrc('/css/css.css');
 
-        $this->script('$(document).foundation();');
+        \$this->script('\$(document).foundation();');
 
     }//construct
 
@@ -88,7 +106,7 @@ Class StandardView extends Disco\classes\View {
         return new StandardView();
     });
 
-    View::html('Were now using the Standard View class which extends the Disco\classes\View class!');
+    View::html('Were now using the Standard View class which extends the Disco\\classes\\View class!');
 
 </pre>
 
@@ -137,9 +155,9 @@ Class StandardView extends Disco\classes\View {
 
 <pre class='prettyprint'>
 
-    $data = Array('heading'=>'Welcome to the Site!','text'=>'Some body paragraph');
+    \$data = Array('heading'=>'Welcome to the Site!','text'=>'Some body paragraph');
     
-    Template::with('index.html',$data);
+    Template::with('index.html',\$data);
 
 </pre>
 
@@ -155,3 +173,16 @@ Class StandardView extends Disco\classes\View {
 
 
 
+";
+    }
+
+    public function getTemplateName()
+    {
+        return "template-guide.template.html";
+    }
+
+    public function getDebugInfo()
+    {
+        return array (  19 => 1,);
+    }
+}
